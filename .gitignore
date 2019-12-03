@@ -18,6 +18,15 @@ target/
 *.iws
 *.iml
 *.ipr
+##忽略这些文件夹
+logs/
+.idea/
+.mvn/
+*/test/
+##忽略这些后缀的文件
+*.log
+*.properties
+*.class
 
 ### NetBeans ###
 /nbproject/private/

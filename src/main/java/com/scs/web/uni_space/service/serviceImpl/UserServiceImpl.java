@@ -19,55 +19,66 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserServiceImpl implements UserService {
-@Resource
-private UserMapper userMapper;
+    @Resource
+    private UserMapper userMapper;
+
     @Override
     public Result signIn(UserDto userDto) {
-        User user =null;
-        if (userDto.getMobile()!=null){
-            user =userMapper.selectUserByMobile(userDto.getMobile());
-if (user==null){
-    return  Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
-}
-
-        }else if (userDto.getAccount()!=null){
-            user =userMapper.selectUserByAccount(userDto.getAccount());
-            if (user==null){
-                return  Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
+        User user = null;
+        if (userDto.getMobile() != null) {
+            user = userMapper.selectUserByMobile(userDto.getMobile());
+            if (user == null) {
+                return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
             }
-        }else if (userDto.getEmail()!=null){
-            user =userMapper.selectUserByEmail(userDto.getEmail());
-            if (user==null){
-                return  Result.failure(ResultCode.USER_EMAIL_NOT_EXIST);
+
+        } else if (userDto.getAccount() != null) {
+            user = userMapper.selectUserByAccount(userDto.getAccount());
+            if (user == null) {
+                return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
+            }
+        } else if (userDto.getEmail() != null) {
+            user = userMapper.selectUserByEmail(userDto.getEmail());
+            if (user == null) {
+                return Result.failure(ResultCode.USER_EMAIL_NOT_EXIST);
             }
         }
+        if (user != null) {
+            if (user.getPassword().equals(userDto.getPassword())) {
+                return Result.success(user);
+            } else {
+                return Result.failure(ResultCode.USER_PASSWORD_ERROR);
+            }
 
- if(user != null){
-     if(user.getPassword().equals(userDto.getPassword())){
-         return  Result.success(user);
-     }else{
-         return  Result.failure(ResultCode.USER_PASSWORD_ERROR);
-     }
-
- }
-
-return Result.success(ResultCode.SUCCESS);
-
+        }
+        return Result.success(ResultCode.SUCCESS);
     }
 
     @Override
     public Result signUp(UserDto userDto) {
-        User user =null;
-        user =userMapper.selectUserByMobile(userDto.getMobile());
-        if(user!=null){
+        User user = null;
+        user = userMapper.selectUserByMobile(userDto.getMobile());
+        if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
-            int result =userMapper.insertUser(userDto.getMobile(),userDto.getPassword());
-            if (result!=0){
+            int result = userMapper.insertUser(userDto.getMobile(), userDto.getPassword());
+            if (result != 0) {
                 return Result.success(ResultCode.SUCCESS);
             }
 
         }
         return Result.success(ResultCode.SUCCESS);
     }
+
+    @Override
+    public Result updateUserAvatar(User user) {
+        int i = 0;
+        i = userMapper.updateUserAvatar(user.getAvatar(), user.getId());
+        if (i != 0){
+            return Result.failure(ResultCode.SUCCESS);
+        }else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
+
+
 }

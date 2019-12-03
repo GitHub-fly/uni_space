@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-
-@MapperScan("com.scs.web.uni_space.mapper")
+@MapperScan("com.scs.web.uni_space")
 @EnableSwagger2Doc
+
 public class UniSpaceApplication {
 
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.domain.dto.UserDto;
+import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,5 +36,10 @@ public class UserController {
     Result sing_up(@RequestBody UserDto userDto){
     return  userService.signUp(userDto);
     }
+
+//    @PostMapping(value = "/update")
+//    Result updateUserAvatar(@RequestBody User user){
+//        return  userService.updateUserAvatar(user);
+//    }
 
 }

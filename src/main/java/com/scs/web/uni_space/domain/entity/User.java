@@ -29,7 +29,7 @@ public class User {
     private String gender;
     private String introduction;
     private String constellation;
-    private String skinId;
+    private Long skinId;
     private Timestamp createTime;
     private LocalDate birthday;
 
