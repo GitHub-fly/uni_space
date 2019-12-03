@@ -17,8 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto implements Serializable {
-    private String mobile;
-    private String account;
-    private String email;
+    private String name;
+
     private String password;
 }

@@ -6,9 +6,13 @@ import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 
 /**
  * @author 小黑
@@ -19,51 +23,47 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private UserMapper userMapper;
 
     @Override
     public Result signIn(UserDto userDto) {
         User user = null;
-        if (userDto.getMobile() != null) {
-            user = userMapper.selectUserByMobile(userDto.getMobile());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
-            }
+        try {
 
-        } else if (userDto.getAccount() != null) {
-            user = userMapper.selectUserByAccount(userDto.getAccount());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
+            if (userMapper.selectUserByMobile(userDto.getName())!=null ) {
+            user =userMapper.selectUserByMobile(userDto.getName());
+            }else if (userMapper.selectUserByAccount(userDto.getName())!=null){
+                user =userMapper.selectUserByAccount(userDto.getName());
+            }else if(userMapper.selectUserByEmail(userDto.getName())!=null){
+                user=userMapper.selectUserByEmail(userDto.getName());
             }
-        } else if (userDto.getEmail() != null) {
-            user = userMapper.selectUserByEmail(userDto.getEmail());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_EMAIL_NOT_EXIST);
-            }
-        }
-
-        if (user != null) {
-            if (user.getPassword().equals(userDto.getPassword())) {
+            if (user.getPassword().equals(userDto.getPassword())){
                 return Result.success(user);
-            } else {
-                return Result.failure(ResultCode.USER_PASSWORD_ERROR);
+
+            }else {
+                return  Result.failure(ResultCode.USER_PASSWORD_ERROR);
             }
-
+        } catch (SQLException e) {
+           logger.info("登陆失败");
         }
-
-        return Result.success(ResultCode.SUCCESS);
-
+        return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
     }
 
     @Override
     public Result signUp(UserDto userDto) {
         User user = null;
-        user = userMapper.selectUserByMobile(userDto.getMobile());
+        try {
+            user = userMapper.selectUserByMobile(userDto.getName());
+        } catch (SQLException e) {
+            logger.info("根据手机查找失败");
+        }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
-            int result = userMapper.insertUser(userDto.getMobile(), userDto.getPassword());
+
+            int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
             if (result != 0) {
                 return Result.success(ResultCode.SUCCESS);
             }
@@ -71,4 +71,18 @@ public class UserServiceImpl implements UserService {
         }
         return Result.success(ResultCode.SUCCESS);
     }
+
+    @Override
+    public int updateUserData(User user) {
+
+        int result = 0;
+        try {
+            result = userMapper.updateUserData(user);
+        } catch (SQLException e) {
+            logger.info("更新失败");
+        }
+        return result;
+    }
+
+
 }

@@ -51,6 +51,7 @@ public class RedisServiceImpl implements RedisService {
      * @param expireTime 单位分钟
      * @return
      */
+    @Override
     public boolean set(final String key, Object value, Long expireTime) {
         boolean result = false;
         try {
