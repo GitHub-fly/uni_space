@@ -4,21 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
+ * <<<<<<< HEAD
+ *
+ * @author 小黑
  * @author suyuxi
+ * @ClassNameUser
+ * @Description 用户实体类
+ * =======
  * @className User
  * @Description TODO
+ * >>>>>>> 2074f86ffbebf5e307a68c822cc5222cd1a7c13b
  * @Date 2019/12/2
  * @Version 1.0
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    private Long id;
+
+public class User implements Serializable {
+    private long id;
     private String mobile;
     private String account;
     private String password;
@@ -32,5 +41,4 @@ public class User {
     private String skinId;
     private Timestamp createTime;
     private LocalDate birthday;
-
 }

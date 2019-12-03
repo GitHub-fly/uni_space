@@ -25,15 +25,15 @@ public class UserController {
 
 
     @PostMapping(value = "/sign-in")
-    Result sign_in (@RequestBody UserDto userDto){
+    Result sign_in(@RequestBody UserDto userDto) {
         System.out.println(userDto);
         return userService.signIn(userDto);
 
     }
 
     @PostMapping(value = "/sign-up")
-    Result sing_up(@RequestBody UserDto userDto){
-    return  userService.signUp(userDto);
+    Result sing_up(@RequestBody UserDto userDto) {
+        return userService.signUp(userDto);
     }
 
 }
