@@ -9,19 +9,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
- * <<<<<<< HEAD
- *
  * @author 小黑
  * @author suyuxi
- * @ClassNameUser
  * @Description 用户实体类
- * =======
  * @className User
- * @Description TODO
- * >>>>>>> 2074f86ffbebf5e307a68c822cc5222cd1a7c13b
+ * @Description 用户
  * @Date 2019/12/2
  * @Version 1.0
  **/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

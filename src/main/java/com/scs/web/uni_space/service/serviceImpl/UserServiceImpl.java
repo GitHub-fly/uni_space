@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             } else if (userMapper.selectUserByEmail(userDto.getName()) != null) {
                 user = userMapper.selectUserByEmail(userDto.getName());
             }
-            if (user.getPassword().equals(userDto.getPassword())) {
+            if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
                 return Result.success(user);
             } else {
                 return Result.failure(ResultCode.USER_PASSWORD_ERROR);
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
                     return Result.success(ResultCode.SUCCESS);
                 }
             } else {
-                logger.error("验证码错误");
+                logger.error("短信验证码错误");
             }
         }
         return Result.success(ResultCode.SUCCESS);

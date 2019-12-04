@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 /**
  * @author suyuxi
  * @className journal
- * @Description TODO
+ * @Description 日志
  * @Date 2019/12/3
  * @Version 1.0
  **/

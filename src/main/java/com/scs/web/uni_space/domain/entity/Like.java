@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author suyuxi
  * @className Like
- * @Description TODO
+ * @Description 点赞
  * @Date 2019/12/3
  * @Version 1.0
  **/

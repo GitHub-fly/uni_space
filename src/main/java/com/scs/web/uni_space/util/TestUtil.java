@@ -8,4 +8,5 @@ package com.scs.web.uni_space.util;
  * @Version 1.0
  **/
 public class TestUtil {
+
 }
