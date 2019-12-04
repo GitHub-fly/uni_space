@@ -22,29 +22,27 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping(value = "/sign-in")
-    Result sign_in (@RequestBody UserDto userDto){
-        System.out.println(userDto);
-
+    @PostMapping(value = "/sign_in")
+    Result sign_in(@RequestBody UserDto userDto) {
         /**
          * 将前端的JSON对象 转换为 后端的userDto
          */
+        Result result = userService.signIn(userDto);
 
-
-
-        return userService.signIn(userDto);
+        return result;
 
     }
 
-    @PostMapping(value = "/sign-up")
-    Result sing_up(@RequestBody UserDto userDto){
-    return  userService.signUp(userDto);
+    @PostMapping(value = "/sign_up")
+    Result sing_up(@RequestBody UserDto userDto) {
+
+        return userService.signUp(userDto);
     }
 
     @PutMapping(value = "/updateUserData")
-     int updateUserData(@RequestBody User user){
-      int result = userService.updateUserData(user);
-          return result;
+    int updateUserData(@RequestBody User user) {
+        int result = userService.updateUserData(user);
+        return result;
     }
 
 }

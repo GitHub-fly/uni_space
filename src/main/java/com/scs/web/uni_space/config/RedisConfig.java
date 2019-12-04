@@ -54,6 +54,7 @@ public class RedisConfig {
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         serializer.setObjectMapper(mapper);
 
+        //使用StringRedisSerializer来序列化和反序列化redis的value值
         template.setValueSerializer(serializer);
         //使用StringRedisSerializer来序列化和反序列化redis的key值
         template.setKeySerializer(new StringRedisSerializer());

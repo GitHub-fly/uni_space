@@ -25,9 +25,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class User implements Serializable {
-    private long id;
+    private Long id;
     private String mobile;
     private String account;
     private String password;
@@ -38,7 +37,8 @@ public class User implements Serializable {
     private String gender;
     private String introduction;
     private String constellation;
-    private String skinId;
+    private Long skinId;
     private Timestamp createTime;
     private LocalDate birthday;
+
 }

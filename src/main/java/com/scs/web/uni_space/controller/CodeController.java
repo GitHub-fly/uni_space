@@ -1,6 +1,5 @@
 package com.scs.web.uni_space.controller;
 
-import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.service.serviceImpl.RedisServiceImpl;
 import com.scs.web.uni_space.util.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +22,6 @@ import java.awt.image.BufferedImage;
 public class CodeController {
     @Resource
     private RedisServiceImpl redisServiceImpl;
-    @Resource
-    private UserService userService;
 
     @PostMapping(value = "/code")
     void getCodeImage() {
@@ -42,7 +39,7 @@ public class CodeController {
         boolean result;
         result = redisServiceImpl.set(mobile, sms);
         if (result = true) {
-            return Result.success();
+            return Result.success(sms);
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }

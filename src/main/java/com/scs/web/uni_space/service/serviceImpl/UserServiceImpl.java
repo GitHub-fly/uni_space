@@ -17,36 +17,37 @@ import java.sql.SQLException;
 /**
  * @author 小黑
  * @ClassNameUserServiceImpl
- * @Description TODO
+ * @Description 用户服务类
  * @Date 2019/12/2
  * @Version 1.0
  */
 @Service
 public class UserServiceImpl implements UserService {
+
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private UserMapper userMapper;
 
-    @Override
+    @Resource
+    private RedisServiceImpl redisServiceImpl;
+
     public Result signIn(UserDto userDto) {
         User user = null;
         try {
-
-            if (userMapper.selectUserByMobile(userDto.getName())!=null ) {
-            user =userMapper.selectUserByMobile(userDto.getName());
-            }else if (userMapper.selectUserByAccount(userDto.getName())!=null){
-                user =userMapper.selectUserByAccount(userDto.getName());
-            }else if(userMapper.selectUserByEmail(userDto.getName())!=null){
-                user=userMapper.selectUserByEmail(userDto.getName());
+            if (userMapper.selectUserByMobile(userDto.getName()) != null) {
+                user = userMapper.selectUserByMobile(userDto.getName());
+            } else if (userMapper.selectUserByAccount(userDto.getName()) != null) {
+                user = userMapper.selectUserByAccount(userDto.getName());
+            } else if (userMapper.selectUserByEmail(userDto.getName()) != null) {
+                user = userMapper.selectUserByEmail(userDto.getName());
             }
-            if (user.getPassword().equals(userDto.getPassword())){
+            if (user.getPassword().equals(userDto.getPassword())) {
                 return Result.success(user);
-
-            }else {
-                return  Result.failure(ResultCode.USER_PASSWORD_ERROR);
+            } else {
+                return Result.failure(ResultCode.USER_PASSWORD_ERROR);
             }
         } catch (SQLException e) {
-           logger.info("登陆失败");
+            logger.info("登陆失败");
         }
         return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
     }
@@ -57,17 +58,20 @@ public class UserServiceImpl implements UserService {
         try {
             user = userMapper.selectUserByMobile(userDto.getName());
         } catch (SQLException e) {
-            logger.info("根据手机查找失败");
+            return Result.success(ResultCode.SUCCESS);
         }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
-
-            int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
-            if (result != 0) {
-                return Result.success(ResultCode.SUCCESS);
+            String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+            if (verifyCode.equals(userDto.getVerifyCode())) {
+                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                if (result != 0) {
+                    return Result.success(ResultCode.SUCCESS);
+                }
+            } else {
+                logger.error("验证码错误");
             }
-
         }
         return Result.success(ResultCode.SUCCESS);
     }
