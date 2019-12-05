@@ -17,8 +17,8 @@ class UserServiceImplTest {
     @Test
     void signIn() {
         UserDto userDto = new UserDto();
-        userDto.setName("132");
-        userDto.setPassword("111");
+        userDto.setName("18094246920");
+        userDto.setPassword("1");
         Result result = userServiceImpl.signIn(userDto);
         System.out.println(result);
     }
