@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author suyuxi
  * @className JournalPicture
- * @Description TODO
+ * @Description 日志照片
  * @Date 2019/12/3
  * @Version 1.0
  **/

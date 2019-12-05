@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author suyuxi
  * @className Skin
- * @Description TODO
+ * @Description 皮肤
  * @Date 2019/12/3
  * @Version 1.0
  **/

@@ -4,8 +4,10 @@ import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.util.Result;
 
+import java.sql.SQLException;
+
 /**
- * @author 小黑
+ * @author wl
  * @ClassNameUserService
  * @Description TODO
  * @Date 2019/12/2
@@ -13,25 +15,23 @@ import com.scs.web.uni_space.util.Result;
  */
 public interface UserService {
     /**
-     *
      * @param userDto
-     * @return Result
+     * @return result
+     * @Description 登录方法
      */
-    Result signIn(UserDto userDto);
+    Result signIn(UserDto userDto) ;
 
     /**
-     *
      * @param userDto
-     * @return Result
+     * @return result
+     * @Description 注册方法
      */
     Result signUp(UserDto userDto);
 
     /**
-     *
      * @param user
-     * @return Result
+     * @return int
+     * @Description 更新用户资料
      */
-    Result updateUserAvatar(User user);
-
-
+    int updateUserData(User user);
 }

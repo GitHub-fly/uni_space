@@ -6,78 +6,87 @@ import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 
 /**
  * @author 小黑
  * @ClassNameUserServiceImpl
- * @Description TODO
+ * @Description 用户服务类
  * @Date 2019/12/2
  * @Version 1.0
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private RedisServiceImpl redisServiceImpl;
 
     @Override
     public Result signIn(UserDto userDto) {
         User user = null;
-        if (userDto.getMobile() != null) {
-            user = userMapper.selectUserByMobile(userDto.getMobile());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
+        try {
+            if (userMapper.selectUserByMobile(userDto.getName()) != null) {
+                user = userMapper.selectUserByMobile(userDto.getName());
+            } else if (userMapper.selectUserByAccount(userDto.getName()) != null) {
+                user = userMapper.selectUserByAccount(userDto.getName());
+            } else if (userMapper.selectUserByEmail(userDto.getName()) != null) {
+                user = userMapper.selectUserByEmail(userDto.getName());
             }
-
-        } else if (userDto.getAccount() != null) {
-            user = userMapper.selectUserByAccount(userDto.getAccount());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
-            }
-        } else if (userDto.getEmail() != null) {
-            user = userMapper.selectUserByEmail(userDto.getEmail());
-            if (user == null) {
-                return Result.failure(ResultCode.USER_EMAIL_NOT_EXIST);
-            }
-        }
-        if (user != null) {
-            if (user.getPassword().equals(userDto.getPassword())) {
+            if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
                 return Result.success(user);
             } else {
                 return Result.failure(ResultCode.USER_PASSWORD_ERROR);
             }
-
+        } catch (SQLException e) {
+            logger.info("登陆失败");
         }
-        return Result.success(ResultCode.SUCCESS);
+        return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
     }
 
     @Override
     public Result signUp(UserDto userDto) {
         User user = null;
-        user = userMapper.selectUserByMobile(userDto.getMobile());
+        try {
+            user = userMapper.selectUserByMobile(userDto.getName());
+        } catch (SQLException e) {
+            return Result.success(ResultCode.SUCCESS);
+        }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
-            int result = userMapper.insertUser(userDto.getMobile(), userDto.getPassword());
-            if (result != 0) {
-                return Result.success(ResultCode.SUCCESS);
+            String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+            if (verifyCode.equals(userDto.getVerifyCode())) {
+                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                if (result != 0) {
+                    return Result.success(ResultCode.SUCCESS);
+                }
+            } else {
+                logger.error("短信验证码错误");
             }
-
         }
         return Result.success(ResultCode.SUCCESS);
     }
 
     @Override
-    public Result updateUserAvatar(User user) {
-        int i = 0;
-        i = userMapper.updateUserAvatar(user.getAvatar(), user.getId());
-        if (i != 0){
-            return Result.failure(ResultCode.SUCCESS);
-        }else {
-            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    public int updateUserData(User user) {
+
+        int result = 0;
+        try {
+            result = userMapper.updateUserData(user);
+        } catch (SQLException e) {
+            logger.info("更新失败");
         }
+        return result;
     }
 
 
