@@ -1,6 +1,6 @@
 package com.scs.web.uni_space.controller;
 
-import com.scs.web.uni_space.service.serviceImpl.RedisServiceImpl;
+import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.util.ImageUtil;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 public class CodeController {
     private Logger logger = LoggerFactory.getLogger(CodeController.class);
     @Resource
-    private RedisServiceImpl redisServiceImpl;
+    private RedisService redisService;
 
     //获取图形验证码
     @GetMapping(value = "/code")
@@ -35,7 +35,7 @@ public class CodeController {
         if (base64String != null) {
             //将图形验证码以String形式存入redis
             String code = "data:image/png;base64," + base64String;
-            redisServiceImpl.set("code", code);
+            redisService.set("code", code);
             System.out.println(imageUtil.string.toLowerCase());
             //将图形验证码的具体内容传给前段，有前段判断
             return Result.success(imageUtil.string.toLowerCase());
@@ -51,7 +51,7 @@ public class CodeController {
         System.out.println(sms);
         boolean result;
         //将验证码存入redis
-        result = redisServiceImpl.set(mobile, sms);
+        result = redisService.set(mobile, sms);
         if (result = true) {
             return Result.success(sms);
         }
