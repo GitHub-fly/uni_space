@@ -4,8 +4,6 @@ import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.util.Result;
 
-import java.sql.SQLException;
-
 /**
  * @author wl
  * @ClassNameUserService
@@ -19,7 +17,7 @@ public interface UserService {
      * @return result
      * @Description 登录方法
      */
-    Result signIn(UserDto userDto) ;
+    Result signIn(UserDto userDto);
 
     /**
      * @param userDto
