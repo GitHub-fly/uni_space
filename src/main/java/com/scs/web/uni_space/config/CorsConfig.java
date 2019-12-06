@@ -10,7 +10,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * @author xunmi
  * @ClassName CorsConfig
- * @Description TODO
+ * @Description 跨域问题
  * @Date 2019/11/30
  * @Version 1.0
  **/

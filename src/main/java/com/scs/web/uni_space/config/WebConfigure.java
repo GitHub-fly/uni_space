@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  * @ClassName WebConfigure
- * @Description TODO
+ * @Description 跨域问题
  * @Author mq_xu
  * @Date 2019/11/29
  **/

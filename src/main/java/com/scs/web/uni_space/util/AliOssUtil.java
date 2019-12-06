@@ -1,6 +1,8 @@
 package com.scs.web.uni_space.util;
 
-import com.aliyun.oss.OSSClient;
+
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 
 import java.io.File;
 import java.util.UUID;
@@ -20,7 +22,7 @@ public class AliOssUtil {
         String fileName = file.getName();
         String newFileName = UUID.randomUUID().toString() + fileName.substring(fileName.indexOf("."));
         // 创建OSSClient实例
-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         // 上传文件到指定位置，并使用UUID更名
         ossClient.putObject(bucketName, filePath + newFileName, file);
         // 拼接URL
