@@ -14,6 +14,7 @@ import javax.annotation.Resource;
  * @author suyuxi
  * @className FriendController
  * @Description 朋友类
+ * @Description 好友控制层
  * @Date 2019/12/4
  * @Version 1.0
  **/
