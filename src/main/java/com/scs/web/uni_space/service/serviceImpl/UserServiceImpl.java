@@ -34,6 +34,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result signIn(UserDto userDto) {
         User user = null;
+        String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+
         try {
             if (userMapper.selectUserByMobile(userDto.getName()) != null) {
                 user = userMapper.selectUserByMobile(userDto.getName());
@@ -44,15 +46,30 @@ public class UserServiceImpl implements UserService {
             } else {
                 return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
             }
+        } catch (SQLException e) {
+            logger.info("根据账号查找失败");
+        }
+        while (userDto.getPassword() != null) {
             if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
                 return Result.success(user);
             } else {
                 return Result.failure(ResultCode.USER_PASSWORD_ERROR);
             }
-        } catch (SQLException e) {
-            logger.info("登陆失败");
         }
+
+        while (userDto.getVerifyCode() != null) {
+            if (verifyCode.equals(userDto.getVerifyCode())) {
+                return Result.success(user);
+            } else {
+                return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+            }
+
+        }
+
+
         return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
+
+
     }
 
     @Override
@@ -61,7 +78,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userMapper.selectUserByMobile(userDto.getName());
         } catch (SQLException e) {
-            return Result.success(ResultCode.SUCCESS);
+            logger.info("查找错误 ");
         }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
@@ -71,24 +88,25 @@ public class UserServiceImpl implements UserService {
                 int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
                 if (result != 0) {
                     return Result.success(ResultCode.SUCCESS);
+                } else {
+                    return Result.failure(ResultCode.USER_ADD_FALURE);
                 }
-            } else {
-                logger.error("短信验证码错误");
             }
         }
         return Result.success(ResultCode.SUCCESS);
     }
 
     @Override
-    public int updateUserData(User user) {
+    public Result updateUserData(User user) {
 
-        int result = 0;
+
         try {
-            result = userMapper.updateUserData(user);
+            userMapper.updateUserData(user);
+
         } catch (SQLException e) {
             logger.info("更新失败");
         }
-        return result;
+        return Result.success(user);
     }
 
 

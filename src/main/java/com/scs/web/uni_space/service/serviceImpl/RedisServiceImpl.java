@@ -30,6 +30,7 @@ public class RedisServiceImpl implements RedisService {
      * @param value 任意类型，但必须实现序列化接口
      * @return
      */
+    @Override
     public boolean set(final String key, Object value) {
         boolean result = false;
         try {

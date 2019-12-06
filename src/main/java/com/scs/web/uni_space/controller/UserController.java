@@ -21,21 +21,34 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    //登录
+    /**
+     * @Description 登录
+     * @param userDto
+     * @return
+     */
     @PostMapping(value = "/sign_in")
     Result sign_in(@RequestBody UserDto userDto) {
         return userService.signIn(userDto);
     }
 
-    //注册
+    /**
+     * @Description 注册
+     * @param userDto
+     * @return
+     */
     @PostMapping(value = "/sign_up")
     Result sing_up(@RequestBody UserDto userDto) {
         return userService.signUp(userDto);
     }
 
-    //修改个人信息
-    @PutMapping(value = "/updateUserData")
-    int updateUserData(@RequestBody User user) {
+    /**
+     * @Description 修改个人信息
+     * @param user
+     * @return
+     */
+
+    @PutMapping(value = "/UserData")
+    Result updateUserData(@RequestBody User user) {
         return userService.updateUserData(user);
     }
 

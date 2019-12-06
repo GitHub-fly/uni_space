@@ -33,5 +33,5 @@ public interface UserService {
      * @return int
      * @Description 更新用户资料
      */
-    int updateUserData(User user);
+    Result updateUserData(User user);
 }

@@ -27,7 +27,10 @@ public class CodeController {
     @Resource
     private RedisService redisService;
 
-    //获取图形验证码
+    /**
+     * @description  获取图形验证码
+     * @return
+     */
     @GetMapping(value = "/code")
     Result getCodeImage() {
         // 返回base64
@@ -46,7 +49,11 @@ public class CodeController {
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
-    //获取短信验证码
+    /**
+     * @description 短信验证码
+     * @param mobile
+     * @return
+     */
     @PostMapping(value = "/sms")
     Result getCodeSMS(@RequestParam("mobile") String mobile) {
         //发送短信给手机

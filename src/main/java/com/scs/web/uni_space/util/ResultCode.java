@@ -41,7 +41,9 @@ public enum ResultCode {
     USER_DELETE_FRIEND_ERROR(20018,"删除好友错误"),
     USER_FIND_ALL_FRIEND_ERROR(20019,"查找所有好友错误"),
     USER_REJECT_CONFIRM_ERROR(20020,"拒绝请求错误"),
-
+    USER_NOT_IMPORT_PARAM(20021,"输入不能为空"),
+    USER_NOT_IMPORT_MOBILE(20022,"输入手机号不能为空"),
+     USER_ADD_FALURE(20023,"注册失败"),
 
 
     /* 业务错误：30001-39999 */
