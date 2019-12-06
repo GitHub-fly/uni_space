@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 /**
  * @author suyuxi
  * @className FriendController
- * @Description TODO
+ * @Description 朋友类
  * @Date 2019/12/4
  * @Version 1.0
  **/
