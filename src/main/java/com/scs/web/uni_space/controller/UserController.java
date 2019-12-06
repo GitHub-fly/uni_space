@@ -52,4 +52,9 @@ public class UserController {
         return userService.updateUserData(user);
     }
 
+    @PutMapping(value = "/UserPassword")
+    Result updateUserPassword(@RequestBody UserDto userDto){
+
+        return  userService.updateUserPassword(userDto);
+    }
 }
