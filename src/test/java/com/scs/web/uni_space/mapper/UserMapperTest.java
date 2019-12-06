@@ -11,6 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,8 +42,19 @@ class UserMapperTest {
     }
 
     @Test
-    void updateUserData() {
+    void updateUserData() throws SQLException {
+        User user = new User();
+        user.setId((long)1);
+        user.setNickname("张三");
+        user.setAddress("中国南京");
+        user.setGender("男");
+        user.setIntroduction("开开心心过大年");
+        user.setConstellation("摩羯座");
+        user.setBirthday(LocalDate.now());
+        user.setAvatar("http://attach.bbs.miui.com/forum/201305/05/201954rwwc6ceji1jcka91.jpg");
+        userMapper.updateUserData(user);
     }
+
 
     @Test
     void batchInsertUser() {

@@ -84,7 +84,8 @@ public interface UserMapper {
      * @Description 更新用户资料
      */
     @Update({"UPDATE t_user SET nickname=#{nickname},address=#{address},gender=#{gender}," +
-            "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday} WHERE id =#{id}"})
+            "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}," +
+            "avatar=#{avatar} WHERE id =#{id}"})
     int updateUserData(User user) throws SQLException;
 
 
