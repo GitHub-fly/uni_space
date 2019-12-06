@@ -104,4 +104,8 @@ class UserMapperTest {
     }
 
 
+    @Test
+    void updateUserAvatar() throws SQLException{
+        userMapper.updateUserAvatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/avatar/ed3216ca-a117-4ca1-b1f7-54ecb3ae68b0.jpeg");
+    }
 }

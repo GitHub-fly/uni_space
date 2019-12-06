@@ -33,6 +33,17 @@ public interface UserService {
      */
     Result updateUserData(User user);
 
-
+    /**
+     * @param userDto
+     * @return
+     */
     Result updateUserPassword(UserDto userDto);
+
+    /**
+     *
+     * 根据id修改用户头像
+     * @param userDto
+     * @return
+     */
+    Result updateUSerAvatar(UserDto userDto);
 }

@@ -2,7 +2,6 @@ package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.domain.entity.*;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.jdbc.SQL;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -72,11 +71,16 @@ public interface UserMapper {
 
     /**
      * 更改密码
+     *
      * @param mobile
      * @return
      */
-    @Update({"UPDATE t_user SET password=#{password}"})
+    @Update({"UPDATE t_user SET password=#{password} WHERE "})
     int updateUserPassword(String mobile) throws SQLException;
+
+    @Update({"UPDATE t_user SET avatar=#{img} WHERE id = #{id}"})
+    int updateUserAvatar(String img, Long id) throws SQLException;
+
     /**
      * @param user
      * @return int
@@ -130,7 +134,6 @@ public interface UserMapper {
      * @param list
      */
     void batchInsertPhotoAlbum(List<PhotoAlbum> list);
-
 
 
 }

@@ -115,24 +115,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result updateUserPassword(UserDto userDto) {
-        User user =null;
+        User user;
         String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
         try {
-            user =userMapper.selectUserByMobile(userDto.getName());
-            if (user!=null){
-    if (verifyCode.equals(userDto.getVerifyCode())) {
-        if (user.getPassword().equals(userDto.getPassword())) {
-            return Result.failure(ResultCode.USER_PASSWORD_REPIT);
-
-        } else {
-
-            userMapper.updateUserPassword(userDto.getName());
-
-        }
-    }else {
-        return  Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
-    }
-            }else {
+            user = userMapper.selectUserByMobile(userDto.getName());
+            if (user != null) {
+                if (verifyCode.equals(userDto.getVerifyCode())) {
+                    if (user.getPassword().equals(userDto.getPassword())) {
+                        return Result.failure(ResultCode.USER_PASSWORD_REPIT);
+                    } else {
+                        userMapper.updateUserPassword(userDto.getName());
+                    }
+                } else {
+                    return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                }
+            } else {
 
 
                 return Result.failure(ResultCode.USER_NOT_EXIST);
@@ -140,9 +137,19 @@ public class UserServiceImpl implements UserService {
         } catch (SQLException e) {
             logger.info("失败");
         }
-          return Result.success("更新成功");
-
+        return Result.success("更新成功");
     }
 
-
+    @Override
+    public Result updateUSerAvatar(UserDto userDto) {
+        if (userDto.getAvatar() != null) {
+            try {
+                return Result.success(userMapper.updateUserAvatar(userDto.getAvatar(), userDto.getId()));
+            } catch (SQLException e) {
+                return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+            }
+        } else {
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+    }
 }
