@@ -13,7 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author 小黑
@@ -89,12 +93,17 @@ public class UserServiceImpl implements UserService {
         } else {
             String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
             if (verifyCode.equals(userDto.getVerifyCode())) {
-                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
+                Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
+                Date birthday = Date.valueOf(LocalDate.now());
+                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
                 if (result != 0) {
                     return Result.success(ResultCode.SUCCESS);
                 } else {
                     return Result.failure(ResultCode.USER_ADD_FALURE);
                 }
+            } else {
+                Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
             }
         }
         return Result.success(ResultCode.SUCCESS);
@@ -115,23 +124,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result updateUserPassword(UserDto userDto) {
-        User user;
+        User user = null;
         String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
         try {
             user = userMapper.selectUserByMobile(userDto.getName());
             if (user != null) {
                 if (verifyCode.equals(userDto.getVerifyCode())) {
-                    if (user.getPassword().equals(userDto.getPassword())) {
+                    if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
                         return Result.failure(ResultCode.USER_PASSWORD_REPIT);
                     } else {
-                        userMapper.updateUserPassword(userDto.getName());
+                        userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                        return Result.success(user);
                     }
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
                 }
             } else {
-
-
                 return Result.failure(ResultCode.USER_NOT_EXIST);
             }
         } catch (SQLException e) {
@@ -141,10 +149,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result updateUSerAvatar(UserDto userDto) {
+    public Result updateUserAvatar(UserDto userDto) {
         if (userDto.getAvatar() != null) {
             try {
-                return Result.success(userMapper.updateUserAvatar(userDto.getAvatar(), userDto.getId()));
+                return Result.success(userMapper.updateUserAvatar(userDto.getAvatar(), (long) userDto.getId()));
             } catch (SQLException e) {
                 return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
             }

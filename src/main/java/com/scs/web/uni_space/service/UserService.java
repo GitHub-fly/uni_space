@@ -7,7 +7,7 @@ import com.scs.web.uni_space.util.Result;
 /**
  * @author wl
  * @ClassNameUserService
- * @Description TODO
+ * @Description 用户服务类
  * @Date 2019/12/2
  * @Version 1.0
  */
@@ -37,6 +37,12 @@ public interface UserService {
      * @param userDto
      * @return
      */
+    /**
+     * @param
+     * @return int
+     * @Description 更新用户密码
+     */
+
     Result updateUserPassword(UserDto userDto);
 
     /**
@@ -45,5 +51,5 @@ public interface UserService {
      * @param userDto
      * @return
      */
-    Result updateUSerAvatar(UserDto userDto);
+    Result updateUserAvatar(UserDto userDto);
 }

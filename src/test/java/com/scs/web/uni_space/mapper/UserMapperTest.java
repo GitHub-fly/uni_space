@@ -7,7 +7,6 @@ import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.util.JSoupSpider;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
@@ -18,10 +17,9 @@ import java.util.Random;
 
 @SpringBootTest(classes = UniSpaceApplication.class)
 class UserMapperTest {
+    private static Random random = new Random();
     @Resource
     private UserMapper userMapper;
-
-    private static Random random = new Random();
 
     @Test
     void selectUserByMobile() throws SQLException {
@@ -44,7 +42,7 @@ class UserMapperTest {
     @Test
     void updateUserData() throws SQLException {
         User user = new User();
-        user.setId((long)1);
+        user.setId((long) 1);
         user.setNickname("张三");
         user.setAddress("中国南京");
         user.setGender("男");
@@ -67,9 +65,9 @@ class UserMapperTest {
         int i;
         for (i = 1; i <= 72; i++) {
             Friend friend = new Friend();
-            friend.setFromId((long)i);
-            friend.setToId((long)(random.nextInt(71) + 1));
-            friend.setFriendFlag((short)random.nextInt(2));
+            friend.setFromId((long) i);
+            friend.setToId((long) (random.nextInt(71) + 1));
+            friend.setFriendFlag((short) random.nextInt(2));
             list.add(friend);
         }
         userMapper.batchInsertFriend(list);
@@ -81,8 +79,8 @@ class UserMapperTest {
         int i;
         for (i = 1; i <= 72; i++) {
             Like like = new Like();
-            like.setUserId((long)i);
-            like.setJournalId((long)(random.nextInt(71) + 1));
+            like.setUserId((long) i);
+            like.setJournalId((long) (random.nextInt(71) + 1));
             list.add(like);
         }
         userMapper.batchInsertLike(list);
@@ -105,7 +103,7 @@ class UserMapperTest {
 
 
     @Test
-    void updateUserAvatar() throws SQLException{
-        userMapper.updateUserAvatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/avatar/ed3216ca-a117-4ca1-b1f7-54ecb3ae68b0.jpeg");
+    void updateUserAvatar() throws SQLException {
+        userMapper.updateUserAvatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/avatar/ed3216ca-a117-4ca1-b1f7-54ecb3ae68b0.jpeg", 1L);
     }
 }

@@ -17,7 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto implements Serializable {
-    private Long id;
+    private int id;
     //包含三种信息分别为 手机号，账号，邮箱
     private String name;
     //短信验证码

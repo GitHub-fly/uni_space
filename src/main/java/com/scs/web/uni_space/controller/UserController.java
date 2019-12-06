@@ -22,9 +22,9 @@ public class UserController {
     private UserService userService;
 
     /**
-     * @Description 登录
      * @param userDto
      * @return
+     * @Description 登录
      */
     @PostMapping(value = "/sign_in")
     Result sign_in(@RequestBody UserDto userDto) {
@@ -32,9 +32,9 @@ public class UserController {
     }
 
     /**
-     * @Description 注册
      * @param userDto
      * @return
+     * @Description 注册
      */
     @PostMapping(value = "/sign_up")
     Result sing_up(@RequestBody UserDto userDto) {
@@ -42,19 +42,30 @@ public class UserController {
     }
 
     /**
-     * @Description 修改个人信息
      * @param user
      * @return
+     * @Description 修改个人信息
      */
 
-    @PutMapping(value = "/UserData")
+    @PutMapping(value = "/userData")
     Result updateUserData(@RequestBody User user) {
         return userService.updateUserData(user);
     }
 
-    @PutMapping(value = "/UserPassword")
-    Result updateUserPassword(@RequestBody UserDto userDto){
-
-        return  userService.updateUserPassword(userDto);
+    /**
+     * 修改密码
+     *
+     * @param userDto
+     * @return
+     */
+    @PutMapping(value = "/userPassword")
+    Result updateUserPassword(@RequestBody UserDto userDto) {
+        return userService.updateUserPassword(userDto);
     }
+
+    @PutMapping(value = "/userAvatar")
+    Result updateUserAvatar(@RequestBody UserDto userDto) {
+        return userService.updateUserAvatar(userDto);
+    }
+
 }
