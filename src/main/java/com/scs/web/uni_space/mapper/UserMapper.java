@@ -1,10 +1,15 @@
 package com.scs.web.uni_space.mapper;
 
+import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -62,26 +67,32 @@ public interface UserMapper {
     User selectUserByEmail(String email) throws SQLException;
 
     /**
+     * 添加用户所用语句
      * @param mobile
      * @param password
-     * @return int
-     * @Description 添加用户所用语句
+     * @param avatar
+     * @param createTime
+     * @param birthday
+     * @return
      */
-    @Insert({"INSERT INTO t_user (mobile,password) VALUES(#{mobile},#{password})"})
-    int insertUser(String mobile, String password);
+    @Insert({"INSERT INTO t_user (mobile,password,avatar,create_time,birthday) VALUES(#{mobile},#{password},#{avatar},#{createTime},#{birthday})"})
+    int insertUser(String mobile, String password, String avatar, Timestamp createTime, Date birthday);
 
     /**
      * 更改密码
      * @param mobile
+     * @param password
      * @return
-     */
-    @Update({"UPDATE t_user SET password=#{password}"})
-    int updateUserPassword(String mobile) throws SQLException;
-    /**
-     * @param user
-     * @return int
      * @throws SQLException
-     * @Description 更新用户资料
+     */
+    @Update({"UPDATE t_user SET password=#{password} WHERE mobile=#{mobile}"})
+    int updateUserPassword(String mobile ,String password) throws SQLException;
+
+    /**
+     * 更新用户资料
+     * @param user
+     * @return
+     * @throws SQLException
      */
     @Update({"UPDATE t_user SET nickname=#{nickname},address=#{address},gender=#{gender}," +
             "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}," +

@@ -47,14 +47,13 @@ public class UserController {
      * @return
      */
 
-    @PutMapping(value = "/UserData")
+    @PutMapping(value = "/userData")
     Result updateUserData(@RequestBody User user) {
         return userService.updateUserData(user);
     }
 
-    @PutMapping(value = "/UserPassword")
+    @PutMapping(value = "/userPassword")
     Result updateUserPassword(@RequestBody UserDto userDto){
-
         return  userService.updateUserPassword(userDto);
     }
 }

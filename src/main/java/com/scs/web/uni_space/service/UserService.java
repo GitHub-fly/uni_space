@@ -32,7 +32,11 @@ public interface UserService {
      * @Description 更新用户资料
      */
     Result updateUserData(User user);
-
+    /**
+     * @param
+     * @return int
+     * @Description 更新用户密码
+     */
 
     Result updateUserPassword(UserDto userDto);
 }
