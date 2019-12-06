@@ -126,7 +126,10 @@
     </dependencies>
 
     <build>
+        <!--用于打成jar包的名字-->
+        <finalName>uni-space</finalName>
         <plugins>
+            <!--用于启动springBoot的插件-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -144,8 +147,6 @@
                 </includes>
             </resource>
         </resources>
-
-
     </build>
 
 </project>

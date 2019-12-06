@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
             } else if (userMapper.selectUserByEmail(userDto.getName()) != null) {
                 user = userMapper.selectUserByEmail(userDto.getName());
             } else {
-                return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
+                return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
             }
             if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
                 return Result.success(user);

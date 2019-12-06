@@ -1,5 +1,6 @@
 package com.scs.web.uni_space.controller;
 
+import com.scs.web.uni_space.domain.dto.CodeDto;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.util.ImageUtil;
 import com.scs.web.uni_space.util.Result;
@@ -33,12 +34,14 @@ public class CodeController {
         ImageUtil imageUtil = new ImageUtil();
         String base64String = imageUtil.getRandomCodeBase64();
         if (base64String != null) {
+            CodeDto codeDto = new CodeDto();
             //将图形验证码以String形式存入redis
-            String code = "data:image/png;base64," + base64String;
-            redisService.set("code", code);
+            String img = "data:image/png;base64," + base64String;
+            codeDto.setImg(img);
             System.out.println(imageUtil.string.toLowerCase());
+            codeDto.setCode(imageUtil.string.toLowerCase());
             //将图形验证码的具体内容传给前段，有前段判断
-            return Result.success(imageUtil.string.toLowerCase());
+            return Result.success(codeDto);
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
