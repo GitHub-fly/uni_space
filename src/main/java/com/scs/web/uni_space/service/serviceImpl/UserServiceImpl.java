@@ -7,6 +7,7 @@ import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,6 @@ public class UserServiceImpl implements UserService {
     public Result signIn(UserDto userDto) {
         User user = null;
         String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
-
         try {
             if (userMapper.selectUserByMobile(userDto.getName()) != null) {
                 user = userMapper.selectUserByMobile(userDto.getName());
@@ -107,6 +107,37 @@ public class UserServiceImpl implements UserService {
             logger.info("更新失败");
         }
         return Result.success(user);
+    }
+
+    @Override
+    public Result updateUserPassword(UserDto userDto) {
+        User user =null;
+        String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+        try {
+            user =userMapper.selectUserByMobile(userDto.getName());
+            if (user!=null){
+    if (verifyCode.equals(userDto.getVerifyCode())) {
+        if (user.getPassword().equals(userDto.getPassword())) {
+            return Result.failure(ResultCode.USER_PASSWORD_REPIT);
+
+        } else {
+
+            userMapper.updateUserPassword(userDto.getName());
+
+        }
+    }else {
+        return  Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+    }
+            }else {
+
+
+                return Result.failure(ResultCode.USER_NOT_EXIST);
+            }
+        } catch (SQLException e) {
+            logger.info("失败");
+        }
+          return Result.success("更新成功");
+
     }
 
 

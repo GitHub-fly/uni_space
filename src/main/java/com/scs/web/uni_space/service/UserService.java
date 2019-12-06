@@ -34,4 +34,7 @@ public interface UserService {
      * @Description 更新用户资料
      */
     Result updateUserData(User user);
+
+
+    Result updateUserPassword(UserDto userDto);
 }

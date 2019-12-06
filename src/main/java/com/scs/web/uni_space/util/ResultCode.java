@@ -44,6 +44,7 @@ public enum ResultCode {
     USER_NOT_IMPORT_PARAM(20021,"输入不能为空"),
     USER_NOT_IMPORT_MOBILE(20022,"输入手机号不能为空"),
      USER_ADD_FALURE(20023,"注册失败"),
+    USER_PASSWORD_REPIT(20024,"两次密码不能重复"),
 
 
     /* 业务错误：30001-39999 */
