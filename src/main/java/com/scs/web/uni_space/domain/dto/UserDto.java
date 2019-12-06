@@ -22,4 +22,5 @@ public class UserDto implements Serializable {
     //短信验证码
     private String verifyCode;
     private String password;
+
 }

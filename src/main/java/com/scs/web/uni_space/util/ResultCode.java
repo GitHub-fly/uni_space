@@ -31,6 +31,7 @@ public enum ResultCode {
     USER_MOBILE_NOT_EXIST(20008,"手机号不存在"),
     USER_ACCOUNT_NOT_EXIST(20009,"账号不存在"),
     USER_EMAIL_NOT_EXIST(20010,"邮箱不存在"),
+<<<<<<< Updated upstream
     USER_NOT_INSERT_OWN(20011,"不能添加自己为好友"),
     USER_HAS_FRIEND(20012,"好友已存在"),
     USER_INSERT_FRIEND_ERROR(20013,"请求添加错误"),
@@ -45,6 +46,37 @@ public enum ResultCode {
     USER_NOT_IMPORT_MOBILE(20022,"输入手机号不能为空"),
      USER_ADD_FALURE(20023,"注册失败"),
     USER_PASSWORD_REPIT(20024,"两次密码不能重复"),
+=======
+
+    /*用户好友模块错误：20101-20199*/
+    USER_NOT_INSERT_OWN(20101,"不能添加自己为好友"),
+    USER_HAS_FRIEND(20102,"好友已存在"),
+    USER_INSERT_FRIEND_ERROR(20103,"请求添加错误"),
+    USER_HAS_APPLICANT(20104,"已发过请求,请等待对方回复"),
+    USER_FIND_ALL_APPLICANT(20105,"查找所有请求错误"),
+    USER_CONFIRM_ERROR(20106,"确认请求错误"),
+    USER_CONFIRM_ADD_ERROR(20107,"确认请求添加错误"),
+    USER_DELETE_FRIEND_ERROR(20108,"删除好友错误"),
+    USER_FIND_ALL_FRIEND_ERROR(20109,"查找所有好友错误"),
+    USER_REJECT_CONFIRM_ERROR(20110,"拒绝请求错误"),
+
+
+    /*用户密保模块错误：20201-20299*/
+    USER_HAS_ACCOUNT_SECURITY(20201,"账号密保已设定"),
+    USER_ADD_ACCOUNT_SECURITY_ERROR(20202,"添加账号密保错误"),
+    USER_ADD_PHOTO_ALBUM_SECURITY_ERROR(20203,"添加相册密保错误"),
+    USER_FIND_ACCOUNT_SECURITY_ERROR(20204,"查找账号密保错误"),
+    USER_FIND_PHOTO_ALBUM_SECURITY_ERROR(20205,"查找相册密保错误"),
+    USER_UPDATE_ACCOUNT_SECURITY_ERROR(20206,"更改账号密保错误"),
+    USER_UPDATE_PHOTO_ALBUM_SECURITY_ERROR(20207,"更改相册密保错误"),
+    USER_DELETE_ACCOUNT_SECURITY_ERROR(20208,"删除账号密保错误"),
+    USER_DELETE_PHOTO_ALBUM_SECURITY_ERROR(20209,"删除相册密保错误"),
+    USER_HAS_PHOTO_ALBUM_SECURITY(20210,"相册密保已设定"),
+
+
+
+
+>>>>>>> Stashed changes
 
 
     /* 业务错误：30001-39999 */

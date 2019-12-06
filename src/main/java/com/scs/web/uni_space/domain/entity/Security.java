@@ -1,6 +1,8 @@
 package com.scs.web.uni_space.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author suyuxi
@@ -11,6 +13,8 @@ import lombok.Data;
  **/
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Security {
     private Long id;
     private Long userId;

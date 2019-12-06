@@ -3,6 +3,7 @@ package com.scs.web.uni_space.service.serviceImpl;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.mapper.UserMapper;
+import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Resource
-    private RedisServiceImpl redisServiceImpl;
+    private RedisService redisServiceImpl;
 
     @Override
     public Result signIn(UserDto userDto) {
@@ -78,7 +79,11 @@ public class UserServiceImpl implements UserService {
         try {
             user = userMapper.selectUserByMobile(userDto.getName());
         } catch (SQLException e) {
+<<<<<<< Updated upstream
             logger.info("查找错误 ");
+=======
+            logger.error("查找指定手机号码出错");
+>>>>>>> Stashed changes
         }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);

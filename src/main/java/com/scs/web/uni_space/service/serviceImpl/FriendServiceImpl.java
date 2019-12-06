@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author suyuxi
  * @className FriendServiceImpl
- * @Description TODO
+ * @Description 好友操作类
  * @Date 2019/12/4
  * @Version 1.0
  **/
@@ -39,8 +39,8 @@ public class FriendServiceImpl implements FriendService {
         if (friend.getFromId().equals(friend.getToId())){
             return Result.failure(ResultCode.USER_NOT_INSERT_OWN);
         }else {
-            Friend friend1 = friendMapper.selectFriendFlag(friend.getFromId(),friend.getToId());
-            if (friend1 == null){
+            Friend searchFriend = friendMapper.selectFriendFlag(friend.getFromId(),friend.getToId());
+            if (searchFriend == null){
                 int j = friendMapper.insertOther(friend.getFromId(),friend.getToId());
                 if (j != 0){
                     return Result.success(ResultCode.SUCCESS);

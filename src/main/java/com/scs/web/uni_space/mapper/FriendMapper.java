@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /**
- * @author 22968
+ * @author suyuxi
  */
 public interface FriendMapper {
 

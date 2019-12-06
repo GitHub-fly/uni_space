@@ -7,7 +7,7 @@ import com.scs.web.uni_space.util.Result;
 /**
  * @author suyuxi
  * @className FriendService
- * @Description TODO
+ * @Description 好友操作接口
  * @Date 2019/12/3
  * @Version 1.0
  **/

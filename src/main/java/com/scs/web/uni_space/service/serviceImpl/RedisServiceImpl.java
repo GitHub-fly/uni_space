@@ -73,6 +73,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key
      * @return
      */
+    @Override
     public boolean existsKey(final String key) {
         return redisTemplate.hasKey(key);
     }
@@ -85,6 +86,7 @@ public class RedisServiceImpl implements RedisService {
      * @param <T>  存入 redis 时的类型
      * @return
      */
+    @Override
     public <T> T getValue(final String key, Class<T> type) {
         Object result = null;
         ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
@@ -105,6 +107,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param key
      */
+    @Override
     public void removeKey(final String key) {
         // 检查 key 是否存在
         if (existsKey(key)) {
@@ -117,6 +120,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param keys
      */
+    @Override
     public void remove(final String... keys) {
         for (String key : keys) {
             removeKey(key);
@@ -128,6 +132,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param pattern
      */
+    @Override
     public void removePattern(final String pattern) {
         // 获取所有匹配的键
         Set<Serializable> keys = redisTemplate.keys(pattern);
