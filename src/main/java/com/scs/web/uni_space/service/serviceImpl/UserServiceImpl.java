@@ -8,7 +8,6 @@ import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.ibatis.annotations.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -79,11 +78,11 @@ public class UserServiceImpl implements UserService {
         try {
             user = userMapper.selectUserByMobile(userDto.getName());
         } catch (SQLException e) {
-<<<<<<< Updated upstream
+
             logger.info("查找错误 ");
-=======
+
             logger.error("查找指定手机号码出错");
->>>>>>> Stashed changes
+
         }
         if (user != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);

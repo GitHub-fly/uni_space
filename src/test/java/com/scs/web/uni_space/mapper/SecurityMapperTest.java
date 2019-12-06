@@ -1,27 +1,11 @@
 package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.UniSpaceApplication;
-<<<<<<< Updated upstream
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-
-@SpringBootTest(classes = UniSpaceApplication.class)
-class SecurityMapperTest {
-
-//    @Resource private SecurityMapper securityMapper;
-
-    @Test
-    void addSecurity() {
-        
-=======
 import com.scs.web.uni_space.domain.entity.Security;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import javax.annotation.Resource;
 
 @SpringBootTest(classes = UniSpaceApplication.class)
@@ -76,6 +60,6 @@ class SecurityMapperTest {
     void deletePhotoAlbumSecurity() {
         int i = securityMapper.deletePhotoAlbumSecurity((long)1,(long)3);
         System.out.println(i);
->>>>>>> Stashed changes
+
     }
 }
