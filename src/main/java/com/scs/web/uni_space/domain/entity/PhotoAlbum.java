@@ -15,8 +15,10 @@ import java.sql.Timestamp;
 @Data
 public class PhotoAlbum {
     private Long id;
-    private Long albumId;
-    private String url;
-    private String description;
+    private Long userId;
+    private String cover;
+    private String name;
+    private String type;
     private Timestamp createTime;
+    private String introduction;
 }

@@ -1,9 +1,10 @@
 package com.scs.web.uni_space.mapper;
 
-import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.entity.*;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author wl
@@ -78,4 +79,48 @@ public interface UserMapper {
     @Update({"UPDATE t_user SET nickname=#{nickname},address=#{address},gender=#{gender}," +
             "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday} WHERE id =#{id}"})
     int updateUserData(User user) throws SQLException;
+
+
+    /**
+     * 批量插入用户信息
+     *
+     * @param list
+     */
+    void batchInsertUser(List<User> list);
+
+    /**
+     * 批量添加好友信息
+     *
+     * @param friends
+     */
+    void batchInsertFriend(List<Friend> friends);
+
+    /**
+     * 批量添加点赞信息
+     *
+     * @param list
+     */
+    void batchInsertLike(List<Like> list);
+
+    /**
+     * 批量插入日志信息
+     *
+     * @param list
+     */
+    void batchInsertJournal(List<Journal> list);
+
+    /**
+     * 批量插入照片信息
+     *
+     * @param list
+     */
+    void batchInsertPhoto(List<Photo> list);
+
+    /**
+     * 批量插入相册信息
+     *
+     * @param list
+     */
+    void batchInsertPhotoAlbum(List<PhotoAlbum> list);
+
 }

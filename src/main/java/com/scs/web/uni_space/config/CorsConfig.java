@@ -8,10 +8,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
+ * @author xunmi
  * @ClassName CorsConfig
  * @Description TODO
- * @Author xiaobinggan
- * @Date 2019/12/5 11:00 上午
+ * @Date 2019/11/30
  * @Version 1.0
  **/
 @Configuration

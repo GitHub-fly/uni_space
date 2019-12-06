@@ -109,6 +109,16 @@
             <version>2.5.0</version>
         </dependency>
 
+<<<<<<< HEAD
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup 基于Java的HTML的解析器-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+
+
+=======
         <!--阿里云图片上传-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
@@ -116,6 +126,7 @@
             <version>3.8.0</version>
         </dependency>
 
+>>>>>>> 18becab05e39fe9bca98dca920a5100fb8685d1e
     </dependencies>
 
     <build>
@@ -125,6 +136,21 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src.main.resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+
     </build>
 
 </project>
