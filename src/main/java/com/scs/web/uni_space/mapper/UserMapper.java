@@ -53,6 +53,15 @@ public interface UserMapper {
     User selectUserByAccount(String account) throws SQLException;
 
     /**
+     * 通过id查用户
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    @ResultMap("user")
+    @Select({"SELECT*FROM t_user WHERE id = #{id}"})
+    User selectUserById(long id)throws SQLException;
+    /**
      * @param email
      * @return user
      * @throws SQLException
@@ -74,6 +83,8 @@ public interface UserMapper {
      */
     @Insert({"INSERT INTO t_user (mobile,password,avatar,create_time,birthday) VALUES(#{mobile},#{password},#{avatar},#{createTime},#{birthday})"})
     int insertUser(String mobile, String password, String avatar, Timestamp createTime, Date birthday);
+
+    @Insert({"Insert INTO t_user (string...args )VALUES(string...args)"})
 
     /**
      * 根据id修改头像

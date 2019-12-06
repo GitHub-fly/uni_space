@@ -63,9 +63,17 @@ public class UserController {
         return userService.updateUserPassword(userDto);
     }
 
+    /**
+     * 通过id更改头像
+     * @param userDto
+     * @return
+     */
     @PutMapping(value = "/userAvatar")
     Result updateUserAvatar(@RequestBody UserDto userDto) {
         return userService.updateUserAvatar(userDto);
     }
-
+@PostMapping(value = "/userid")
+    Result selectUserById(@RequestParam Long id){
+        return userService.selectUserById((long)id);
+}
 }

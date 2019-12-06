@@ -52,4 +52,11 @@ public interface UserService {
      * @return
      */
     Result updateUserAvatar(UserDto userDto);
+
+    /**
+     * 通过id查找账户
+     * @param id
+     * @return
+     */
+    Result selectUserById(Long id);
 }

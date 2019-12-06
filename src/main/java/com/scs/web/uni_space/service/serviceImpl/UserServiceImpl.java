@@ -160,4 +160,19 @@ public class UserServiceImpl implements UserService {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
     }
+
+    @Override
+    public Result selectUserById(Long id) {
+        User user=null;
+        try {
+          user=  userMapper.selectUserById((long)id);
+
+
+
+
+        } catch (SQLException e) {
+            logger.info("查找失败");
+        }
+        return Result.success(user);
+    }
 }
