@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scs.web.uni_space.mapper.UserMapper">
+    <insert id="batchInsertUser">
+        insert into t_user(mobile,account,password,nickname,email,avatar,address,gender,
+        introduction,constellation,skin_id,birthday)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.mobile}, #{c.account}, #{c.password}, #{c.nickname}, #{c.email},
+            #{c.avatar}, #{c.address}, #{c.gender}, #{c.introduction}, #{c.constellation},
+            #{c.skinId}, #{c.birthday}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchAddFriend">
+        insert into t_friend(from_id,to_id,friend_flag)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.fromId}, #{c.toId}, #{c.friendFlag}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchAddLike">
+        insert into t_like(user_id, journal_id)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.userId}, #{c.journalId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertJournal">
+        insert into t_journal(user_id, content, thumbnail, title, likes, comments,
+        create_time)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.userId}, #{c.content}, #{c.thumbnail}, #{c.title},
+            #{c.likes}, #{c.comments}, #{c.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertPhoto">
+        insert into t_photo(album_id, url, description, create_time)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.albumId}, #{c.url}, #{c.description}, #{c.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertPhotoAlbum">
+        insert into t_photo_album(user_id, cover, name, type, create_time, introduction)
+        values
+        <foreach collection="list" item="c" index="index" separator=",">
+            (
+            #{c.userId}, #{c.cover}, #{c.name}, #{c.type}, #{c.createTime}, #{c.introduction}
+            )
+        </foreach>
+    </insert>
+</mapper>
