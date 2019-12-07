@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
 
         while (userDto.getVerifyCode() != null) {
-            if (verifyCode.trim()==null){
+            if (verifyCode==null){
                 return Result.failure(ResultCode.USER_VERIFY_CODE_null);
             }else {
                 if (verifyCode.equals(userDto.getVerifyCode())) {
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
             String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
-if (verifyCode.trim()==null){
+if (verifyCode==null){
     return Result.failure(ResultCode.USER_VERIFY_CODE_null);
 }else {
     if (userDto.getVerifyCode().equals(verifyCode)) {
@@ -138,7 +138,7 @@ if (verifyCode.trim()==null){
             user = userMapper.selectUserByMobile(userDto.getName());
             if (user != null) {
                 if (verifyCode.equals(userDto.getVerifyCode())) {
-                    if (verifyCode.trim()==null){
+                    if (verifyCode==null){
                         return Result.failure(ResultCode.USER_VERIFY_CODE_null);
                     }else {
                         if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
