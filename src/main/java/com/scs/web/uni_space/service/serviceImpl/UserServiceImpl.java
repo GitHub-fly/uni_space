@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
     public Result signIn(UserDto userDto) {
         User user = null;
         String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+
         try {
             if (userMapper.selectUserByMobile(userDto.getName()) != null) {
                 user = userMapper.selectUserByMobile(userDto.getName());
@@ -62,12 +63,15 @@ public class UserServiceImpl implements UserService {
         }
 
         while (userDto.getVerifyCode() != null) {
-            if (verifyCode.equals(userDto.getVerifyCode())) {
-                return Result.success(user);
-            } else {
-                return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+            if (verifyCode.trim()==null){
+                return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+            }else {
+                if (verifyCode.equals(userDto.getVerifyCode())) {
+                    return Result.success(user);
+                } else {
+                    return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                }
             }
-
         }
 
 
@@ -92,21 +96,25 @@ public class UserServiceImpl implements UserService {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
             String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
-            if (verifyCode.equals(userDto.getVerifyCode())) {
-                String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
-                Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
-                Date birthday = Date.valueOf(LocalDate.now());
-                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
-                if (result != 0) {
-                    return Result.success(ResultCode.SUCCESS);
-                } else {
-                    return Result.failure(ResultCode.USER_ADD_FALURE);
-                }
-            } else {
-                Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
-            }
+if (verifyCode.trim()==null){
+    return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+}else {
+    if (userDto.getVerifyCode().equals(verifyCode)) {
+        String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
+        Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
+        Date birthday = Date.valueOf(LocalDate.now());
+        int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
+        if (result != 0) {
+            return Result.success(ResultCode.SUCCESS);
+        } else {
+            return Result.failure(ResultCode.USER_ADD_FALURE);
         }
-        return Result.success(ResultCode.SUCCESS);
+    } else {
+        return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+    }
+}
+        }
+
     }
 
     @Override
@@ -130,11 +138,15 @@ public class UserServiceImpl implements UserService {
             user = userMapper.selectUserByMobile(userDto.getName());
             if (user != null) {
                 if (verifyCode.equals(userDto.getVerifyCode())) {
-                    if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
-                        return Result.failure(ResultCode.USER_PASSWORD_REPIT);
-                    } else {
-                        userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
-                        return Result.success(user);
+                    if (verifyCode.trim()==null){
+                        return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+                    }else {
+                        if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
+                            return Result.failure(ResultCode.USER_PASSWORD_REPIT);
+                        } else {
+                            userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                            return Result.success(user);
+                        }
                     }
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
@@ -166,8 +178,6 @@ public class UserServiceImpl implements UserService {
         User user=null;
         try {
           user=  userMapper.selectUserById((long)id);
-
-
 
 
         } catch (SQLException e) {

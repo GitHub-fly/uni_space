@@ -72,6 +72,8 @@ public class UserController {
     Result updateUserAvatar(@RequestBody UserDto userDto) {
         return userService.updateUserAvatar(userDto);
     }
+
+
 @PostMapping(value = "/userid")
     Result selectUserById(@RequestParam Long id){
         return userService.selectUserById((long)id);
