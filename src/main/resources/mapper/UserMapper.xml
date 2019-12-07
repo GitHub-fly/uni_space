@@ -3,13 +3,13 @@
 <mapper namespace="com.scs.web.uni_space.mapper.UserMapper">
     <insert id="batchInsertUser">
         insert into t_user(mobile,account,password,nickname,email,avatar,address,gender,
-        introduction,constellation,skin_id,birthday)
+        introduction,constellation,skin_id,create_time,birthday)
         values
         <foreach collection="list" item="c" index="index" separator=",">
             (
             #{c.mobile}, #{c.account}, #{c.password}, #{c.nickname}, #{c.email},
             #{c.avatar}, #{c.address}, #{c.gender}, #{c.introduction}, #{c.constellation},
-            #{c.skinId}, #{c.birthday}
+            #{c.skinId}, #{c.createTime}, #{c.birthday}
             )
         </foreach>
     </insert>

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +51,12 @@ public class JSoupSpider {
                 user.setPassword(DataUtil.getPassword());
                 user.setAccount("");
                 user.setGender(DataUtil.getGender());
-                user.setAvatar("https:" + linkChildren.get(0).attr("src"));
+                user.setAvatar(linkChildren.get(0).attr("src"));
                 user.setNickname(linkChildren.get(1).text());
                 user.setEmail("");
                 user.setIntroduction(linkChildren.get(2).text());
                 user.setBirthday(DataUtil.getBirthday());
+                user.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
                 // 设置星座
                 user.setConstellation(DataUtil.getConstellation());
                 // 设置地址
