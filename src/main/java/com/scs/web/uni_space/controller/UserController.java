@@ -65,6 +65,7 @@ public class UserController {
 
     /**
      * 通过id更改头像
+     *
      * @param userDto
      * @return
      */
@@ -72,8 +73,9 @@ public class UserController {
     Result updateUserAvatar(@RequestBody UserDto userDto) {
         return userService.updateUserAvatar(userDto);
     }
-@PostMapping(value = "/userid")
-    Result selectUserById(@RequestParam Long id){
-        return userService.selectUserById((long)id);
-}
+
+    @PostMapping(value = "/userid")
+    Result selectUserById(@RequestParam Long id) {
+        return userService.selectUserById((long) id);
+    }
 }
