@@ -5,8 +5,13 @@ import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.Result;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 小黑
@@ -73,9 +78,39 @@ public class UserController {
         return userService.updateUserAvatar(userDto);
     }
 
+    /**
+     * 通过id查找用户
+     * @param id
+     * @return
+     */
 
 @PostMapping(value = "/userid")
     Result selectUserById(@RequestParam Long id){
         return userService.selectUserById((long)id);
 }
+
+
+    //处理文件上传
+    @RequestMapping(value="/pcUploadImg", method = RequestMethod.POST)
+    @ResponseBody
+
+    public Map<String, Object> headImgUpload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        Map<String, Object> value = new HashMap<String, Object>();
+        value.put("success", true);
+        value.put("errorCode", 0);
+        value.put("errorMsg", "");
+        try {
+            String head = userService.updatePcAvatar(file);
+            value.put("data", head);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            value.put("success", false);
+            value.put("errorCode", 200);
+            value.put("errorMsg", "图片上传失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 }

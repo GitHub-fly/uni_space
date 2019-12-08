@@ -50,7 +50,7 @@ public enum ResultCode {
     USER_DELETE_FRIEND_ERROR(20108,"删除好友错误"),
     USER_FIND_ALL_FRIEND_ERROR(20109,"查找所有好友错误"),
     USER_REJECT_CONFIRM_ERROR(20110,"拒绝请求错误"),
-
+    USER_NOT_IMPORT_ERROR(20111,"图片未上传"),
 
     /*用户密保模块错误：20201-20299*/
     USER_HAS_ACCOUNT_SECURITY(20201,"账号密保已设定"),

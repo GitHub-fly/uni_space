@@ -3,6 +3,7 @@ package com.scs.web.uni_space.service;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.util.Result;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author wl
@@ -59,4 +60,13 @@ public interface UserService {
      * @return
      */
     Result selectUserById(Long id);
+
+
+    /**
+     * 更改pc端头像
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    String updatePcAvatar(MultipartFile file) throws Exception;
 }

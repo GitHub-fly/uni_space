@@ -5,12 +5,14 @@ import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
+import com.scs.web.uni_space.util.OSSClientUtil;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.sql.Date;
@@ -184,5 +186,19 @@ if (verifyCode==null){
             logger.info("查找失败");
         }
         return Result.success(user);
+    }
+
+    @Resource
+    private OSSClientUtil ossClient=new OSSClientUtil();
+    @Override
+    public String updatePcAvatar(MultipartFile file) throws Exception {
+        if (file == null || file.getSize() <= 0) {
+            throw new Exception("头像不能为空");
+        }
+        String name = ossClient.uploadImg2Oss(file);
+        String imgUrl = ossClient.getImgUrl(name);
+        System.out.println(imgUrl);
+        //userDao.updateHead(userId, imgUrl);//只是本地上传使用的
+        return imgUrl;
     }
 }
