@@ -13,41 +13,37 @@ import org.springframework.web.multipart.MultipartFile;
  * @Version 1.0
  */
 public interface UserService {
+
     /**
+     * 登录方法
      * @param userDto
      * @return result
-     * @Description 登录方法
      */
     Result signIn(UserDto userDto);
 
     /**
+     * 注册方法
      * @param userDto
      * @return result
-     * @Description 注册方法
      */
     Result signUp(UserDto userDto);
 
     /**
+     * 更新用户资料
      * @param user
      * @return int
-     * @Description 更新用户资料
+     * @Description
      */
     Result updateUserData(User user);
 
     /**
+     * 更新用户密码
      * @param userDto
      * @return
      */
-    /**
-     * @param
-     * @return int
-     * @Description 更新用户密码
-     */
-
     Result updateUserPassword(UserDto userDto);
 
     /**
-     *
      * 根据id修改用户头像
      * @param userDto
      * @return

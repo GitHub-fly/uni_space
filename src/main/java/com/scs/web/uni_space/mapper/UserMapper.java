@@ -18,8 +18,8 @@ import java.util.List;
 
 public interface UserMapper {
 
-    /***
-     * @Description 通过手机查询用户
+    /**
+     * 通过手机查询用户
      * @param mobile
      * @return user
      * @throws SQLException
@@ -43,10 +43,10 @@ public interface UserMapper {
     User selectUserByMobile(String mobile) throws SQLException;
 
     /**
+     * 通过账户查找用户
      * @param account
      * @return user
      * @throws SQLException
-     * @Description 通过账户查找用户
      */
     @ResultMap("user")
     @Select({"SELECT*FROM t_user WHERE account = #{account}"})
@@ -61,18 +61,19 @@ public interface UserMapper {
     @ResultMap("user")
     @Select({"SELECT*FROM t_user WHERE id = #{id}"})
     User selectUserById(long id)throws SQLException;
+
     /**
+     * 通过email查找用户
      * @param email
      * @return user
      * @throws SQLException
-     * @Description 通过email查找用户
      */
     @ResultMap("user")
     @Select({"SELECT*FROM t_user WHERE email = #{email}"})
     User selectUserByEmail(String email) throws SQLException;
 
     /**
-     * 添加用户所用语句
+     * 添加用户
      *
      * @param mobile
      * @param password
@@ -83,7 +84,6 @@ public interface UserMapper {
      */
     @Insert({"INSERT INTO t_user (mobile,password,avatar,create_time,birthday) VALUES(#{mobile},#{password},#{avatar},#{createTime},#{birthday})"})
     int insertUser(String mobile, String password, String avatar, Timestamp createTime, Date birthday);
-
 
     /**
      * 根据id修改头像
@@ -96,6 +96,13 @@ public interface UserMapper {
     @Update({"UPDATE t_user SET avatar=#{img} WHERE id = #{id}"})
     int updateUserAvatar(String img, Long id) throws SQLException;
 
+    /**
+     * 修改密码
+     * @param mobile
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     @Update({"UPDATE t_user SET password=#{password} WHERE mobile=#{mobile}"})
     int updateUserPassword(String mobile, String password) throws SQLException;
 
@@ -110,7 +117,6 @@ public interface UserMapper {
             "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}," +
             " WHERE id =#{id}"})
     int updateUserData(User user) throws SQLException;
-
 
     /**
      * 批量插入用户信息
