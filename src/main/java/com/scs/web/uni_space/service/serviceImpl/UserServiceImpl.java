@@ -7,8 +7,9 @@ import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.OSSClientUtil;
-import com.scs.web.uni_space.util.Result;
-import com.scs.web.uni_space.util.ResultCode;
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,10 +111,11 @@ public class UserServiceImpl implements UserService {
                         int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
                         return Result.success(ResultCode.SUCCESS);
                     } catch (SQLException e) {
-                        return Result.failure(ResultCode.USER_ADD_FALURE);
+                        return Result.failure(ResultCode.USER_ADD_FAILURE);
                     }
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+
                 }
             }
         }
@@ -145,7 +147,7 @@ public class UserServiceImpl implements UserService {
                         return Result.failure(ResultCode.USER_VERIFY_CODE_null);
                     } else {
                         if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
-                            return Result.failure(ResultCode.USER_PASSWORD_REPIT);
+                            return Result.failure(ResultCode.USER_PASSWORD_REPEAT);
                         } else {
                             userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
                             return Result.success(user);
@@ -162,6 +164,7 @@ public class UserServiceImpl implements UserService {
         }
         return Result.success("更新成功");
     }
+
 
     @Override
     public Result updateUserAvatar(UserDto userDto) {

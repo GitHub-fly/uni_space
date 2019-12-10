@@ -7,6 +7,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.Resource;
+
 /**
  * @author xunmi
  * @ClassName CorsConfig
@@ -16,6 +18,7 @@ import org.springframework.web.filter.CorsFilter;
  **/
 @Configuration
 public class CorsConfig {
+
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

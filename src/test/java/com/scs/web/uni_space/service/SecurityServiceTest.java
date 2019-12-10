@@ -3,7 +3,7 @@ package com.scs.web.uni_space.service;
 import com.scs.web.uni_space.UniSpaceApplication;
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.service.serviceImpl.SecurityServiceImpl;
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -2,7 +2,7 @@ package com.scs.web.uni_space.service;
 
 
 import com.scs.web.uni_space.domain.entity.Security;
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 
 /**
  * @author suyuxi

@@ -1,6 +1,6 @@
 package com.scs.web.uni_space.service;
 
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 
 /**
  * @author wl

@@ -1,21 +1,16 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
-import com.scs.web.uni_space.domain.dto.UserDto;
+import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.mapper.JournalMapper;
 
 import com.scs.web.uni_space.service.JournalService;
-import com.scs.web.uni_space.util.Result;
-import com.scs.web.uni_space.util.ResultCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.embedded.netty.NettyWebServer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wl

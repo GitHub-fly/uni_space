@@ -2,7 +2,7 @@ package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.service.SecurityService;
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,7 +26,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PostMapping(value = "/addAccountSecurity")
+    @PostMapping(value = "/accountsecurity")
     Result addAccountSecurity(@RequestBody Security security){
         return securityService.addAccountSecurity(security);
     }
@@ -35,7 +35,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PostMapping(value = "/addPhotoAlbumSecurity")
+    @PostMapping(value = "/photoAlbumsecurity")
     Result addPhotoAlbumSecurity(@RequestBody Security security){
         return securityService.addPhotoAlbumSecurity(security);
     }
@@ -44,7 +44,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @GetMapping(value = "/findAccountSecurity")
+    @GetMapping(value = "accountsecurity")
     Result findAccountSecurity(Security security){
         return securityService.findAccountSecurity(security);
     }
@@ -54,7 +54,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @GetMapping(value = "/findPhotoAlbumSecurity")
+    @GetMapping(value = "/Photoalbumsecurity")
     Result findPhotoAlbumSecurity(Security security){
         return securityService.findPhotoAlbumSecurity(security);
     }
@@ -64,7 +64,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PutMapping(value = "/updateAccountSecurity")
+    @PutMapping(value = "/accountsecurity")
     Result updateAccountSecurity(@RequestBody Security security){
         return securityService.updateAccountSecurity(security);
     }
@@ -74,7 +74,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PutMapping(value = "/updatePhotoAlbumSecurity")
+    @PutMapping(value = "/photoalbumsecurity")
     Result updatePhotoAlbumSecurity(@RequestBody Security security){
         return securityService.updatePhotoAlbumSecurity(security);
     }
@@ -84,7 +84,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @DeleteMapping(value = "/deleteAccountSecurity")
+    @DeleteMapping(value = "/accountsecurity")
     Result deleteAccountSecurity(@RequestBody Security security){
         return securityService.deleteAccountSecurity(security);
     }
@@ -94,7 +94,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @DeleteMapping(value = "/deletePhotoAlbumSecurity")
+    @DeleteMapping(value = "/photoalbumsecurity")
     Result deletePhotoAlbumSecurity(@RequestBody Security security){
         return securityService.deletePhotoAlbumSecurity(security);
     }

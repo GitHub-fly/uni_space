@@ -1,4 +1,4 @@
-package com.scs.web.uni_space.util;
+package com.scs.web.uni_space.common;
 
 import lombok.Data;
 

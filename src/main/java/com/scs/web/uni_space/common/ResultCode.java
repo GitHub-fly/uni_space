@@ -1,4 +1,4 @@
-package com.scs.web.uni_space.util;
+package com.scs.web.uni_space.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,12 @@ public enum ResultCode {
     USER_MOBILE_NOT_EXIST(20008,"手机号不存在"),
     USER_ACCOUNT_NOT_EXIST(20009,"账号不存在"),
     USER_EMAIL_NOT_EXIST(20010,"邮箱不存在"),
-    PORT_PARAM(20021,"输入不能为空"),
-    USER_NOT_IMPORT_MOBILE(20022,"输入手机号不能为空"),
-    USER_ADD_FALURE(20023,"注册失败"),
-    USER_PASSWORD_REPIT(20024,"两次密码不能重复"),
+    PORT_PARAM(20011,"输入不能为空"),
+    USER_NOT_IMPORT_MOBILE(20012,"输入手机号不能为空"),
+    USER_ADD_FAILURE(20013,"注册失败"),
+    USER_PASSWORD_REPEAT(20014,"两次密码不能重复"),
     USER_VERIFY_CODE_null(20025, "此手机未发送验证码"),
+
 
 
     /*用户好友模块错误：20101-20199*/
@@ -52,6 +53,8 @@ public enum ResultCode {
     USER_FIND_ALL_FRIEND_ERROR(20109,"查找所有好友错误"),
     USER_REJECT_CONFIRM_ERROR(20110,"拒绝请求错误"),
     USER_NOT_IMPORT_ERROR(20111,"图片未上传"),
+    USER_RETURN_DATA_ERROR(20111,"好友操作返回数据错误"),
+
 
     /*用户密保模块错误：20201-20299*/
     USER_HAS_ACCOUNT_SECURITY(20201,"账号密保已设定"),
@@ -64,6 +67,7 @@ public enum ResultCode {
     USER_DELETE_ACCOUNT_SECURITY_ERROR(20208,"删除账号密保错误"),
     USER_DELETE_PHOTO_ALBUM_SECURITY_ERROR(20209,"删除相册密保错误"),
     USER_HAS_PHOTO_ALBUM_SECURITY(20210,"相册密保已设定"),
+    USER_SECURITY_DATA_ERROR(20211,"密保操作返回数据错误"),
 
 
 

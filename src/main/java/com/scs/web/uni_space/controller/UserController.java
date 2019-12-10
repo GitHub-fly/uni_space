@@ -3,7 +3,7 @@ package com.scs.web.uni_space.controller;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.service.UserService;
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

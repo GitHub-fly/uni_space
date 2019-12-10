@@ -1,10 +1,14 @@
 package com.scs.web.uni_space.mapper;
 
 
+import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.FriendVo;
 import org.apache.ibatis.annotations.*;
 
+import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,94 +18,135 @@ public interface FriendMapper {
 
 
 
-    /**
-     * 查找好友表所有数据
-     * @param
-     * @return list
-     */
     @Results(id = "friend", value = {
             @Result(property = "id", column = "id"),
             @Result(property = "fromId", column = "from_id"),
             @Result(property = "toId", column = "to_id"),
             @Result(property = "friendFlag", column = "friend_flag"),
             @Result(property = "collectionFlag", column = "collection_flag"),
+
     })
-    @Select({"SELECT * FROM t_friend"})
-    List<Friend> selectAll();
+    /**
+     * 查找好友表所有数据
+     * 或者通过关键字模糊查询好友信息
+     * @param List
+     * @return list
+     * @throws SQLException
+     */
+    @Select({"SELECT c.*,COUNT(b.user_id) AS num\n" +
+            "FROM t_friend a\n" +
+            "LEFT JOIN t_user c\n" +
+            "ON a.to_id=c.id\n" +
+            "LEFT JOIN t_journal b\n" +
+            "ON c.id=b.user_id \n" +
+            "WHERE (a.from_id = #{fromId}\n" +
+            "AND a.friend_flag = 1)\n" +
+            "AND (c.mobile LIKE CONCAT('%', #{key},'%') \n" +
+            "OR c.account LIKE CONCAT('%', #{key},'%') \n" +
+            "OR c.email LIKE CONCAT('%', #{key},'%')\n" +
+            "OR c.nickname LIKE CONCAT('%', #{key},'%')\n" +
+            "OR c.introduction LIKE CONCAT('%', #{key},'%'))\n" +
+            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
+    List<FriendVo> selectAll(Long fromId, String key) throws SQLException;
+
 
     /**
-     * 通过from_id查找所有好友信息
-     * @param fromId
-     * @return list
+     * 通过关键字进行搜索用户
+     * @param formId
+     * @param key
+     * @return List
+     * @throws SQLException
      */
-    @Select({"SELECT * FROM t_user WHERE id IN ( SELECT to_id FROM t_friend WHERE friend_flag = 1 AND from_id = #{fromId})"})
-    List<User> selectByFromId(Long fromId);
-
+    @Select({"SELECT a.* ,COUNT(b.user_id) AS counts " +
+            "FROM t_user a " +
+            "LEFT JOIN t_journal b " +
+            "ON a.id = b.user_id " +
+            "WHERE a.mobile LIKE CONCAT('%',#{key},'%') " +
+            "OR a.account LIKE CONCAT('%',#{key},'%') " +
+            "OR a.email LIKE CONCAT('%',#{key},'%') " +
+            "OR a.nickname LIKE CONCAT('%',#{key},'%') " +
+            "OR a.introduction LIKE CONCAT('%',#{key},'%') " +
+            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
+    List<FriendVo> searchFriendByKey(Long formId, String key) throws SQLException;
     /**
      * 通过to_id查找所有请求者信息
+     *
      * @param toId
      * @return List
      */
-    @Select({"SELECT * FROM t_user WHERE id IN  ( SELECT from_id FROM t_friend WHERE friend_flag = 0 AND to_id = #{toId})"})
-    List<User> selectByToId(Long toId);
+    @Select({"SELECT * FROM t_user WHERE id IN  ( SELECT from_id FROM t_friend WHERE friend_flag = 0 AND to_id = #{toId}) "})
+    List<User> selectByToId(Long toId) throws SQLException;
 
 
     /**
      * 查看对方是否为好友
+     *
      * @param fromId
      * @param toId
      * @return Friend
      */
-    @Select({"SELECT * FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId}"})
-    Friend selectFriendFlag(Long fromId,Long toId);
-
+    @Select({"SELECT * FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId} "})
+    Friend selectFriendFlag(Long fromId, Long toId) throws SQLException;
 
     /**
      * 添加好友，状态为0
+     *
      * @param fromId
-     * @param  toId
+     * @param toId
      * @return int
      */
-    @Insert({"INSERT INTO t_friend (from_id,to_id ,friend_flag) VALUES (#{fromId},#{toId},0)"})
-    int insertOther(Long fromId,Long toId);
-
+    @Insert({"INSERT INTO t_friend (from_id,to_id ,friend_flag) VALUES (#{fromId},#{toId},0) "})
+    int insertOther(Long fromId, Long toId) throws SQLException;
 
     /**
      * 更改好友状态，0变1
+     *
      * @param fromId
      * @param toId
-     * @return
+     * @return int
      */
-    @Update({"UPDATE t_friend SET friend_flag = 1 WHERE from_id = #{fromId} AND to_id = #{toId}"})
-    int updateFriendFlag(Long fromId,Long toId);
-
+    @Update({"UPDATE t_friend SET friend_flag = 1 WHERE from_id = #{fromId} AND to_id = #{toId} "})
+    int updateFriendFlag(Long fromId, Long toId) throws SQLException;
 
     /**
      * 添加好友，状态为1
+     *
      * @param fromId
      * @param toId
      * @return int
      */
-    @Insert({"INSERT INTO t_friend (from_id,to_id ,friend_flag) VALUES (#{toId},#{fromId},1)"})
-    int insertEachOther(Long fromId,Long toId);
+    @Insert({"INSERT INTO t_friend (from_id,to_id ,friend_flag) VALUES (#{toId},#{fromId},1) "})
+    int insertEachOther(Long fromId, Long toId) throws SQLException;
 
     /**
      * 删除请求
+     *
      * @param fromId
      * @param toId
      * @return int
      */
-    @Delete({"DELETE FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId}"})
-    int deleteReject(Long fromId,Long toId);
-
+    @Delete({"DELETE FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId} "})
+    int deleteReject(Long fromId, Long toId) throws SQLException;
 
     /**
      * 删除好友
+     *
      * @param fromId
      * @param toId
      * @return int
      */
-    @Delete({"DELETE FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId} OR from_id = #{toId} AND to_id = #{fromId}"})
-    int deleteFriend(Long fromId,Long toId);
+    @Delete({"DELETE FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId} OR from_id = #{toId} AND to_id = #{fromId} "})
+    int deleteFriend(Long fromId, Long toId) throws SQLException;
+
+    /**
+     * 更改好友权限
+     *
+     * @param fromId
+     * @param toId
+     * @return int
+     */
+    @Update({"UPDATE t_friend SET collection_flag = 0 WHERE from_id = #{fromId} AND to_id = #{toId} "})
+    int updateCollectionFlag(Long fromId, Long toId) throws SQLException;
+
 
 }

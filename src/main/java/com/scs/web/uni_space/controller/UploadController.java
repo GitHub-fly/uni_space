@@ -1,21 +1,14 @@
 package com.scs.web.uni_space.controller;
 
+import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.util.AliOssUtil;
-import com.scs.web.uni_space.util.Result;
-import com.scs.web.uni_space.util.ResultCode;
-import org.codehaus.jettison.json.JSONObject;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @author wl

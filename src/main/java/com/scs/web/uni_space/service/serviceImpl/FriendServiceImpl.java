@@ -1,100 +1,179 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
+import com.scs.web.uni_space.domain.dto.FriendDto;
+import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.FriendVo;
+import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.FriendMapper;
 import com.scs.web.uni_space.service.FriendService;
-import com.scs.web.uni_space.util.Result;
-import com.scs.web.uni_space.util.ResultCode;
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * @author suyuxi
  * @className FriendServiceImpl
- * @Description 好友操作类
+ * @Description 好友服务类类
  * @Date 2019/12/4
  * @Version 1.0
  **/
 @Service
+@Slf4j
 public class FriendServiceImpl implements FriendService {
 
     @Resource
     private FriendMapper friendMapper;
 
-    @Override
-    public Result findAllFriend(Friend friend) {
-        List<User> users = friendMapper.selectByFromId(friend.getFromId());
-        if (users != null){
-            return Result.success(users);
-        }else {
-            return Result.failure(ResultCode.USER_FIND_ALL_FRIEND_ERROR);
-        }
-    }
+    @Resource
+    private CommonMapper commonMapper;
 
     @Override
-    public Result addFriend(Friend friend) {
-        if (friend.getFromId().equals(friend.getToId())){
-            return Result.failure(ResultCode.USER_NOT_INSERT_OWN);
-        }else {
-            Friend searchFriend = friendMapper.selectFriendFlag(friend.getFromId(),friend.getToId());
-            if (searchFriend == null){
-                int j = friendMapper.insertOther(friend.getFromId(),friend.getToId());
-                if (j != 0){
-                    return Result.success(ResultCode.SUCCESS);
-                }else {
-                    return Result.failure(ResultCode.USER_INSERT_FRIEND_ERROR);
+    public Result findAllByKey(QueryDto queryDto) {
+        try {
+            if (queryDto.getFormId() != null) {
+                List<FriendVo> friendVoList = friendMapper.selectAll(queryDto.getFormId(), queryDto.getKeyWords());
+                if (friendVoList != null) {
+                    return Result.success(friendVoList);
+                } else {
+                    return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
                 }
-            }else {
-                return Result.failure(ResultCode.USER_HAS_APPLICANT);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+
+
+    @Override
+    public Result addFriend(FriendDto friendDto) {
+        if (friendDto.getFromId() != null && friendDto.getToId() != null) {
+            if (friendDto.getFromId().equals(friendDto.getToId())) {
+                return Result.failure(ResultCode.USER_NOT_INSERT_OWN);
+            } else {
+                Friend searchFriend = null;
+                try {
+                    searchFriend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
+                } catch (SQLException e) {
+                    log.error("查找好友异常");
+                }
+                if (searchFriend == null) {
+                    int j = 0;
+                    try {
+                        commonMapper.returnid("t_friend");
+                        j = friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
+                    } catch (SQLException e) {
+                        log.error("添加请求异常");
+                    }
+                    if (j != 0) {
+                        return Result.success(ResultCode.SUCCESS);
+                    } else {
+                        return Result.failure(ResultCode.USER_INSERT_FRIEND_ERROR);
+                    }
+                } else {
+                    return Result.failure(ResultCode.USER_HAS_APPLICANT);
+                }
+            }
+        } else {
+            return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
+        }
+
     }
 
     @Override
-    public Result findAllApplicant(Friend friend) {
-        List<User> users= friendMapper.selectByToId(friend.getToId());
-        if (users != null){
-            return Result.success(users);
-        }else {
-            return Result.failure(ResultCode.USER_FIND_ALL_APPLICANT);
+    public Result findAllApplicant(FriendDto friendDto) {
+        if (friendDto.getToId() != null) {
+            List<User> users = null;
+            try {
+                users = friendMapper.selectByToId(friendDto.getToId());
+            } catch (SQLException e) {
+                log.error("查找所有添加请求异常");
+            }
+            if (users != null) {
+                return Result.success(users);
+            } else {
+                return Result.failure(ResultCode.USER_FIND_ALL_APPLICANT);
+            }
+        } else {
+            return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
         }
+
     }
 
     @Override
-    public Result confirmAdd(Friend friend) {
-        int i = friendMapper.updateFriendFlag(friend.getFromId(),friend.getToId());
-        if (i != 0){
-            int j = friendMapper.insertEachOther(friend.getFromId(),friend.getToId());
-            if (j != 0){
+    public Result confirmAdd(FriendDto friendDto) {
+        if (friendDto.getFromId() != null && friendDto.getToId() != null) {
+            int i = 0;
+            try {
+                i = friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
+            } catch (SQLException e) {
+                log.error("更改请求状态异常");
+            }
+            if (i != 0) {
+                int j = 0;
+                try {
+                    j = friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
+                } catch (SQLException e) {
+                    log.error("同意添加异常");
+                }
+                if (j != 0) {
+                    return Result.success(ResultCode.SUCCESS);
+                } else {
+                    return Result.failure(ResultCode.USER_CONFIRM_ADD_ERROR);
+                }
+            } else {
+                return Result.failure(ResultCode.USER_CONFIRM_ERROR);
+            }
+        } else {
+            return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
+        }
+
+    }
+
+    @Override
+    public Result rejectConfirm(FriendDto friendDto) {
+        if (friendDto.getFromId() != null && friendDto.getToId() != null) {
+            int i = 0;
+            try {
+                i = friendMapper.deleteReject(friendDto.getFromId(), friendDto.getToId());
+            } catch (SQLException e) {
+                log.error("拒绝请求异常");
+            }
+            if (i != 0) {
                 return Result.success(ResultCode.SUCCESS);
-            }else {
-                return Result.failure(ResultCode.USER_CONFIRM_ADD_ERROR);
+            } else {
+                return Result.failure(ResultCode.USER_REJECT_CONFIRM_ERROR);
             }
-        }else {
-            return Result.failure(ResultCode.USER_CONFIRM_ERROR);
+        } else {
+            return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
         }
     }
 
     @Override
-    public Result rejectConfirm(Friend friend) {
-        int i = friendMapper.deleteReject(friend.getFromId(),friend.getToId());
-        if (i != 0){
-            return Result.success(ResultCode.SUCCESS);
-        }else {
-            return Result.failure(ResultCode.USER_REJECT_CONFIRM_ERROR);
+    public Result deleteFriend(FriendDto friendDto) {
+        if (friendDto.getFromId() != null && friendDto.getToId() != null) {
+            int i = 0;
+            try {
+                i = friendMapper.deleteFriend(friendDto.getFromId(), friendDto.getToId());
+            } catch (SQLException e) {
+                log.error("删除好友异常");
+            }
+            if (i != 0) {
+                return Result.success(ResultCode.SUCCESS);
+            } else {
+                return Result.failure(ResultCode.USER_DELETE_FRIEND_ERROR);
+            }
+        } else {
+            return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
         }
     }
 
-    @Override
-    public Result deleteFriend(Friend friend) {
-        int i = friendMapper.deleteFriend(friend.getFromId(),friend.getToId());
-        if (i != 0){
-            return Result.success(ResultCode.SUCCESS);
-        }else {
-            return Result.failure(ResultCode.USER_DELETE_FRIEND_ERROR);
-        }
-    }
 }

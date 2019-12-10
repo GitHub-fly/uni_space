@@ -2,7 +2,7 @@ package com.scs.web.uni_space.service.serviceImpl;
 
 import com.scs.web.uni_space.UniSpaceApplication;
 import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.util.Result;
+import com.scs.web.uni_space.common.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

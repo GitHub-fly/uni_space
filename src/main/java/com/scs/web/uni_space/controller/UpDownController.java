@@ -1,17 +1,13 @@
 package com.scs.web.uni_space.controller;
 
+import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.service.serviceImpl.UpDownServiceImpl;
 import com.scs.web.uni_space.util.AliOssUtil;
 import com.scs.web.uni_space.util.OSSClientUtil;
-import com.scs.web.uni_space.util.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author wl
