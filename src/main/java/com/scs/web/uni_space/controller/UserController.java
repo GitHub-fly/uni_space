@@ -78,8 +78,38 @@ public class UserController {
      * @param id
      * @return
      */
+<<<<<<< Updated upstream
     @PostMapping(value = "/userid")
     Result selectUserById(@RequestParam Long id) {
         return userService.selectUserById((long) id);
+=======
+
+@PostMapping(value = "/userid")
+    Result selectUserById(@RequestParam Long id){
+        return userService.selectUserById((long)id);
+}
+    //处理文件上传
+    @RequestMapping(value="/pcUploadImg", method = RequestMethod.POST)
+    @ResponseBody
+
+    public Map<String, Object> headImgUpload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        Map<String, Object> value = new HashMap<String, Object>();
+        value.put("success", true);
+        value.put("errorCode", 0);
+        value.put("errorMsg", "");
+        try {
+            String head = userService.updatePcAvatar(file);
+            value.put("data", head);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            value.put("success", false);
+            value.put("errorCode", 200);
+            value.put("errorMsg", "图片上传失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+>>>>>>> Stashed changes
     }
 }

@@ -1,6 +1,8 @@
 package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.UniSpaceApplication;
+import com.scs.web.uni_space.domain.dto.SignDto;
+import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Like;
 import com.scs.web.uni_space.domain.entity.User;
@@ -105,5 +107,18 @@ class UserMapperTest {
     @Test
     void updateUserAvatar() throws SQLException {
         userMapper.updateUserAvatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/avatar/ed3216ca-a117-4ca1-b1f7-54ecb3ae68b0.jpeg", 1L);
+    }
+
+
+    @Test
+    void findUserBy() {
+        SignDto signDto =SignDto.builder().Name("1").build();
+
+        try {
+            User user=   userMapper.findUserBy(signDto);
+            System.out.println(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -23,7 +23,7 @@ public interface SecurityMapper {
      * @return Security
      */
     @Select({"SELECT * FROM t_security WHERE photo_album_id = 0 AND user_id = #{userId}"})
-    Security findAccountSecurity(Long userId);
+    Security findAccountSecurity(Long userId) ;
 
     /**
      * 根据userId和photoAlbumId查找相册密保信息

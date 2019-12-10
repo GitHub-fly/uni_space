@@ -1,5 +1,7 @@
 package com.scs.web.uni_space.mapper;
 
+import com.scs.web.uni_space.domain.dto.SignDto;
+import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.*;
 import org.apache.ibatis.annotations.*;
 
@@ -24,23 +26,31 @@ public interface UserMapper {
      * @return user
      * @throws SQLException
      */
-    @Select({"SELECT*FROM t_user WHERE mobile = #{mobile}"})
-    @Results(id = "user", value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "mobile", column = "mobile"),
-            @Result(property = "account", column = "account"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "nickname", column = "nickname"),
-            @Result(property = "email", column = "email"),
-            @Result(property = "avatar", column = "avatar"),
-            @Result(property = "address", column = "address"),
-            @Result(property = "gender", column = "gender"),
-            @Result(property = "introduction", column = "introduction"),
-            @Result(property = "constellation", column = "constellation"),
-            @Result(property = "createTime", column = "create_time"),
-            @Result(property = "birthday", column = "birthday"),
-    })
+
+
+@Select("SELECT * FROM t_user WHERE mobile =#{mobile}")
     User selectUserByMobile(String mobile) throws SQLException;
+
+
+    @Select({"<script>" ,
+            "SELECT * FROM t_user ",
+            "WHERE 1 =1 ",
+            "<when test ='signDto.mobile!=null'> ",
+            "AND mobile=#{signDto.mobile} ",
+            "</when> ",
+            "<when test ='signDto.account!=null'> ",
+            "AND account=#{signDto.account} ",
+            "</when> ",
+            "<when test ='signDto.email!=null'> ",
+            "AND email=#{signDto.email} ",
+            "</when> ",
+            "<when test ='signDto.id!=null'> ",
+            "AND id=#{signDto.id} ",
+            "</when>",
+            "</script>"
+    })
+    User findUserBy(@Param("signDto") SignDto signDto)throws  SQLException;
+
 
     /**
      * 通过账户查找用户
@@ -48,8 +58,8 @@ public interface UserMapper {
      * @return user
      * @throws SQLException
      */
-    @ResultMap("user")
-    @Select({"SELECT*FROM t_user WHERE account = #{account}"})
+
+    @Select("SELECT*FROM t_user WHERE account = #{account}")
     User selectUserByAccount(String account) throws SQLException;
 
     /**
@@ -58,8 +68,8 @@ public interface UserMapper {
      * @return
      * @throws SQLException
      */
-    @ResultMap("user")
-    @Select({"SELECT*FROM t_user WHERE id = #{id}"})
+
+    @Select("SELECT*FROM t_user WHERE id = #{id}")
     User selectUserById(long id)throws SQLException;
 
     /**
@@ -68,7 +78,7 @@ public interface UserMapper {
      * @return user
      * @throws SQLException
      */
-    @ResultMap("user")
+
     @Select({"SELECT*FROM t_user WHERE email = #{email}"})
     User selectUserByEmail(String email) throws SQLException;
 
@@ -83,7 +93,7 @@ public interface UserMapper {
      * @return
      */
     @Insert({"INSERT INTO t_user (mobile,password,avatar,create_time,birthday) VALUES(#{mobile},#{password},#{avatar},#{createTime},#{birthday})"})
-    int insertUser(String mobile, String password, String avatar, Timestamp createTime, Date birthday);
+    int insertUser(String mobile, String password, String avatar, Timestamp createTime, Date birthday)throws SQLException;
 
     /**
      * 根据id修改头像

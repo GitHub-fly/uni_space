@@ -18,7 +18,6 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping(value = "/api/security")
 public class SecurityController {
-
     @Resource
     private SecurityService securityService;
 
@@ -31,7 +30,6 @@ public class SecurityController {
     Result addAccountSecurity(@RequestBody Security security){
         return securityService.addAccountSecurity(security);
     }
-
     /**
      * 用户添加相册密保接口
      * @param security
@@ -41,7 +39,6 @@ public class SecurityController {
     Result addPhotoAlbumSecurity(@RequestBody Security security){
         return securityService.addPhotoAlbumSecurity(security);
     }
-
     /**
      * 用户查找账号密保接口
      * @param security

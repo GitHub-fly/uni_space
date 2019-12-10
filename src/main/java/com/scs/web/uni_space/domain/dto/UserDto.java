@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.domain.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,10 +17,11 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserDto implements Serializable {
     private int id;
     //包含三种信息分别为 手机号，账号，邮箱
-    private String name;
+    private String Name;
     //短信验证码
     private String verifyCode;
     private String password;
