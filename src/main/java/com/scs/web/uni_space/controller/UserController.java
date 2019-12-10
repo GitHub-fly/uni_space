@@ -22,9 +22,9 @@ public class UserController {
     private UserService userService;
 
     /**
+     * 登录
      * @param userDto
      * @return
-     * @Description 登录
      */
     @PostMapping(value = "/sign_in")
     Result sign_in(@RequestBody UserDto userDto) {
@@ -32,9 +32,9 @@ public class UserController {
     }
 
     /**
+     * 注册
      * @param userDto
      * @return
-     * @Description 注册
      */
     @PostMapping(value = "/sign_up")
     Result sing_up(@RequestBody UserDto userDto) {
@@ -42,11 +42,10 @@ public class UserController {
     }
 
     /**
+     * 修改个人信息
      * @param user
      * @return
-     * @Description 修改个人信息
      */
-
     @PutMapping(value = "/userData")
     Result updateUserData(@RequestBody User user) {
         return userService.updateUserData(user);
@@ -74,6 +73,11 @@ public class UserController {
         return userService.updateUserAvatar(userDto);
     }
 
+    /**
+     * 通过id查找用户信息
+     * @param id
+     * @return
+     */
     @PostMapping(value = "/userid")
     Result selectUserById(@RequestParam Long id) {
         return userService.selectUserById((long) id);

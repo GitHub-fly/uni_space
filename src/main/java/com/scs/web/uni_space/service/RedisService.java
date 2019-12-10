@@ -51,7 +51,8 @@ public interface RedisService {
      * @param key
      */
 
-    public void removeKey(final String key);
+
+     public void removeKey(final String key);
 
     /**
      * 批量删除对应的value

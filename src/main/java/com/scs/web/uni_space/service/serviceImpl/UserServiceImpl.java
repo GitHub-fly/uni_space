@@ -5,12 +5,14 @@ import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
+import com.scs.web.uni_space.util.OSSClientUtil;
 import com.scs.web.uni_space.util.Result;
 import com.scs.web.uni_space.util.ResultCode;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.sql.Date;
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public Result signIn(UserDto userDto) {
         User user = null;
         String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+
         try {
             if (userMapper.selectUserByMobile(userDto.getName()) != null) {
                 user = userMapper.selectUserByMobile(userDto.getName());
@@ -62,12 +65,15 @@ public class UserServiceImpl implements UserService {
         }
 
         while (userDto.getVerifyCode() != null) {
-            if (verifyCode.equals(userDto.getVerifyCode())) {
-                return Result.success(user);
-            } else {
-                return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+            if (verifyCode==null){
+                return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+            }else {
+                if (verifyCode.equals(userDto.getVerifyCode())) {
+                    return Result.success(user);
+                } else {
+                    return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                }
             }
-
         }
 
 
@@ -92,21 +98,25 @@ public class UserServiceImpl implements UserService {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
             String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
-            if (verifyCode.equals(userDto.getVerifyCode())) {
-                String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
-                Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
-                Date birthday = Date.valueOf(LocalDate.now());
-                int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
-                if (result != 0) {
-                    return Result.success(ResultCode.SUCCESS);
-                } else {
-                    return Result.failure(ResultCode.USER_ADD_FALURE);
-                }
-            } else {
-                Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
-            }
+if (verifyCode==null){
+    return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+}else {
+    if (userDto.getVerifyCode().equals(verifyCode)) {
+        String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
+        Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
+        Date birthday = Date.valueOf(LocalDate.now());
+        int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
+        if (result != 0) {
+            return Result.success(ResultCode.SUCCESS);
+        } else {
+            return Result.failure(ResultCode.USER_ADD_FALURE);
         }
-        return Result.success(ResultCode.SUCCESS);
+    } else {
+        return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+    }
+}
+        }
+
     }
 
     @Override
@@ -130,11 +140,15 @@ public class UserServiceImpl implements UserService {
             user = userMapper.selectUserByMobile(userDto.getName());
             if (user != null) {
                 if (verifyCode.equals(userDto.getVerifyCode())) {
-                    if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
-                        return Result.failure(ResultCode.USER_PASSWORD_REPIT);
-                    } else {
-                        userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
-                        return Result.success(user);
+                    if (verifyCode==null){
+                        return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+                    }else {
+                        if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
+                            return Result.failure(ResultCode.USER_PASSWORD_REPIT);
+                        } else {
+                            userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
+                            return Result.success(user);
+                        }
                     }
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
@@ -168,11 +182,23 @@ public class UserServiceImpl implements UserService {
           user=  userMapper.selectUserById((long)id);
 
 
-
-
         } catch (SQLException e) {
             logger.info("查找失败");
         }
         return Result.success(user);
+    }
+
+    @Resource
+    private OSSClientUtil ossClient=new OSSClientUtil();
+    @Override
+    public String updatePcAvatar(MultipartFile file) throws Exception {
+        if (file == null || file.getSize() <= 0) {
+            throw new Exception("头像不能为空");
+        }
+        String name = ossClient.uploadImg2Oss(file);
+        String imgUrl = ossClient.getImgUrl(name);
+        System.out.println(imgUrl);
+        //userDao.updateHead(userId, imgUrl);//只是本地上传使用的
+        return imgUrl;
     }
 }
