@@ -51,64 +51,119 @@ import java.util.Random;
 public class OSSClientUtil {
     // endpoint以杭州为例，其它region请按实际情况填写
     protected static String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
-<<<<<<< Updated upstream
     protected static String accessKeyId = "LTAI4FmPBAPTY2P2x9YFpV8h";
     protected static String accessKeySecret = "tNP7CUhbkEUlI8vTuqvFx30K3Ny6fU";
     protected static String bucketName = "space1821";
     //文件存储目录 阿里云服务器最好创建一个文件夹 专门放图片
     private String filedir = "UserAvatar/";
-=======
-    protected static String accessKeyId = "LTAI4FqFoaZ1cHStok8RfGK5";
-    protected static String accessKeySecret = "xz1hFNQiY0RAf9oOfMo9neajw0j6aD";
-    protected static String bucketName = "niit-soft";
-    //文件存储目录 阿里云服务器最好创建一个文件夹 专门放图片
-    private String filedir = "avatar/";
->>>>>>> Stashed changes
     private Logger logger = LoggerFactory.getLogger(OSSClientUtil.class);
     private OSSClient ossClient;
     public OSSClientUtil() {
         ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
     }
+
+
     /**
      * Description: 判断OSS服务文件上传时文件的contentType
      *
      * @param FilenameExtension 文件后缀
      * @return String
      */
+
+
     public static String getContentType(String FilenameExtension) {
 
+
         if (FilenameExtension.equalsIgnoreCase(".bmp")) {
+
+
             return "image/bmp";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".gif")) {
+
+
             return "image/gif";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".jpeg") ||
+
+
                 FilenameExtension.equalsIgnoreCase(".jpg") ||
+
+
                 FilenameExtension.equalsIgnoreCase(".png")) {
+
+
             return "image/jpeg";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".html")) {
+
+
             return "text/html";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".txt")) {
+
+
             return "text/plain";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".vsd")) {
+
+
             return "application/vnd.visio";
+
+
         }
 
 
         if (FilenameExtension.equalsIgnoreCase(".pptx") ||
+
+
                 FilenameExtension.equalsIgnoreCase(".ppt")) {
+
+
             return "application/vnd.ms-powerpoint";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".docx") ||
+
+
                 FilenameExtension.equalsIgnoreCase(".doc")) {
+
+
             return "application/msword";
+
+
         }
+
+
         if (FilenameExtension.equalsIgnoreCase(".xml")) {
+
+
             return "text/xml";
+
+
         }
 
 
@@ -124,46 +179,109 @@ public class OSSClientUtil {
 
 
     public void init() {
+
+
         ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+
+
     }
+
 
     /**
      * 销毁
      */
 
+
     public void destory() {
+
+
         ossClient.shutdown();
+
+
     }
 
+
     public void uploadImg2Oss(String url) throws Exception {
+
+
         File fileOnServer = new File(url);
+
+
         FileInputStream fin;
+
+
         try {
+
+
             fin = new FileInputStream(fileOnServer);
+
+
             String[] split = url.split("/");
+
+
             this.uploadFile2OSS(fin, split[split.length - 1]);
+
+
         } catch (FileNotFoundException e) {
+
+
             throw new Exception("图片上传失败01");
+
+
         }
+
+
     }
+
+
     public String uploadImg2Oss(MultipartFile file) throws Exception {
+
+
         if (file.getSize() > 1024 * 1024) {
+
+
             throw new Exception("上传图片大小不能超过1M！");
+
+
         }
 
 
         String originalFilename = file.getOriginalFilename();
+
+
         String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+
+
         Random random = new Random();
+
+
         String name = random.nextInt(10000) + System.currentTimeMillis() + substring;
+
+
         try {
+
+
             InputStream inputStream = file.getInputStream();
+
+
             this.uploadFile2OSS(inputStream, name);
+
+
             return name;
+
+
         } catch (Exception e) {
+
+
             throw new Exception("图片上传失败02");
+
+
         }
+
+
     }
+
+
     /**
      * 获得图片路径
      *
@@ -171,14 +289,28 @@ public class OSSClientUtil {
      * @return
      */
 
+
     public String getImgUrl(String fileUrl) {
+
+
         if (!StringUtils.isEmpty(fileUrl)) {
+
+
             String[] split = fileUrl.split("/");
+
+
             return this.getUrl(this.filedir + split[split.length - 1]);
+
+
         }
+
+
         return null;
+
+
     }
-    
+
+
     /**
      * 上传到OSS服务器  如果同名文件会覆盖服务器上的
      *

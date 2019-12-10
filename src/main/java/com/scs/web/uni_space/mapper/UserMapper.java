@@ -124,8 +124,8 @@ public interface UserMapper {
      * @throws SQLException
      */
     @Update({"UPDATE t_user SET nickname=#{nickname},address=#{address},gender=#{gender}," +
-            "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}," +
-            " WHERE id =#{id}"})
+            "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}" +
+            "WHERE id =#{id}"})
     int updateUserData(User user) throws SQLException;
 
     /**
