@@ -35,15 +35,6 @@ public class FriendController {
         return friendService.addFriend(friendDto);
     }
 
-//    /**
-//     * 查找所有好友接口
-//     * @param friendDto
-//     * @return Result
-//     */
-//    @GetMapping(value = "/all")
-//    Result findAllFriend(FriendDto friendDto){
-//        return friendService.findAllFriend(friendDto);
-//    }
 
     /**
      * 查找所有请求接口
