@@ -2,8 +2,6 @@ package com.scs.web.uni_space.service;
 
 
 import com.scs.web.uni_space.domain.dto.FriendDto;
-import com.scs.web.uni_space.domain.dto.QueryDto;
-import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.common.Result;
 
 /**
@@ -19,17 +17,26 @@ public interface FriendService  {
      * 查询该用户的所有好友信息
      * 或者
      * 通过电话号码、email、账号，昵称、简介模糊查询好友信息，进行添加好友操作
-     * @param queryDto
-     * @return
+     * @param friendDto
+     * @return Result
      */
-    Result findAllByKey(QueryDto queryDto);
+    Result findAllByKey(FriendDto friendDto);
 
-//    /**
-//     * 查找所有好友
-//     * @param friendDto
-//     * @return Result
-//     */
-//    Result findAllFriend(FriendDto friendDto);
+
+    /**
+     * 通过关键字查询用户信息（目的：进行添加好友）
+     * @param friendDto
+     * @return Result
+     */
+    Result searchFriendByKey(FriendDto friendDto);
+
+    /**
+     * 通过指定用户id查找对应的日志列表信息
+     * @param friendDto
+     * @return Result
+     */
+    Result searchJournal(FriendDto friendDto);
+
 
     /**
      * 发起添加好友请求

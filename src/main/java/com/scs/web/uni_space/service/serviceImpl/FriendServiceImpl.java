@@ -1,8 +1,8 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
 import com.scs.web.uni_space.domain.dto.FriendDto;
-import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.Friend;
+import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.FriendVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
@@ -34,23 +34,59 @@ public class FriendServiceImpl implements FriendService {
     @Resource
     private CommonMapper commonMapper;
 
+
     @Override
-    public Result findAllByKey(QueryDto queryDto) {
+    public Result searchJournal(FriendDto friendDto) {
         try {
-            if (queryDto.getFormId() != null) {
-                List<FriendVo> friendVoList = friendMapper.selectAll(queryDto.getFormId(), queryDto.getKeyWords());
-                if (friendVoList != null) {
+            if (friendDto.getFromId() != null) {
+                List<Journal> list = friendMapper.searchJournalByUserId(friendDto.getFromId());
+                if (list.size() != 0){
+                    return Result.success(list);
+                }else {
+                    return Result.failure(ResultCode.USER_NOT_JOURNAL);
+                }
+            }
+        } catch (SQLException e) {
+            log.error("查找指定用户的日志信息出错");
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+
+    @Override
+    public Result findAllByKey(FriendDto friendDto) {
+        try {
+            if (friendDto.getFromId() != null) {
+                List<FriendVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
+                if (friendVoList.size() != 0) {
                     return Result.success(friendVoList);
                 } else {
                     return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("查找好友异常");
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
+
+    @Override
+    public Result searchFriendByKey(FriendDto friendDto) {
+        try {
+            if (friendDto.getFromId() != null && !friendDto.getKeyWords().equals("")) {
+                List<FriendVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
+                if (list.size() != 0){
+                    return Result.success(list);
+                }else {
+                    return Result.failure(ResultCode.USER_FIND_ALL_FRIEND_ERROR);
+                }
+            }
+        } catch (SQLException e) {
+            log.error("通过关键字查找用户信息出错");
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
 
 
     @Override
@@ -88,6 +124,7 @@ public class FriendServiceImpl implements FriendService {
 
     }
 
+
     @Override
     public Result findAllApplicant(FriendDto friendDto) {
         if (friendDto.getToId() != null) {
@@ -97,16 +134,17 @@ public class FriendServiceImpl implements FriendService {
             } catch (SQLException e) {
                 log.error("查找所有添加请求异常");
             }
-            if (users != null) {
+            if (users.size() != 0) {
                 return Result.success(users);
             } else {
-                return Result.failure(ResultCode.USER_FIND_ALL_APPLICANT);
+                return Result.failure(ResultCode.USER_NOT_FIND_ADD);
             }
         } else {
             return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
         }
 
     }
+
 
     @Override
     public Result confirmAdd(FriendDto friendDto) {
@@ -120,6 +158,7 @@ public class FriendServiceImpl implements FriendService {
             if (i != 0) {
                 int j = 0;
                 try {
+                    commonMapper.returnid("t_friend");
                     j = friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                 } catch (SQLException e) {
                     log.error("同意添加异常");
@@ -137,6 +176,7 @@ public class FriendServiceImpl implements FriendService {
         }
 
     }
+
 
     @Override
     public Result rejectConfirm(FriendDto friendDto) {
@@ -156,6 +196,7 @@ public class FriendServiceImpl implements FriendService {
             return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
         }
     }
+
 
     @Override
     public Result deleteFriend(FriendDto friendDto) {

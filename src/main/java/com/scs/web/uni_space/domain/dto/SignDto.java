@@ -1,9 +1,7 @@
 package com.scs.web.uni_space.domain.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author wl

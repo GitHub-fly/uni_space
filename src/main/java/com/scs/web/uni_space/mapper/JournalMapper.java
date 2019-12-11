@@ -2,7 +2,6 @@ package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.domain.entity.Journal;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.web.servlet.tags.form.SelectTag;
 
 import java.sql.SQLException;
 import java.util.List;

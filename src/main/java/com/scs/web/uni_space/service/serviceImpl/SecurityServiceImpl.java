@@ -1,7 +1,6 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
 import com.scs.web.uni_space.domain.entity.Security;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.SecurityMapper;
 import com.scs.web.uni_space.service.SecurityService;
 import com.scs.web.uni_space.common.Result;

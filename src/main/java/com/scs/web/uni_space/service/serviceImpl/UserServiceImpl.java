@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
             if (verifyCode == null) {
                 return Result.failure(ResultCode.USER_VERIFY_CODE_null);
             } else {
-                if (verifyCode.equals(userDto.getVerifyCode())) {
+                if (verifyCode.equalsIgnoreCase(userDto.getVerifyCode())) {
                     return Result.success(user);
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
