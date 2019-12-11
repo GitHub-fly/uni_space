@@ -23,6 +23,15 @@ public class FriendController {
     @Resource
     private FriendService friendService;
 
+    /**
+     * 推荐好友接口
+     * @param friendDto
+     * @return
+     */
+    @PostMapping(value = "/recommend")
+    Result recommend(@RequestBody FriendDto friendDto) {
+        return friendService.recommendFriend(friendDto);
+    }
 
     /**
      * 查询该用户的所有好友列表信息

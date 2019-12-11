@@ -4,17 +4,20 @@ import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
-import com.scs.web.uni_space.domain.vo.FriendVo;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.FriendMapper;
+import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.FriendService;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,17 +35,51 @@ public class FriendServiceImpl implements FriendService {
     private FriendMapper friendMapper;
 
     @Resource
+    private UserMapper userMapper;
+
+    @Resource
     private CommonMapper commonMapper;
 
+    @Override
+    public Result recommendFriend(FriendDto friendDto) {
+        List<UserVo> list = new ArrayList<>(30);
+        Long fromId = friendDto.getFromId();
+        try {
+            if (fromId != null) {
+                // 取出所有用户的id
+                List<Long> idList = friendMapper.selectAllId();
+                // 遍历idList集合 返回非好友的集合
+                int size = idList.size();
+                for (int i = 0; i < size; i++) {
+                    Long id = idList.get(i);
+                    if (!fromId.equals(id)) {
+                        try {
+                            if (friendMapper.selectFriendFlag(friendDto.getFromId(), id) == null) {
+                                list.add(userMapper.selectUserById(id));
+                            }
+                        } catch (SQLException e) {
+                            log.error("通过id查找指定用户信息出现异常");
+                        }
+                        if (list.size() == 30) {
+                            return Result.success(list);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            log.error("推荐好友出现异常");
+        }
+        return Result.failure(ResultCode.USER_FIND_ALL_FRIEND_ERROR);
+    }
 
     @Override
     public Result searchJournal(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null) {
                 List<Journal> list = friendMapper.searchJournalByUserId(friendDto.getFromId());
-                if (list.size() != 0){
+                if (list.size() != 0) {
                     return Result.success(list);
-                }else {
+                } else {
                     return Result.failure(ResultCode.USER_NOT_JOURNAL);
                 }
             }
@@ -57,7 +94,7 @@ public class FriendServiceImpl implements FriendService {
     public Result findAllByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null) {
-                List<FriendVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
+                List<UserVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
                 if (friendVoList.size() != 0) {
                     return Result.success(friendVoList);
                 } else {
@@ -75,10 +112,10 @@ public class FriendServiceImpl implements FriendService {
     public Result searchFriendByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null && !friendDto.getKeyWords().equals("")) {
-                List<FriendVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
-                if (list.size() != 0){
+                List<UserVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
+                if (list.size() != 0) {
                     return Result.success(list);
-                }else {
+                } else {
                     return Result.failure(ResultCode.USER_FIND_ALL_FRIEND_ERROR);
                 }
             }

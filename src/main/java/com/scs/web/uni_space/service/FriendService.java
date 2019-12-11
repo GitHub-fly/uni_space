@@ -13,6 +13,14 @@ import com.scs.web.uni_space.common.Result;
  **/
 public interface FriendService  {
 
+
+    /**
+     * 推荐好友
+     * @param friendDto
+     * @return Result
+     */
+    Result recommendFriend(FriendDto friendDto);
+
     /**
      * 查询该用户的所有好友信息
      * 或者

@@ -4,7 +4,7 @@ import com.scs.web.uni_space.UniSpaceApplication;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
-import com.scs.web.uni_space.domain.vo.FriendVo;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,14 +23,14 @@ class FriendMapperTest {
 
     @Test
     void selectAll() throws SQLException{
-        List<FriendVo> friends;
+        List<UserVo> friends;
         friends = friendMapper.selectAll(1L,"小");
         friends.forEach(System.out::println);
     }
 
     @Test
     void searchFriendByKey() throws SQLException {
-        List<FriendVo> list = friendMapper.searchUserByKey(1L, "猴子");
+        List<UserVo> list = friendMapper.searchUserByKey(1L, "猴子");
         list.forEach(System.out::println);
     }
 

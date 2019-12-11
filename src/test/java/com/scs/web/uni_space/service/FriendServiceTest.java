@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
+import java.util.Queue;
 
 
 @SpringBootTest(classes = UniSpaceApplication.class)
@@ -81,4 +81,10 @@ class FriendServiceTest {
     }
 
 
+    @Test
+    void recommendFriend() {
+        friendDto.setFromId(1L);
+        result = friendServiceImpl.recommendFriend(friendDto);
+        System.out.println(result.getData());
+    }
 }

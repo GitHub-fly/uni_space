@@ -3,6 +3,7 @@ package com.scs.web.uni_space.mapper;
 import com.scs.web.uni_space.domain.dto.SignDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.*;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Date;
@@ -65,12 +66,17 @@ public interface UserMapper {
     /**
      * 通过id查用户
      * @param id
-     * @return
+     * @return User
      * @throws SQLException
      */
 
-    @Select("SELECT*FROM t_user WHERE id = #{id}")
-    User selectUserById(long id)throws SQLException;
+    @Select("SELECT a.*, COUNT(b.user_id) AS num " +
+            "FROM t_user a " +
+            "LEFT JOIN t_journal b " +
+            "ON a.id = b.user_id " +
+            "WHERE a.id = #{id} ")
+    UserVo selectUserById(long id)throws SQLException;
+
 
     /**
      * 通过email查找用户

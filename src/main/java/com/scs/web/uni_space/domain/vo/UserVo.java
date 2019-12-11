@@ -13,11 +13,10 @@ import java.time.LocalDate;
  * @Version 1.0
  **/
 @Data
-public class FriendVo {
+public class UserVo {
     private Long id;
     private String mobile;
     private String account;
-    private String password;
     private String nickname;
     private String email;
     private String avatar;

@@ -2,6 +2,7 @@ package com.scs.web.uni_space.service.serviceImpl;
 
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
@@ -181,15 +182,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result selectUserById(Long id) {
-        User user = null;
+        UserVo userVo = null;
         try {
-            user = userMapper.selectUserById((long) id);
+            userVo = userMapper.selectUserById((long) id);
 
 
         } catch (SQLException e) {
             logger.info("查找失败");
         }
-        return Result.success(user);
+        return Result.success(userVo);
     }
 
     @Resource
