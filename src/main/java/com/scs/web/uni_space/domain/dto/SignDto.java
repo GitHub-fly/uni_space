@@ -5,21 +5,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
- * @author wl
- * @ClassNameSignDto
- * @Description TODO
- * @Date 2019/12/8
+ * @author 小黑
+ * @ClassNameUserDto
+ * @Description 登录时的对象
+ * @Date 2019/12/2
  * @Version 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class SignDto {
-    private Integer id;
-    private String mobile;
-    private  String account;
-    private  String email;
-    private  String Name;
-    private String password;
+public class UserDto implements Serializable {
+    private int id;
+    //包含三种信息分别为 手机号，账号，邮箱
+    private String Name;
+    //短信验证码
     private String verifyCode;
+    private String password;
+    private String avatar;
+    private String code;
 }
