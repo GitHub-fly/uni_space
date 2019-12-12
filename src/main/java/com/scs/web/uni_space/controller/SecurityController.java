@@ -26,7 +26,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PostMapping(value = "/accountsecurity")
+    @PostMapping(value = "/account")
     Result addAccountSecurity(@RequestBody Security security){
         return securityService.addAccountSecurity(security);
     }
@@ -35,7 +35,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @PostMapping(value = "/photoAlbumsecurity")
+    @PostMapping(value = "/photoalbum")
     Result addPhotoAlbumSecurity(@RequestBody Security security){
         return securityService.addPhotoAlbumSecurity(security);
     }
@@ -44,8 +44,8 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @GetMapping(value = "accountsecurity")
-    Result findAccountSecurity(Security security){
+    @PostMapping(value = "accountsecurity")
+    Result findAccountSecurity(@RequestBody Security security){
         return securityService.findAccountSecurity(security);
     }
 
@@ -54,8 +54,8 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @GetMapping(value = "/Photoalbumsecurity")
-    Result findPhotoAlbumSecurity(Security security){
+    @PostMapping(value = "/Photoalbumsecurity")
+    Result findPhotoAlbumSecurity(@RequestBody Security security){
         return securityService.findPhotoAlbumSecurity(security);
     }
 
@@ -84,7 +84,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @DeleteMapping(value = "/accountsecurity")
+    @DeleteMapping(value = "/account")
     Result deleteAccountSecurity(@RequestBody Security security){
         return securityService.deleteAccountSecurity(security);
     }
@@ -94,7 +94,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @DeleteMapping(value = "/photoalbumsecurity")
+    @DeleteMapping(value = "/photoalbum")
     Result deletePhotoAlbumSecurity(@RequestBody Security security){
         return securityService.deletePhotoAlbumSecurity(security);
     }

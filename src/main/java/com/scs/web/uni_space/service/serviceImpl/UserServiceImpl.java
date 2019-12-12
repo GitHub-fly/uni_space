@@ -5,6 +5,7 @@ import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.SignDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
@@ -217,19 +218,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result selectUserById(UserDto userDto) {
-        User user = null;
+        UserVo userVo = null;
         try {
-            user = userMapper.selectUserById(userDto.getId());
+            userVo = userMapper.selectUserById(userDto.getId());
         } catch (SQLException e) {
             log.info("查找失败");
         }
-        return Result.success(user);
+        return Result.success(userVo);
     }
 
     @Override
     public Result IsLogin(UserDto userDto) {
         try {
-            User user = userMapper.selectUserById(userDto.getId());
+            UserVo user = userMapper.selectUserById(userDto.getId());
             String code = redisService.getValue(user.getCode(), String.class);
             if (code.equals(DigestUtils.sha3_256Hex(user.getCode()))
             ) {

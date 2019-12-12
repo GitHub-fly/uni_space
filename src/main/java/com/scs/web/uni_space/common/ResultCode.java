@@ -51,10 +51,12 @@ public enum ResultCode {
     USER_CONFIRM_ERROR(20106,"确认请求错误"),
     USER_CONFIRM_ADD_ERROR(20107,"确认请求添加错误"),
     USER_DELETE_FRIEND_ERROR(20108,"删除好友错误"),
-    USER_FIND_ALL_FRIEND_ERROR(20109,"查找所有好友错误"),
+    USER_FIND_ALL_FRIEND_ERROR(20109,"未查到该用户"),
     USER_REJECT_CONFIRM_ERROR(20110,"拒绝请求错误"),
     USER_NOT_IMPORT_ERROR(20111,"图片未上传"),
-    USER_RETURN_DATA_ERROR(20111,"好友操作返回数据错误"),
+    USER_RETURN_DATA_ERROR(20111,"未查找到该好友"),
+    USER_NOT_FIND_ADD(20112,"没有新请求"),
+    USER_NOT_JOURNAL(20113,"没有查到数据"),
 
 
     /*用户密保模块错误：20201-20299*/

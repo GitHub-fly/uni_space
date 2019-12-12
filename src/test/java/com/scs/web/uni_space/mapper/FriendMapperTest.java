@@ -2,8 +2,9 @@ package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.UniSpaceApplication;
 import com.scs.web.uni_space.domain.entity.Friend;
+import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
-import com.scs.web.uni_space.domain.vo.FriendVo;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,23 +21,24 @@ class FriendMapperTest {
     private FriendMapper friendMapper;
 
 
-
-
     @Test
     void selectAll() throws SQLException{
-        List<FriendVo> friends;
+        List<UserVo> friends;
         friends = friendMapper.selectAll(1L,"小");
         friends.forEach(System.out::println);
     }
 
-//
-//    @Test
-//    void selectByFromId() throws SQLException {
-//        List<FriendVo> friendVos;
-//        friendVos = friendMapper.selectByFromId((long) 1);
-//        friendVos.forEach(System.out::println);
-//    }
+    @Test
+    void searchFriendByKey() throws SQLException {
+        List<UserVo> list = friendMapper.searchUserByKey(1L, "猴子");
+        list.forEach(System.out::println);
+    }
 
+    @Test
+    void searchJournalByUserId() throws SQLException {
+        List<Journal> list = friendMapper.searchJournalByUserId(1L);
+        list.forEach(System.out::println);
+    }
 
     @Test
     void selectByToId() throws SQLException {
@@ -60,7 +62,7 @@ class FriendMapperTest {
 
     @Test
     void updateFriendFlag() throws SQLException {
-        int i = friendMapper.updateFriendFlag((long)2,(long)3);
+        int i = friendMapper.updateFriendFlag((long)1,(long)10);
         System.out.println(i);
     }
 
@@ -89,8 +91,7 @@ class FriendMapperTest {
         System.out.println(i);
     }
 
-    @Test
-    void searchFriendByKey() throws SQLException {
 
-    }
+
+
 }

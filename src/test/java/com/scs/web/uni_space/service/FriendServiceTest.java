@@ -2,16 +2,13 @@ package com.scs.web.uni_space.service;
 
 import com.scs.web.uni_space.UniSpaceApplication;
 import com.scs.web.uni_space.domain.dto.FriendDto;
-import com.scs.web.uni_space.domain.dto.QueryDto;
-import com.scs.web.uni_space.domain.entity.Friend;
-import com.scs.web.uni_space.domain.vo.FriendVo;
 import com.scs.web.uni_space.service.serviceImpl.FriendServiceImpl;
 import com.scs.web.uni_space.common.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
+import java.util.Queue;
 
 
 @SpringBootTest(classes = UniSpaceApplication.class)
@@ -23,12 +20,23 @@ class FriendServiceTest {
     private Result result = null;
     private FriendDto friendDto = new FriendDto();
 
-//    @Test
-//    void selectAllFriend() {
-//        friendDto.setFromId((long)2);
-//        result = friendServiceImpl.findAllFriend(friendDto);
-//        System.out.println(result);
-//    }
+
+    @Test
+    void findAllByKey() {
+
+        friendDto.setFromId(1L);
+        friendDto.setKeyWords("");
+        result = friendServiceImpl.findAllByKey(friendDto);
+        System.out.println(result);
+    }
+
+    @Test
+    void searchJournal() {
+
+        friendDto.setFromId(1L);
+        System.out.println(friendServiceImpl.searchJournal(friendDto).getData());
+    }
+
 
     @Test
     void insertFriend() {
@@ -49,7 +57,7 @@ class FriendServiceTest {
     @Test
     void confirmAdd() {
         friendDto.setFromId((long)1);
-        friendDto.setToId((long)4);
+        friendDto.setToId((long)10);
         result = friendServiceImpl.confirmAdd(friendDto);
         System.out.println(result);
     }
@@ -72,12 +80,11 @@ class FriendServiceTest {
         System.out.println(result);
     }
 
+
     @Test
-    void findAllByKey() {
-        QueryDto queryDto = new QueryDto();
-        queryDto.setFormId(1L);
-        queryDto.setKeyWords("");
-        result = friendServiceImpl.findAllByKey(queryDto);
-        System.out.println(result);
+    void recommendFriend() {
+        friendDto.setFromId(1L);
+        result = friendServiceImpl.recommendFriend(friendDto);
+        System.out.println(result.getData());
     }
 }
