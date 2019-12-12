@@ -1,13 +1,11 @@
 package com.scs.web.uni_space.mapper;
 
 
-import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.FriendVo;
 import org.apache.ibatis.annotations.*;
 
-import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import java.util.List;
  * @author suyuxi
  */
 public interface FriendMapper {
-
 
 
     @Results(id = "friend", value = {
@@ -52,6 +49,7 @@ public interface FriendMapper {
 
     /**
      * 通过关键字进行搜索用户
+     *
      * @param formId
      * @param key
      * @return List
@@ -68,6 +66,7 @@ public interface FriendMapper {
             "OR a.introduction LIKE CONCAT('%',#{key},'%') " +
             "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
     List<FriendVo> searchFriendByKey(Long formId, String key) throws SQLException;
+
     /**
      * 通过to_id查找所有请求者信息
      *

@@ -1,9 +1,7 @@
 package com.scs.web.uni_space.domain.vo;
 
+import com.scs.web.uni_space.domain.entity.Friend;
 import lombok.Data;
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 
 /**
  * @author suyuxi
@@ -14,19 +12,6 @@ import java.time.LocalDate;
  **/
 @Data
 public class FriendVo {
-    private Long id;
-    private String mobile;
-    private String account;
-    private String password;
-    private String nickname;
-    private String email;
-    private String avatar;
-    private String address;
-    private String gender;
-    private String introduction;
-    private String constellation;
-    private Long skinId;
-    private Timestamp createTime;
-    private LocalDate birthday;
+    private Friend friend;
     private Integer num;
 }

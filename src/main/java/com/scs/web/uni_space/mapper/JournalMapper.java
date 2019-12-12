@@ -2,7 +2,6 @@ package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.domain.entity.Journal;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.web.servlet.tags.form.SelectTag;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,14 +16,12 @@ import java.util.List;
 public interface JournalMapper {
     /**
      * 查询用户所有的日志列表；
+     *
      * @param id
      * @return
      */
-    @Select("SELECT * FROM t_journal  WHERE user_id =#{id}" )
-    List<Journal> findAllJounal(long id)throws SQLException;
-
-
-
+    @Select("SELECT * FROM t_journal  WHERE user_id =#{id}")
+    List<Journal> findAllJournal(long id) throws SQLException;
 
 
 }

@@ -18,14 +18,14 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/api")
-public class UpDownController {
+public class UpLoadController {
 
     @Resource
     private UpDownServiceImpl upDownServiceImpl;
     @Resource
     private OSSClientUtil ossClientUtil;
 
-    @RequestMapping(value="/testuploadimg", method = RequestMethod.POST)
+    @RequestMapping(value="/img", method = RequestMethod.POST)
     @ResponseBody
     Result uploadSingle(@RequestParam("file") MultipartFile sourceFile) {
         String url = AliOssUtil.upload(sourceFile);

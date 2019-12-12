@@ -29,11 +29,11 @@ public class JournalServiceImpl implements JournalService {
 
     public Result findUserAllJournal(Long id) {
         try {
-            List<Journal> journals =journalMapper.findAllJounal((long) id);
+            List<Journal> journals =journalMapper.findAllJournal((long) id);
 
             if (journals!=null){
 
-                return  Result.success(journals,journals.size());
+                return  Result.success(journals);
 
             }
         } catch (SQLException e) {

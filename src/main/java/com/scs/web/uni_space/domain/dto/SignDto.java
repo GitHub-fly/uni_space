@@ -18,13 +18,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto implements Serializable {
-    private int id;
+public class SignDto implements Serializable {
     //包含三种信息分别为 手机号，账号，邮箱
     private String Name;
     //短信验证码
     private String verifyCode;
     private String password;
-    private String avatar;
-    private String code;
 }

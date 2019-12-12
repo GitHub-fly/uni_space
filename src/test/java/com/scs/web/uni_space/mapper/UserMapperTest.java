@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,9 +48,9 @@ class UserMapperTest {
         user.setGender("男");
         user.setIntroduction("开开心心过大年");
         user.setConstellation("摩羯座");
-        user.setBirthday(LocalDate.now());
+//        user.setBirthday(LocalDate.now());
         user.setAvatar("http://attach.bbs.miui.com/forum/201305/05/201954rwwc6ceji1jcka91.jpg");
-        userMapper.updateUserData(user);
+//        userMapper.updateUserData(user);
     }
 
 
@@ -111,10 +110,10 @@ class UserMapperTest {
 
     @Test
     void findUserBy() {
-        SignDto signDto =SignDto.builder().Name("1").build();
+        SignDto signDto = SignDto.builder().Name("1").build();
 
         try {
-            User user=   userMapper.findUserBy(signDto);
+            User user = userMapper.findUserBy(signDto);
             System.out.println(user);
         } catch (SQLException e) {
             e.printStackTrace();
