@@ -67,4 +67,12 @@ public interface UserService {
      * @throws Exception
      */
     String updatePcAvatar(MultipartFile file) throws Exception;
+
+
+    /**
+     * 显示个人信息和统计好友，日志，相册，相片总数
+     * @param userDto
+     * @return Result
+     */
+    Result selectAllSum(UserDto userDto);
 }

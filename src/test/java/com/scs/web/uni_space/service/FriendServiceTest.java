@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.util.Queue;
 
 
 @SpringBootTest(classes = UniSpaceApplication.class)
@@ -19,7 +18,6 @@ class FriendServiceTest {
 
     private Result result = null;
     private FriendDto friendDto = new FriendDto();
-
 
     @Test
     void findAllByKey() {
@@ -48,7 +46,7 @@ class FriendServiceTest {
 
     @Test
     void findAllApplicant() {
-        friendDto.setToId((long) 4);
+        friendDto.setFromId((long) 2);
         result = friendServiceImpl.findAllApplicant(friendDto);
         System.out.println(result.getData());
 
@@ -56,8 +54,8 @@ class FriendServiceTest {
 
     @Test
     void confirmAdd() {
-        friendDto.setFromId((long)1);
-        friendDto.setToId((long)10);
+        friendDto.setFromId((long)2);
+        friendDto.setToId((long)1);
         result = friendServiceImpl.confirmAdd(friendDto);
         System.out.println(result);
     }

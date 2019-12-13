@@ -207,4 +207,17 @@ public class UserServiceImpl implements UserService {
         //userDao.updateHead(userId, imgUrl);//只是本地上传使用的
         return imgUrl;
     }
+
+    @Override
+    public Result selectAllSum(UserDto userDto) {
+        if (userDto.getId() != null){
+            try {
+                UserVo userVo = userMapper.selectSum(userDto.getId());
+                return Result.success(userVo);
+            } catch (SQLException e) {
+                logger.error("数据统计异常");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
 }

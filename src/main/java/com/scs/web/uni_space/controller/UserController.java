@@ -53,7 +53,6 @@ public class UserController {
 
     /**
      * 修改密码
-     *
      * @param userDto
      * @return
      */
@@ -81,5 +80,16 @@ public class UserController {
     @PostMapping(value = "/userid")
     Result selectUserById(@RequestParam Long id) {
         return userService.selectUserById((long) id);
+    }
+
+
+    /**
+     * 统计用户的好友，日志，相册，照片
+     * @param userDto
+     * @return Result
+     */
+    @PostMapping(value = "/sum")
+    Result selectSum(@RequestBody UserDto userDto){
+        return userService.selectAllSum(userDto);
     }
 }

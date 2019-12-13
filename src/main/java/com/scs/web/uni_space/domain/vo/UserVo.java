@@ -27,5 +27,8 @@ public class UserVo {
     private Long skinId;
     private Timestamp createTime;
     private LocalDate birthday;
-    private Integer num;
+    private Integer friendSum;
+    private Integer journalSum;
+    private Integer photoAlbumSum;
+    private Integer photoSum;
 }

@@ -5,6 +5,7 @@ import com.scs.web.uni_space.domain.dto.SignDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Like;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.UserVo;
 import com.scs.web.uni_space.util.JSoupSpider;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -111,11 +112,21 @@ class UserMapperTest {
 
     @Test
     void findUserBy() {
-        SignDto signDto =SignDto.builder().Name("1").build();
+        SignDto signDto = SignDto.builder().Name("1").build();
 
         try {
-            User user=   userMapper.findUserBy(signDto);
+            User user = userMapper.findUserBy(signDto);
             System.out.println(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void selectSum() {
+        try {
+            UserVo userVo = userMapper.selectSum(4L);
+            System.out.println(userVo);
         } catch (SQLException e) {
             e.printStackTrace();
         }

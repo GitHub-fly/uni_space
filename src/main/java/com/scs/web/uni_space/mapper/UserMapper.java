@@ -53,15 +53,16 @@ public interface UserMapper {
     User findUserBy(@Param("signDto") SignDto signDto)throws  SQLException;
 
 
+
     /**
      * 通过账户查找用户
      * @param account
      * @return user
      * @throws SQLException
      */
-
     @Select("SELECT*FROM t_user WHERE account = #{account}")
     User selectUserByAccount(String account) throws SQLException;
+
 
     /**
      * 通过id查用户
@@ -69,7 +70,6 @@ public interface UserMapper {
      * @return User
      * @throws SQLException
      */
-
     @Select("SELECT a.*, COUNT(b.user_id) AS num " +
             "FROM t_user a " +
             "LEFT JOIN t_journal b " +
@@ -78,15 +78,16 @@ public interface UserMapper {
     UserVo selectUserById(long id)throws SQLException;
 
 
+
     /**
      * 通过email查找用户
      * @param email
      * @return user
      * @throws SQLException
      */
-
     @Select({"SELECT*FROM t_user WHERE email = #{email}"})
     User selectUserByEmail(String email) throws SQLException;
+
 
     /**
      * 添加用户
@@ -134,12 +135,45 @@ public interface UserMapper {
             "WHERE id =#{id}"})
     int updateUserData(User user) throws SQLException;
 
+
+    /**
+     * 显示个人信息和统计好友，日志，相册，相片总数
+     * @param id
+     * @return UserVo
+     * @throws SQLException
+     */
+    @Select({"SELECT d.*, a.journalSum,b.photoAlbumSum,c.photoSum " +
+            "FROM( " +
+            "(SELECT COUNT(f.user_id) AS journalSum FROM t_journal f " +
+            "WHERE f.user_id = #{id} " +
+            ")a, " +
+            "(SELECT COUNT(d.user_id) AS photoAlbumSum " +
+            "FROM t_photo_album d " +
+            "WHERE d.user_id = #{id} " +
+            ")b, " +
+            "(SELECT  COUNT(e.id) AS photoSum " +
+            "FROM t_photo_album d " +
+            "LEFT JOIN t_photo e " +
+            "ON d.id=e.album_id " +
+            "WHERE d.user_id = #{id} " +
+            ")c, " +
+            "(SELECT e.*, COUNT(d.from_id) AS friendSum " +
+            "FROM t_friend d " +
+            "LEFT JOIN t_user e " +
+            "ON d.from_id=e.id AND d.friend_flag = 1 " +
+            "WHERE e.id = #{id} " +
+            ")d " +
+            ") "})
+     UserVo selectSum (Long id) throws SQLException;
+
+
     /**
      * 批量插入用户信息
      *
      * @param list
      */
     void batchInsertUser(List<User> list);
+
 
     /**
      * 批量添加好友信息
@@ -148,12 +182,14 @@ public interface UserMapper {
      */
     void batchInsertFriend(List<Friend> friends);
 
+
     /**
      * 批量添加点赞信息
      *
      * @param list
      */
     void batchInsertLike(List<Like> list);
+
 
     /**
      * 批量插入日志信息
@@ -162,6 +198,7 @@ public interface UserMapper {
      */
     void batchInsertJournal(List<Journal> list);
 
+
     /**
      * 批量插入照片信息
      *
@@ -169,9 +206,9 @@ public interface UserMapper {
      */
     void batchInsertPhoto(List<Photo> list);
 
+
     /**
      * 批量插入相册信息
-     *
      * @param list
      */
     void batchInsertPhotoAlbum(List<PhotoAlbum> list);

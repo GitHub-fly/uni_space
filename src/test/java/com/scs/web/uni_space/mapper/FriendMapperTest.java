@@ -49,27 +49,31 @@ class FriendMapperTest {
 
     @Test
     void insertOther() throws SQLException {
-        int i = friendMapper.insertOther((long)1,(long)5);
-        System.out.println(i);
+        friendMapper.insertOther((long)1,(long)5);
+        System.out.println("成功");
     }
 
     @Test
     void insertEachOther() throws SQLException {
-        int i = friendMapper.insertEachOther((long)5,(long)1);
-        System.out.println(i);
+        friendMapper.insertEachOther((long)5,(long)1);
+        System.out.println("成功");
     }
 
 
     @Test
-    void updateFriendFlag() throws SQLException {
-        int i = friendMapper.updateFriendFlag((long)1,(long)10);
-        System.out.println(i);
+    void updateFriendFlag() {
+        try {
+            friendMapper.updateFriendFlag(2L,1L);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("异常");
+        }
     }
 
     @Test
     void deleteFriend() throws SQLException {
-        int i = friendMapper.deleteFriend((long)1,(long)4);
-        System.out.println(i);
+        friendMapper.deleteFriend((long)1,(long)4);
+        System.out.println("成功");
     }
 
     @Test
@@ -81,14 +85,14 @@ class FriendMapperTest {
 
     @Test
     void deleteReject() throws SQLException {
-        int i = friendMapper.deleteReject((long)3,(long)2);
-        System.out.println(i);
+        friendMapper.deleteReject((long)3,(long)2);
+        System.out.println("成功");
     }
 
     @Test
     void updateCollectionFlag() throws SQLException {
-        int i = friendMapper.updateCollectionFlag((long)2,(long)1);
-        System.out.println(i);
+        friendMapper.updateCollectionFlag((long)2,(long)1);
+        System.out.println("成功");
     }
 
 

@@ -1,5 +1,6 @@
 package com.scs.web.uni_space.controller;
 
+import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.service.FriendService;
 import com.scs.web.uni_space.common.Result;
@@ -30,6 +31,8 @@ public class FriendController {
      */
     @PostMapping(value = "/recommend")
     Result recommend(@RequestBody FriendDto friendDto) {
+
+
         return friendService.recommendFriend(friendDto);
     }
 
@@ -97,7 +100,10 @@ public class FriendController {
      */
     @PutMapping(value = "/confirm")
     Result confirmAdd(@RequestBody FriendDto friendDto){
-        return friendService.confirmAdd(friendDto);
+        if (friendDto.getFromId() != null && friendDto.getToId() != null){
+            return friendService.confirmAdd(friendDto);
+        }
+        return  Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
 
