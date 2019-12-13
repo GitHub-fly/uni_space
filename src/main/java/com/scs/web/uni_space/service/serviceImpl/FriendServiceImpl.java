@@ -1,5 +1,7 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
@@ -9,8 +11,6 @@ import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.FriendMapper;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.FriendService;
-import com.scs.web.uni_space.common.Result;
-import com.scs.web.uni_space.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -144,7 +144,7 @@ public class FriendServiceImpl implements FriendService {
                 }
                 if (searchFriend == null) {
                     try {
-                        commonMapper.returnid("t_friend");
+                        commonMapper.returnId("t_friend");
                         friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
                         return Result.success(ResultCode.SUCCESS);
                     } catch (SQLException e) {
@@ -189,7 +189,7 @@ public class FriendServiceImpl implements FriendService {
                 return Result.failure(ResultCode.USER_CONFIRM_ERROR);
             }
             try {
-                commonMapper.returnid("t_friend");
+                commonMapper.returnId("t_friend");
                 friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {

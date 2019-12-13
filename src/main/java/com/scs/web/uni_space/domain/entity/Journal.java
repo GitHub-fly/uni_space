@@ -23,4 +23,5 @@ public class Journal {
     private Integer comments;
     private Timestamp createTime;
     private Short collectionFlag;
+    private Long JournalPictureNum;
 }

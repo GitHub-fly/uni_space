@@ -2,7 +2,7 @@ package com.scs.web.uni_space.domain.vo;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.security.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -31,4 +31,5 @@ public class UserVo {
     private Integer journalSum;
     private Integer photoAlbumSum;
     private Integer photoSum;
+    private String code;
 }

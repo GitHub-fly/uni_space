@@ -122,6 +122,7 @@ public interface FriendMapper {
 
     /**
      * 更改好友状态，0变1
+     *
      * @param fromId
      * @param toId
      * @return int
@@ -167,7 +168,12 @@ public interface FriendMapper {
 
 
     /**
+<<<<<<< HEAD
      * 更改好友访问权限
+=======
+     * 更改好友权限
+     *
+>>>>>>> df882ddb272158c51696af28a424120005e3357a
      * @param fromId
      * @param toId
      * @return int

@@ -1,6 +1,9 @@
 package com.scs.web.uni_space.service;
 
+
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.domain.dto.UserDto;
+
 
 /**
  * @author wl
@@ -10,11 +13,20 @@ import com.scs.web.uni_space.common.Result;
  * @Version 1.0
  */
 public interface JournalService {
-    /**
-     * 查询用户所有的日志列表
-     * @param id
-     * @return
-     */
-   Result findUserAllJournal(Long id);
+  /**
+   * 首页数据展示
+   *
+   * @param userDto
+   * @return
+   */
+  Result findIndexData(UserDto userDto);
+
+  /**
+   * 通过指定用户id查找改用户的所有日志信息
+   *
+   * @param userDto
+   * @return
+   */
+  Result selectById(UserDto userDto);
 
 }

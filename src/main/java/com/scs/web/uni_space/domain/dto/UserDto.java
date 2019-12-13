@@ -1,30 +1,37 @@
 package com.scs.web.uni_space.domain.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
- * @author 小黑
- * @ClassNameUserDto
- * @Description 登录时的对象
- * @Date 2019/12/2
+ * @author wl
+ * @ClassNameSignDto
+ * @Description 用户传输对象
+ * @Date 2019/12/8
  * @Version 1.0
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class UserDto implements Serializable {
+
+
+public class UserDto {
     private Long id;
-    //包含三种信息分别为 手机号，账号，邮箱
-    private String Name;
-    //短信验证码
-    private String verifyCode;
-    private String password;
+    //单独修改方法
     private String avatar;
+    //单独修改方法
+    private String password;
+    //统一修改
+    private String nickname;
+    private String address;
+    private String gender;
+    private String introduction;
+    private String constellation;
+    private LocalDate birthday;
+    //手机号
+    private String mobile;
+    //更改密码发送的短信
+    private String verifyCode;
 
 }

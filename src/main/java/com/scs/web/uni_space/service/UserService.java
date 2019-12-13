@@ -1,10 +1,9 @@
 package com.scs.web.uni_space.service;
 
-import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.domain.entity.User;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.domain.dto.SignDto;
+import com.scs.web.uni_space.domain.dto.UserDto;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -18,28 +17,40 @@ public interface UserService {
 
     /**
      * 登录方法
-     * @param userDto
+     *
+     * @param signDto
      * @return result
      */
-    Result signIn(UserDto userDto);
+    Result signIn(SignDto signDto);
 
     /**
      * 注册方法
-     * @param userDto
+     *
+     * @param signDto
      * @return result
      */
-    Result signUp(UserDto userDto);
+    Result signUp(SignDto signDto);
+
+    /**
+     * 通过id查找账户
+     *
+     * @param userDto
+     * @return
+     */
+    Result selectUserById(UserDto userDto);
 
     /**
      * 更新用户资料
-     * @param user
+     *
+     * @param userDto
      * @return int
      * @Description
      */
-    Result updateUserData(User user);
+    Result updateUserData(UserDto userDto);
 
     /**
      * 更新用户密码
+     *
      * @param userDto
      * @return
      */
@@ -47,22 +58,15 @@ public interface UserService {
 
     /**
      * 根据id修改用户头像
+     *
      * @param userDto
      * @return
      */
     Result updateUserAvatar(UserDto userDto);
 
     /**
-     * 通过id查找账户
-     * @param id
-     * @return
-     */
-    Result selectUserById(Long id);
-
-
-    /**
-     * 更改pc端头像
-     * @param file
+     * 检查用户是否登录
+     *
      * @return
      * @throws Exception
      */
@@ -75,4 +79,12 @@ public interface UserService {
      * @return Result
      */
     Result selectAllSum(UserDto userDto);
+
+
+    /**
+     * 判断用户是否处于登录状态
+     * @param userDto
+     * @return
+     */
+    Result isLogin(UserDto userDto);
 }
