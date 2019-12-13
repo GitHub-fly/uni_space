@@ -117,6 +117,19 @@ public interface UserMapper {
     @Update({"UPDATE t_user SET avatar=#{img} WHERE id = #{id}"})
     void updateUserAvatar(String img, Long id) throws SQLException;
 
+
+
+
+
+
+
+
+
+
+    @Select("SELECT * FROM t_user WHERE mobile =#{userDto.keywords}")
+
+    User selectUserByMobile1(@Param("userDto") UserDto userDto) throws SQLException;
+
     /**
      * 修改密码
      *
@@ -137,8 +150,10 @@ public interface UserMapper {
      */
     @Update({"UPDATE t_user SET nickname=#{nickname},address=#{address},gender=#{gender}," +
             "introduction=#{introduction},constellation=#{constellation},birthday=#{birthday}" +
+
             "WHERE id =#{id}"})
     void updateUserData(UserDto userDto) throws SQLException;
+
 
     /**
      * 批量插入用户信息

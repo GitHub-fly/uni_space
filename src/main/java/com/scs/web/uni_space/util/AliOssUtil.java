@@ -18,25 +18,28 @@ import java.util.UUID;
 @Slf4j
 public class AliOssUtil {
 
-    public static String upload(MultipartFile sourceFile) {
-        // 获取文件名
-        String fileName = sourceFile.getOriginalFilename();
-        //uuid生成主文件名
-        String prefix = UUID.randomUUID().toString();
-        assert fileName != null;
-        //源文件的扩展名
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
-        //创建File类型的临时文件
-        File tempFile = null;
-        try {
-            tempFile = File.createTempFile(prefix, suffix);
-            // 将MultipartFile转换成File
-            sourceFile.transferTo(tempFile);
-        } catch (IOException e) {
-            log.error(e.getMessage());
+    public static String upload(MultipartFile[] sourceFile) {
+        for (int i=0 ;i<sourceFile.length;i++) {
+            // 获取文件名
+            String fileName = sourceFile[i].getOriginalFilename();
+            //uuid生成主文件名
+            String prefix = UUID.randomUUID().toString();
+            assert fileName != null;
+            //源文件的扩展名
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            //创建File类型的临时文件
+            File tempFile = null;
+            try {
+                tempFile = File.createTempFile(prefix, suffix);
+                // 将MultipartFile转换成File
+                sourceFile[i].transferTo(tempFile);
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+            assert tempFile != null;
+            return upload(tempFile);
         }
-        assert tempFile != null;
-        return upload(tempFile);
+        return sourceFile.toString();
     }
 
 

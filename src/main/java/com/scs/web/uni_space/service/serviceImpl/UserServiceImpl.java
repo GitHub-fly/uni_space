@@ -158,7 +158,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public Result updateUserData(UserDto userDto) {
+
         try {
             userMapper.updateUserData(userDto);
         } catch (SQLException e) {

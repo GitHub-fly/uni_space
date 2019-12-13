@@ -27,10 +27,18 @@ public class UpLoadController {
 
     @RequestMapping(value="/img", method = RequestMethod.POST)
     @ResponseBody
-    Result uploadSingle(@RequestParam("file") MultipartFile sourceFile) {
+    Result uploadSingle(@RequestParam("file") MultipartFile[] sourceFile) {
         String url = AliOssUtil.upload(sourceFile);
         return Result.success(url);
     }
+
+
+
+
+
+
+
+
 }
 
 

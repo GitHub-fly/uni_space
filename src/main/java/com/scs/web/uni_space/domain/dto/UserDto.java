@@ -14,6 +14,7 @@ import java.time.LocalDate;
  */
 @Data
 @Builder
+
 public class UserDto {
     private Long id;
     //单独修改方法
@@ -31,4 +32,5 @@ public class UserDto {
     private String mobile;
     //更改密码发送的短信
     private String verifyCode;
+
 }

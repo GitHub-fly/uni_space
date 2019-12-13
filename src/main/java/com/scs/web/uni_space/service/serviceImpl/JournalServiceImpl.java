@@ -1,9 +1,11 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
+
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
+import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.mapper.JournalMapper;
-
 import com.scs.web.uni_space.service.JournalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,19 +28,30 @@ public class JournalServiceImpl implements JournalService {
     private JournalMapper journalMapper;
 
     @Override
+    public Result findIndexData(UserDto userDto) {
+        if (userDto.getId() != null) {
+            try {
+                List<com.scs.web.uni_space.domain.Vo.JournalVo> list = journalMapper.findFriendJournal(userDto.getId());
+                return Result.success(list);
+            } catch (SQLException e) {
+                log.error("查询失败");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
 
-    public Result findUserAllJournal(Long id) {
+    @Override
+    public Result selectById(UserDto userDto) {
         try {
-            List<Journal> journals =journalMapper.findAllJournal((long) id);
 
-            if (journals!=null){
-
-                return  Result.success(journals);
+            if (userDto.getId() != null) {
+                List<Journal> list = journalMapper.selectById(userDto.getId());
+                return Result.success(list);
 
             }
         } catch (SQLException e) {
-            log.error("查找失败");
+            log.error("查找指定id用户的日志信息出错");
         }
-       return Result.success("此用户还未添加日志");
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 }

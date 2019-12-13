@@ -51,11 +51,13 @@ import java.util.Random;
 public class OSSClientUtil {
     // endpoint以杭州为例，其它region请按实际情况填写
     protected static String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
+
     protected static String accessKeyId = "LTAI4FmPBAPTY2P2x9YFpV8h";
     protected static String accessKeySecret = "tNP7CUhbkEUlI8vTuqvFx30K3Ny6fU";
     protected static String bucketName = "space1821";
     //文件存储目录 阿里云服务器最好创建一个文件夹 专门放图片
     private String filedir = "UserAvatar/";
+
     private Logger logger = LoggerFactory.getLogger(OSSClientUtil.class);
     private OSSClient ossClient;
     public OSSClientUtil() {
@@ -235,6 +237,7 @@ public class OSSClientUtil {
 
 
     public String uploadImg2Oss(MultipartFile file) throws Exception {
+
 
 
         if (file.getSize() > 1024 * 1024) {
