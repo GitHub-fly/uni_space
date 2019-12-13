@@ -5,7 +5,10 @@ import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.UserVo;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.sql.SQLException;
 import java.util.List;
