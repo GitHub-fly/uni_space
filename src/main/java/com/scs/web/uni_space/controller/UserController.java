@@ -1,9 +1,9 @@
 package com.scs.web.uni_space.controller;
 
-import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.domain.entity.User;
-import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.dto.UserDto;
+import com.scs.web.uni_space.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,32 +23,35 @@ public class UserController {
 
     /**
      * 登录
-     * @param userDto
+     *
+     * @param queryDto
      * @return
      */
-    @PostMapping(value = "/sign_in")
-    Result sign_in(@RequestBody UserDto userDto) {
-        return userService.signIn(userDto);
+    @PostMapping(value = "/signin")
+    Result sign_in(@RequestBody QueryDto queryDto) {
+        return userService.signIn(queryDto);
     }
 
     /**
      * 注册
-     * @param userDto
+     *
+     * @param queryDto
      * @return
      */
-    @PostMapping(value = "/sign_up")
-    Result sing_up(@RequestBody UserDto userDto) {
-        return userService.signUp(userDto);
+    @PostMapping(value = "/signup")
+    Result sing_up(@RequestBody QueryDto queryDto) {
+        return userService.signUp(queryDto);
     }
 
     /**
      * 修改个人信息
-     * @param user
+     *
+     * @param userDto
      * @return
      */
-    @PutMapping(value = "/userData")
-    Result updateUserData(@RequestBody User user) {
-        return userService.updateUserData(user);
+    @PutMapping(value = "/data")
+    Result updateUserData(@RequestBody UserDto userDto) {
+        return userService.updateUserData(userDto);
     }
 
     /**
@@ -57,7 +60,7 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @PutMapping(value = "/userPassword")
+    @PutMapping(value = "/password")
     Result updateUserPassword(@RequestBody UserDto userDto) {
         return userService.updateUserPassword(userDto);
     }
@@ -68,18 +71,41 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @PutMapping(value = "/userAvatar")
+    @PutMapping(value = "/avatar")
     Result updateUserAvatar(@RequestBody UserDto userDto) {
         return userService.updateUserAvatar(userDto);
     }
 
     /**
      * 通过id查找用户信息
-     * @param id
+     *
+     * @param userDto
      * @return
      */
-    @PostMapping(value = "/userid")
-    Result selectUserById(@RequestParam Long id) {
-        return userService.selectUserById((long) id);
+    @PostMapping(value = "/id")
+    Result selectUserById(@RequestBody UserDto userDto) {
+        return userService.selectUserById(userDto);
+    }
+
+    /**
+     * 判断用户是否处于登录状态
+     *
+     * @param userDto
+     * @return
+     */
+    @PostMapping(value = "/login")
+    Result IsLogin(@RequestBody UserDto userDto) {
+        return userService.isLogin(userDto);
+    }
+
+    /**
+     * 统计用户的好友，日志，相册，照片
+     *
+     * @param userDto
+     * @return Result
+     */
+    @PostMapping(value = "/sum")
+    Result selectSum(@RequestBody UserDto userDto) {
+        return userService.selectAllSum(userDto);
     }
 }

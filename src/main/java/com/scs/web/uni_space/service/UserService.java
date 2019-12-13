@@ -1,10 +1,8 @@
 package com.scs.web.uni_space.service;
 
-import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.domain.entity.User;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.dto.UserDto;
 
 
 /**
@@ -18,28 +16,40 @@ public interface UserService {
 
     /**
      * 登录方法
-     * @param userDto
+     *
+     * @param queryDto
      * @return result
      */
-    Result signIn(UserDto userDto);
+    Result signIn(QueryDto queryDto);
 
     /**
      * 注册方法
-     * @param userDto
+     *
+     * @param queryDto
      * @return result
      */
-    Result signUp(UserDto userDto);
+    Result signUp(QueryDto queryDto);
+
+    /**
+     * 通过id查找账户
+     *
+     * @param userDto
+     * @return
+     */
+    Result selectUserById(UserDto userDto);
 
     /**
      * 更新用户资料
-     * @param user
+     *
+     * @param userDto
      * @return int
      * @Description
      */
-    Result updateUserData(User user);
+    Result updateUserData(UserDto userDto);
 
     /**
      * 更新用户密码
+     *
      * @param userDto
      * @return
      */
@@ -47,24 +57,23 @@ public interface UserService {
 
     /**
      * 根据id修改用户头像
+     *
      * @param userDto
      * @return
      */
     Result updateUserAvatar(UserDto userDto);
 
     /**
-     * 通过id查找账户
-     * @param id
-     * @return
+     * 显示个人信息和统计好友，日志，相册，相片总数
+     * @param userDto
+     * @return Result
      */
-    Result selectUserById(Long id);
-
+    Result selectAllSum(UserDto userDto);
 
     /**
-     * 更改pc端头像
-     * @param file
+     * 判断用户是否处于登录状态
+     * @param userDto
      * @return
-     * @throws Exception
      */
-    String updatePcAvatar(MultipartFile file) throws Exception;
+    Result isLogin(UserDto userDto);
 }

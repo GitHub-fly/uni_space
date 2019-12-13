@@ -1,5 +1,8 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
+import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.UserVo;
@@ -8,17 +11,12 @@ import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
 import com.scs.web.uni_space.util.OSSClientUtil;
-import com.scs.web.uni_space.common.Result;
-import com.scs.web.uni_space.common.ResultCode;
-
+import com.scs.web.uni_space.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -32,147 +30,185 @@ import java.time.LocalDateTime;
  * @Version 1.0
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private UserMapper userMapper;
     @Resource
     private CommonMapper commonMapper;
     @Resource
-    private RedisService redisServiceImpl;
+    private RedisService redisService;
+    @Resource
+    private OSSClientUtil ossClient = new OSSClientUtil();
 
     @Override
-    public Result signIn(UserDto userDto) {
-        User user = null;
-        String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
-
+    public Result signIn(QueryDto queryDto) {
+        User user;
+        UserVo userVo;
+        //取得短信验证码
+        String verifyCode = redisService.getValue(queryDto.getEqualsString(), String.class);
         try {
-            if (userMapper.selectUserByMobile(userDto.getName()) != null) {
-                user = userMapper.selectUserByMobile(userDto.getName());
-            } else if (userMapper.selectUserByAccount(userDto.getName()) != null) {
-                user = userMapper.selectUserByAccount(userDto.getName());
-            } else if (userMapper.selectUserByEmail(userDto.getName()) != null) {
-                user = userMapper.selectUserByEmail(userDto.getName());
-            } else {
-                return Result.failure(ResultCode.USER_MOBILE_NOT_EXIST);
-            }
-        } catch (SQLException e) {
-            logger.info("根据账号查找失败");
-        }
-        while (userDto.getPassword() != null) {
-            if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
-                return Result.success(user);
-            } else {
-                return Result.failure(ResultCode.USER_PASSWORD_ERROR);
-            }
-        }
+            userVo = userMapper.selectUserBy(queryDto);
+            //判断数据库中是否有该用户
+            if (userVo != null) {
+                //判断用户使用密码登录
+                if (queryDto.getPassword() != null) {
+                    if (userVo.getPassword().equals(DigestUtils.md5Hex(queryDto.getPassword()))) {
+                        String token = DigestUtils.sha3_256Hex(userVo.getCode());
+                        //token存入redis，时效24小时，客户端拿到token，会变为登录状态
+                        redisService.set(userVo.getCode(), token, 60 * 24L);
+                        return Result.success(userVo);
+                    } else {
+                        return Result.failure(ResultCode.USER_PASSWORD_ERROR);
+                    }
+                }
 
-        while (userDto.getVerifyCode() != null) {
-            if (verifyCode == null) {
-                return Result.failure(ResultCode.USER_VERIFY_CODE_null);
-            } else {
-                if (verifyCode.equalsIgnoreCase(userDto.getVerifyCode())) {
-                    return Result.success(user);
+                //判断是否已发送验证码
+                if (verifyCode == null) {
+                    return Result.failure(ResultCode.USER_VERIFY_CODE_NULL);
                 } else {
-                    return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                    //判断验证码是否正确
+                    if (queryDto.getKeyWords().equals(verifyCode)) {
+                        return Result.success(userVo);
+                    } else {
+                        return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                    }
+                }
+            } else {
+                if (verifyCode == null) {
+                    return Result.failure(ResultCode.USER_NOT_EXIST);
+                } else {
+                    //判断短信验证码为空或者是否正确
+                    if (queryDto.getKeyWords().equals(verifyCode)) {
+                        //直接注册
+                        user = User.builder()
+                                .code(StringUtil.getRandomCode())
+                                .mobile(queryDto.getEqualsString())
+                                .password("c4ca4238a0b923820dcc509a6f75849b")
+                                .avatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/2290a88b-137e-46ed-bea2-7ed2c12b18c5.jpeg")
+                                .createTime(Timestamp.valueOf(LocalDateTime.now()))
+                                .birthday(LocalDate.now()).build();
+                        try {
+                            //插入数据库中
+                            commonMapper.returnId("t_user");
+                            userMapper.insertUser(user);
+                            return Result.success(user);
+                        } catch (SQLException e) {
+                            log.error("插入数据库失败");
+                            return Result.failure(ResultCode.USER_ADD_FAILURE);
+                        }
+                    } else {
+                        return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
+                    }
                 }
             }
+        } catch (SQLException e) {
+            log.error("根据账号查找失败");
+            return Result.failure(ResultCode.USER_NOT_EXIST);
         }
-        return Result.failure(ResultCode.USER_ACCOUNT_NOT_EXIST);
-
-
     }
 
     @Override
-    public Result signUp(UserDto userDto) {
-        User user = null;
+    public Result signUp(QueryDto queryDto) {
+        User user;
+        UserVo userVo;
         try {
-            user = userMapper.selectUserByMobile(userDto.getName());
+            //查找数据库中是否有该用户
+            userVo = userMapper.selectUserBy(queryDto);
         } catch (SQLException e) {
-
-            logger.info("查找错误 ");
-
-            logger.error("查找指定手机号码出错");
-
+            log.error("查找指定手机号码出错");
+            return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
-        if (user != null) {
+        if (userVo != null) {
             return Result.failure(ResultCode.USER_HAS_EXISTED);
         } else {
-            String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+            //取得到短信验证码
+            String verifyCode = redisService.getValue(queryDto.getEqualsString(), String.class);
             if (verifyCode == null) {
-                return Result.failure(ResultCode.USER_VERIFY_CODE_null);
+                return Result.failure(ResultCode.USER_VERIFY_CODE_NULL);
             } else {
-                if (userDto.getVerifyCode().equals(verifyCode)) {
-                    String avatar = "https://upload.jianshu.io/users/upload_avatars/19576582/c2ccea8c-aac7-402f-8537-b63550d9301c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/180/h/180";
-                    Timestamp createTime = Timestamp.valueOf(LocalDateTime.now());
-                    Date birthday = Date.valueOf(LocalDate.now());
+                //短信验证码已发送情况下，取出验证码比对用户输入
+                if (queryDto.getKeyWords().equals(verifyCode)) {
+                    user = User.builder()
+                            .code(StringUtil.getRandomCode())
+                            .mobile(queryDto.getEqualsString())
+                            .password("c4ca4238a0b923820dcc509a6f75849b")
+                            .avatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/2290a88b-137e-46ed-bea2-7ed2c12b18c5.jpeg")
+                            .createTime(Timestamp.valueOf(LocalDateTime.now()))
+                            .birthday(LocalDate.now()).build();
                     try {
-                        commonMapper.returnid("t_user");
-                        int result = userMapper.insertUser(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()), avatar, createTime, birthday);
-                        return Result.success(ResultCode.SUCCESS);
+                        //比对成功后插入数据库中
+                        commonMapper.returnId("t_user");
+                        userMapper.insertUser(user);
+                        return Result.success();
                     } catch (SQLException e) {
-                        return Result.failure(ResultCode.USER_ADD_FAILURE);
+                        log.error("插入数据库失败");
+                        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
                     }
                 } else {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
-
                 }
             }
         }
-
     }
 
     @Override
-    public Result updateUserData(User user) {
 
+    public Result updateUserData(UserDto userDto) {
 
         try {
-            userMapper.updateUserData(user);
-
+            userMapper.updateUserData(userDto);
         } catch (SQLException e) {
-            logger.info("更新失败");
+            log.error("更新失败");
         }
-        return Result.success(user);
+        return Result.success(userDto);
     }
 
     @Override
     public Result updateUserPassword(UserDto userDto) {
         User user = null;
-        String verifyCode = redisServiceImpl.getValue(userDto.getName(), String.class);
+        UserVo userVo;
+        QueryDto queryDto = QueryDto.builder().equalsString(userDto.getMobile()).build();
+        //获得短信验证码
+        String verifyCode = redisService.getValue(userDto.getMobile(), String.class);
         try {
-            user = userMapper.selectUserByMobile(userDto.getName());
-            if (user != null) {
-                if (verifyCode.equals(userDto.getVerifyCode())) {
-                    if (verifyCode == null) {
-                        return Result.failure(ResultCode.USER_VERIFY_CODE_null);
-                    } else {
+            //判断数据库中是否有该用户
+            userVo = userMapper.selectUserBy(queryDto);
+            if (userVo != null) {
+                if (verifyCode == null) {
+                    return Result.failure(ResultCode.USER_VERIFY_CODE_NULL);
+                } else {
+                    if (verifyCode.equals(userDto.getVerifyCode())) {
+                        //验证码正确
                         if (user.getPassword().equals(DigestUtils.md5Hex(userDto.getPassword()))) {
+                            //更改后的密码不能和原来相同
                             return Result.failure(ResultCode.USER_PASSWORD_REPEAT);
                         } else {
-                            userMapper.updateUserPassword(userDto.getName(), DigestUtils.md5Hex(userDto.getPassword()));
-                            return Result.success(user);
+                            userMapper.updateUserPassword(userDto);
+                            return Result.success();
                         }
+                    } else {
+                        return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
                     }
-                } else {
-                    return Result.failure(ResultCode.USER_VERIFY_CODE_ERROR);
                 }
             } else {
                 return Result.failure(ResultCode.USER_NOT_EXIST);
             }
         } catch (SQLException e) {
-            logger.info("失败");
+            log.info("失败");
         }
         return Result.success("更新成功");
     }
-
 
     @Override
     public Result updateUserAvatar(UserDto userDto) {
         if (userDto.getAvatar() != null) {
             try {
-                return Result.success(userMapper.updateUserAvatar(userDto.getAvatar(), (long) userDto.getId()));
+                userMapper.updateUserAvatar(userDto);
+                return Result.success();
             } catch (SQLException e) {
+                log.error("数据库修改错误");
                 return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
             }
         } else {
@@ -181,30 +217,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result selectUserById(Long id) {
+    public Result selectUserById(UserDto userDto) {
         UserVo userVo = null;
         try {
-            userVo = userMapper.selectUserById((long) id);
-
-
+            userVo = userMapper.selectUserById(userDto.getId());
         } catch (SQLException e) {
-            logger.info("查找失败");
+            log.info("查找失败");
         }
         return Result.success(userVo);
     }
 
-    @Resource
-    private OSSClientUtil ossClient = new OSSClientUtil();
+    @Override
+    public Result isLogin(UserDto userDto) {
+        try {
+            UserVo userVo = userMapper.selectUserById(userDto.getId());
+            String code = redisService.getValue(userVo.getCode(), String.class);
+            if (code.equals(DigestUtils.sha3_256Hex(userVo.getCode()))
+            ) {
+                return Result.success();
+            }
+        } catch (SQLException e) {
+            log.error("查询用户错误");
+            return Result.failure(ResultCode.USER_NOT_EXIST);
+        }
+        return Result.failure(ResultCode.USER_LOGIN_FAILURE);
+    }
 
     @Override
-    public String updatePcAvatar(MultipartFile file) throws Exception {
-        if (file == null || file.getSize() <= 0) {
-            throw new Exception("头像不能为空");
+    public Result selectAllSum(UserDto userDto) {
+        if (userDto.getId() != null) {
+            try {
+                UserVo userVo = userMapper.selectSum(userDto.getId());
+                return Result.success(userVo);
+            } catch (SQLException e) {
+                log.error("数据统计异常");
+            }
         }
-        String name = ossClient.uploadImg2Oss(file);
-        String imgUrl = ossClient.getImgUrl(name);
-        System.out.println(imgUrl);
-        //userDao.updateHead(userId, imgUrl);//只是本地上传使用的
-        return imgUrl;
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 }

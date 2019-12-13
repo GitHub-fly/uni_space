@@ -2,7 +2,7 @@ package com.scs.web.uni_space.domain.vo;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.security.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -18,6 +18,7 @@ public class UserVo {
     private String mobile;
     private String account;
     private String nickname;
+    private String password;
     private String email;
     private String avatar;
     private String address;
@@ -27,5 +28,9 @@ public class UserVo {
     private Long skinId;
     private Timestamp createTime;
     private LocalDate birthday;
-    private Integer num;
+    private Integer friendSum;
+    private Integer journalSum;
+    private Integer photoAlbumSum;
+    private Integer photoSum;
+    private String code;
 }

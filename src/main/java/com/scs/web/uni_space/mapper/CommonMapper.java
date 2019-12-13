@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * @author wl
  * @ClassNamesad
- * @Description TODO
+ * @Description 通用控制类
  * @Date 2019/12/10
  * @Version 1.0
  */
@@ -19,5 +19,5 @@ public interface CommonMapper {
      * @throws SQLException
      */
     @Update("ALTER TABLE ${tableName} AUTO_INCREMENT = 1 ")
-    void returnid (@Param("tableName") String tableName) throws SQLException;
+    void returnId(@Param("tableName") String tableName) throws SQLException;
 }

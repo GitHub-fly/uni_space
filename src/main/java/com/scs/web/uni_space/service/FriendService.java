@@ -51,7 +51,7 @@ public interface FriendService  {
      * @param friendDto
      * @return Result
      */
-    Result addFriend(FriendDto  friendDto);
+    Result addFriend(FriendDto friendDto);
 
 
     /**

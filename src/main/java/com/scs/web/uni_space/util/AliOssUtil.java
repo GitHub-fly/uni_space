@@ -19,6 +19,7 @@ import java.util.UUID;
 public class AliOssUtil {
 
     public static String upload(MultipartFile sourceFile) {
+
         // 获取文件名
         String fileName = sourceFile.getOriginalFilename();
         //uuid生成主文件名

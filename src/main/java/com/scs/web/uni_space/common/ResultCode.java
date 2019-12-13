@@ -37,9 +37,10 @@ public enum ResultCode {
     USER_NOT_IMPORT_MOBILE(20012,"输入手机号不能为空"),
     USER_ADD_FAILURE(20013,"注册失败"),
     USER_PASSWORD_REPEAT(20014,"两次密码不能重复"),
-    USER_VERIFY_CODE_null(20025, "此手机未发送验证码"),
-
-
+    USER_VERIFY_CODE_NULL(20015, "此手机未发送验证码"),
+    USER_LOGIN_FAILURE(20016,"登录失效"),
+    USER_PASSWORD_NULL(20017,"密码不存在"),
+    USER_VERIFY_ERROR(20018,"验证码错误"),
 
     /*用户好友模块错误：20101-20199*/
     USER_NOT_INSERT_OWN(20101,"不能添加自己为好友"),

@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.domain.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User implements Serializable {
     private Long id;
     private String mobile;
@@ -36,5 +38,5 @@ public class User implements Serializable {
     private Long skinId;
     private Timestamp createTime;
     private LocalDate birthday;
-
+    private String code;
 }
