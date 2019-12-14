@@ -1,7 +1,14 @@
 package com.scs.web.uni_space.mapper;
 
+
+import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Journal;
+import com.scs.web.uni_space.domain.entity.JournalPicture;
 import com.scs.web.uni_space.domain.vo.JournalVo;
+import com.scs.web.uni_space.domain.vo.UserCommentVo;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import java.sql.SQLException;
@@ -25,7 +32,6 @@ public interface JournalMapper {
     @Select("SELECT * FROM t_journal  WHERE user_id =#{id}")
     List<Journal> findAllJournal(Long id) throws SQLException;
 
-
     /**
      * 查找首页日志所需要数据 不包括评论数
      *
@@ -34,14 +40,15 @@ public interface JournalMapper {
      * @throws SQLException
      */
 
-    @Select("SELECT a.to_id AS user_id,b.nickname,b.avatar,c.content,c.thumbnail,c.id,c.title,c.likes,c.comments,c.create_time\n" +
-            "FROM  t_friend  a LEFT  JOIN  t_user b  \n" +
-            "ON    a.to_id = b.id\n" +
-            "LEFT  JOIN t_journal c \n" +
-            "ON b.id=c.user_id\n" +
-            "WHERE a.from_id = #{fromId} AND a.friend_flag = 1\n" +
-            " ORDER BY c.create_time DESC")
+    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar, c.content, c.thumbnail, c.id, c.title, c.likes, c.comments, c.create_time " +
+            "FROM t_friend a LEFT JOIN t_user b " +
+            "ON a.to_id = b.id " +
+            "LEFT JOIN t_journal c " +
+            "ON b.id=c.user_id " +
+            "WHERE a.from_id = #{formId} AND a.friend_flag = 1 " +
+            "ORDER BY c.create_time DESC ")
     List<JournalVo> findFriendJournal(Long formId) throws SQLException;
+
 
     /**
      * 查找指定id用户的所有日志信息
@@ -55,5 +62,34 @@ public interface JournalMapper {
             "FROM t_journal " +
             "WHERE user_id = #{id} ")
     List<Journal> selectById(Long id) throws SQLException;
+
+    /**
+     * 通过日志id查询用户日志里面的相册
+     */
+    @Select("SELECT id ,journal_id,url " +
+            "FROM t_journal_picture " +
+            " WHERE journal_id = #{id}")
+    List<JournalPicture> selectJournalPictureById(Long id) throws SQLException;
+
+    /*
+     * 通过日志id找到评论内容
+     * */
+
+    @Select("SELECT a.journal_id,a.content,a.create_time ,a.user_id,b.nickname,b.avatar\n" +
+            "FROM t_comment a\n" +
+            "LEFT JOIN t_user b\n" +
+            "ON a.user_id =b.id\n" +
+            "WHERE a.journal_id=#{id}\n" +
+            "ORDER BY a.create_time DESC      ")
+    @Results(value = {
+            @Result(property = "journalId", column = "journal_id"),
+            @Result(property = "content", column = "content"),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "nickname", column = "nickname"),
+            @Result(property = "avatar", column = "avatar"),
+    })
+    List<UserCommentVo> selectCommentById(Long id) throws SQLException;
+
 
 }

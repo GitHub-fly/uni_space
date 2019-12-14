@@ -1,4 +1,4 @@
-package com.scs.web.uni_space.domain.vo;
+package com.scs.web.uni_space.domain.Vo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,29 +9,23 @@ import java.sql.Timestamp;
 /**
  * @author wl
  * @ClassNameJournal
- * @Description 日志视图
+ * @Description TODO
  * @Date 2019/12/11
  * @Version 1.0
  */
 @Data
-
-@Null
-@Builder
 public class JournalVo {
-    /**
-     * mapper层查出来数据要与实体类对应
-     */
+
     private Long userId;
     private String nickname;
-    private String avatar;
-    private String content;
+    private  String avatar;
+    private  String content;
     private String thumbnail;
-    private Long id;
-    private String title;
-    private Integer likes;
-    private Integer comments;
+    private  Long id;
+    private  String title;
+    private  Integer likes;
+    private  Integer comments;
     private Timestamp createTime;
-
 
 
 }
