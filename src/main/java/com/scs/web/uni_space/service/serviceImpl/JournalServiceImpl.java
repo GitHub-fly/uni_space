@@ -86,4 +86,17 @@ public class JournalServiceImpl implements JournalService {
         }
         return Result.failure(ResultCode.USER_NOT_EXIST);
     }
+
+    @Override
+    public Result selectJournalDetailById(Long id) {
+        if (id!=null){
+            try {
+                JournalVo journalVo = journalMapper.selectJournalById(id);
+                return  Result.success(journalVo);
+            } catch (SQLException e) {
+                log.error("查询文章详情失败");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
 }

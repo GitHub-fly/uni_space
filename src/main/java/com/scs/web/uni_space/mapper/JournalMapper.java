@@ -40,7 +40,7 @@ public interface JournalMapper {
      * @throws SQLException
      */
 
-    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar, c.content, c.thumbnail, c.id, c.title, c.likes, c.comments, c.create_time " +
+    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar,c.id,a.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
             "FROM t_friend a LEFT JOIN t_user b " +
             "ON a.to_id = b.id " +
             "LEFT JOIN t_journal c " +
@@ -88,11 +88,23 @@ public interface JournalMapper {
             @Result(property = "userId", column = "user_id"),
             @Result(property = "nickname", column = "nickname"),
             @Result(property = "avatar", column = "avatar"),
+
     })
     List<UserCommentVo> selectCommentById(Long id) throws SQLException;
 
 
+    /**
+     *通过日志id查看文章详情
+     * @param id
+     * @return
+     * @throws SQLException
+     */
 
-
+    @Select("SELECT a.user_id,b.nickname,b.avatar,a.id,a.title,a.content,a.thumbnail,a.likes,a.comments,a.create_time,a.journal_picture_num\n" +
+            "FROM t_journal a\n" +
+            "LEFT JOIN t_user b\n" +
+            "ON a.user_id =b.id\n" +
+            "WHERE a.id=#{id}")
+    JournalVo selectJournalById(Long id) throws SQLException;
 
 }

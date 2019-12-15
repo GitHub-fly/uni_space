@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -85,5 +86,13 @@ public class JournalController {
     @PostMapping(value = "/user/comment")
     Result selectCommentById(@RequestBody JournalDto journalDto){
         return  journalService.selectCommentById(journalDto);
+     }
+
+
+     @ApiOperation(value ="通过日志id查找日志详情" )
+    @ApiImplicitParam(name = "id",value = "传参数文章id",dataType = "Integer")
+    @PostMapping(value = "/user/journaldetail/{id}")
+    Result selectUserJournalDetailById(@PathVariable("id") @Valid int id){
+        return  journalService.selectJournalDetailById((long)id);
      }
 }

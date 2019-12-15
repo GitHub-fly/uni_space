@@ -44,4 +44,11 @@ public interface JournalService {
    * @return
    */
   Result selectJournalPictureById(JournalDto journalDto);
+
+  /**
+   * 通过日志id查找日志详情
+   * @param journalDto
+   * @return
+   */
+  Result selectJournalDetailById(Long id);
 }
