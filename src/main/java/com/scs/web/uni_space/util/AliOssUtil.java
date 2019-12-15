@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -18,26 +20,29 @@ import java.util.UUID;
 @Slf4j
 public class AliOssUtil {
 
-    public static String upload(MultipartFile sourceFile) {
-
-        // 获取文件名
-        String fileName = sourceFile.getOriginalFilename();
-        //uuid生成主文件名
-        String prefix = UUID.randomUUID().toString();
-        assert fileName != null;
-        //源文件的扩展名
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
-        //创建File类型的临时文件
-        File tempFile = null;
-        try {
-            tempFile = File.createTempFile(prefix, suffix);
-            // 将MultipartFile转换成File
-            sourceFile.transferTo(tempFile);
-        } catch (IOException e) {
-            log.error(e.getMessage());
+    public static List<String> upload(MultipartFile[] sourceFiles) {
+        List<String> tempFiles = tempFiles = new ArrayList<>(10);
+        for (MultipartFile sourceFile : sourceFiles) {
+            System.out.println(sourceFile);
+            // 获取文件名
+            String fileName = sourceFile.getOriginalFilename();
+            //uuid生成主文件名
+            String prefix = UUID.randomUUID().toString();
+            assert fileName != null;
+            //源文件的扩展名
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            //创建File类型的临时文件
+            File tempFile;
+            try {
+                tempFile = File.createTempFile(prefix, suffix);
+                // 将MultipartFile转换成File
+                sourceFile.transferTo(tempFile);
+                tempFiles.add(upload(tempFile));
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
         }
-        assert tempFile != null;
-        return upload(tempFile);
+        return tempFiles;
     }
 
 
@@ -57,10 +62,5 @@ public class AliOssUtil {
         String url = "https://niit-soft.oss-cn-hangzhou.aliyuncs.com/" + filePath + newFileName;
         ossClient.shutdown();
         return url;
-    }
-
-    public static void main(String[] args) {
-        String url = AliOssUtil.upload(new File("E:\\图库\\轮滑社团日活动照片\\十月图片2.jpg"));
-        System.out.println(url);
     }
 }

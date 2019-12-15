@@ -1,13 +1,11 @@
 package com.scs.web.uni_space.controller;
 
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.CodeDto;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.util.ImageUtil;
-import com.scs.web.uni_space.common.Result;
-import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.util.SMSUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,7 +21,6 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping(value = "/api")
 public class CodeController {
-    private Logger logger = LoggerFactory.getLogger(CodeController.class);
     @Resource
     private RedisService redisService;
 

@@ -68,8 +68,8 @@ public interface UserMapper {
      * @throws SQLException
      */
     @Update({"UPDATE t_user SET nickname=#{userDto.nickname},address=#{userDto.address},gender=#{userDto.gender}," +
-            "introduction=#{userDto.introduction},constellation=#{userDto.constellation},birthday=#{userDto.birthday}" +
-            "WHERE id =#{id}"})
+            "introduction=#{userDto.introduction},constellation=#{userDto.constellation},birthday=#{userDto.birthday} " +
+            "WHERE id = #{userDto.id}"})
     void updateUserData(@Param("userDto") UserDto userDto) throws SQLException;
 
     /**

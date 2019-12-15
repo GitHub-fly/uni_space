@@ -48,7 +48,7 @@ public class ImageUtil {
 
     //字体的设置
     private static Font getFont() {
-        return new Font("Times New Roman", Font.ROMAN_BASELINE, 40);
+        return new Font("Arial", Font.PLAIN, 40);
     }
 
     //字符串的绘制

@@ -1,13 +1,11 @@
 package com.scs.web.uni_space.mapper;
 
 
-import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.JournalPicture;
 import com.scs.web.uni_space.domain.vo.JournalVo;
 import com.scs.web.uni_space.domain.vo.UserCommentVo;
 import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
@@ -40,7 +38,7 @@ public interface JournalMapper {
      * @throws SQLException
      */
 
-    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar,c.id,a.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
+    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar,c.id , c.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
             "FROM t_friend a LEFT JOIN t_user b " +
             "ON a.to_id = b.id " +
             "LEFT JOIN t_journal c " +

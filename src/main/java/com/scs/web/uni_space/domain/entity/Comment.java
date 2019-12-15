@@ -18,5 +18,5 @@ public class Comment {
     private Long userId;
     private Long journalId;
     private String content;
-    private Timestamp timestamp;
+    private Timestamp createTime;
 }

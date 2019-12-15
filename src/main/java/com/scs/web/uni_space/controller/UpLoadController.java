@@ -5,10 +5,12 @@ import com.scs.web.uni_space.util.AliOssUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author wl
  * @ClassNameUpDownController
- * @Description TODO
+ * @Description 图片上传
  * @Date 2019/12/4
  * @Version 1.0
  */
@@ -17,17 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class UpLoadController {
 
     @RequestMapping(value = "/img", method = RequestMethod.POST)
-
     /**
      *单图上传
      */
     @ResponseBody
-    Result uploadSingle(@RequestParam("file") MultipartFile sourceFile) {
-        String url = AliOssUtil.upload(sourceFile);
+    Result uploadSingle(@RequestParam("file") MultipartFile[] sourceFiles) {
+        List<String> url = AliOssUtil.upload(sourceFiles);
         return Result.success(url);
     }
-
-
 }
 
 

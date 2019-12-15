@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
                         user = User.builder()
                                 .code(StringUtil.getRandomCode())
                                 .mobile(queryDto.getEqualsString())
-                                .password("c4ca4238a0b923820dcc509a6f75849b")
+                                .password("96e79218965eb72c92a549dd5a330112")
                                 .avatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/2290a88b-137e-46ed-bea2-7ed2c12b18c5.jpeg")
                                 .createTime(Timestamp.valueOf(LocalDateTime.now()))
                                 .birthday(LocalDate.now()).build();
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
                     user = User.builder()
                             .code(StringUtil.getRandomCode())
                             .mobile(queryDto.getEqualsString())
-                            .password("c4ca4238a0b923820dcc509a6f75849b")
+                            .password("96e79218965eb72c92a549dd5a330112")
                             .avatar("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/2290a88b-137e-46ed-bea2-7ed2c12b18c5.jpeg")
                             .createTime(Timestamp.valueOf(LocalDateTime.now()))
                             .birthday(LocalDate.now()).build();
@@ -156,7 +156,6 @@ public class UserServiceImpl implements UserService {
     @Override
 
     public Result updateUserData(UserDto userDto) {
-
         try {
             userMapper.updateUserData(userDto);
         } catch (SQLException e) {
