@@ -92,4 +92,7 @@ public interface JournalMapper {
     List<UserCommentVo> selectCommentById(Long id) throws SQLException;
 
 
+
+
+
 }
