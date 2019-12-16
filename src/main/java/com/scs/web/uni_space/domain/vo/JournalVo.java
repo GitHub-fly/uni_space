@@ -20,11 +20,12 @@ public class JournalVo {
     private Long userId;
     private String nickname;
     private String avatar;
-    private String content;
-    private String thumbnail;
     private Long id;
     private String title;
+    private String content;
+    private String thumbnail;
     private Integer likes;
     private Integer comments;
     private Timestamp createTime;
+    private String journalPictureNum;
 }

@@ -4,6 +4,8 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.service.FriendService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/api/friend")
+@Api(value = "NoteController", tags = {"好友模块接口"})
 public class FriendController {
 
     @Resource
@@ -30,6 +33,7 @@ public class FriendController {
      * @param friendDto
      * @return
      */
+    @ApiOperation(value = "根据用户id推荐非好友用户", notes = "data为用户信息列表")
     @PostMapping(value = "/recommend")
     Result recommend(@RequestBody FriendDto friendDto) {
         return friendService.recommendFriend(friendDto);
@@ -43,6 +47,7 @@ public class FriendController {
      * @param friendDto
      * @return
      */
+    @ApiOperation(value = "根据用户id查找所有好友或者通过用户id和关键字精确查找好友", notes = "data为好友信息列表")
     @PostMapping(value = "/keyword")
     Result findAllByKey(@RequestBody FriendDto friendDto) {
         return friendService.findAllByKey(friendDto);
@@ -55,6 +60,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据关键字模糊搜索用户", notes = "data为用户信息列表")
     @PostMapping(value = "/keywords")
     Result searchUserByKey(@RequestBody FriendDto friendDto) {
         return friendService.searchFriendByKey(friendDto);
@@ -62,11 +68,12 @@ public class FriendController {
 
 
     /**
-     * 查找日志
+     * 查找个人日志
      *
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据用户id查找用户所有日志", notes = "data为日志信息列表")
     @PostMapping(value = "/journal/key")
     Result searchJournalById(@RequestBody FriendDto friendDto) {
         return friendService.searchJournal(friendDto);
@@ -79,6 +86,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据fromId和toId添加好友", notes = "msg为成功，则添加成功")
     @PostMapping(value = "/friend")
     Result addFriend(@RequestBody FriendDto friendDto) {
         return friendService.addFriend(friendDto);
@@ -91,7 +99,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
-
+    @ApiOperation(value = "通过fromId查找所有添加请求", notes = "data为用户信息列表")
     @PostMapping(value = "/application")
     Result findAllApplication(@RequestBody FriendDto friendDto) {
         return friendService.findAllApplicant(friendDto);
@@ -104,6 +112,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据fromId和toId同意添加请求", notes = "msg为成功，则添加成功")
     @PutMapping(value = "/confirm")
     Result confirmAdd(@RequestBody FriendDto friendDto) {
         if (friendDto.getFromId() != null && friendDto.getToId() != null) {
@@ -119,6 +128,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据fromId和toId拒绝添加请求", notes = "msg为成功，则拒绝成功")
     @DeleteMapping(value = "/reject")
     Result rejectConfirm(@RequestBody FriendDto friendDto) {
         return friendService.rejectConfirm(friendDto);
@@ -131,6 +141,7 @@ public class FriendController {
      * @param friendDto
      * @return Result
      */
+    @ApiOperation(value = "根据fromId和toId删除好友", notes = "msg为成功，则删除成功")
     @DeleteMapping(value = "/friend")
     Result deleteFriend(@RequestBody FriendDto friendDto) {
         return friendService.deleteFriend(friendDto);

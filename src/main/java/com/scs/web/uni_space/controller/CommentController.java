@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/api/comment")
-@Api(value = "CommentController", tags = {"评论接口"})
+@Api(value = "CommentController", tags = "评论接口")
 public class CommentController {
     @Resource
     private CommentService commentService;

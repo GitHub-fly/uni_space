@@ -4,12 +4,13 @@ package com.scs.web.uni_space.service.serviceImpl;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.JournalDto;
+import com.scs.web.uni_space.domain.dto.LikeDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.JournalPicture;
 import com.scs.web.uni_space.domain.vo.JournalVo;
 import com.scs.web.uni_space.domain.vo.UserCommentVo;
+import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.JournalMapper;
 import com.scs.web.uni_space.service.JournalService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,8 @@ import java.util.List;
 public class JournalServiceImpl implements JournalService {
     @Resource
     private JournalMapper journalMapper;
-
+@Resource
+private CommonMapper commonMapper;
     @Override
     public Result findIndexData(UserDto userDto) {
         if (userDto.getId() != null) {
@@ -63,9 +65,9 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Result selectCommentById(JournalDto journalDto) {
-        if (journalDto.getId()!=null){
+        if (journalDto.getId() != null) {
             try {
-                List<UserCommentVo> list=journalMapper.selectCommentById((long)journalDto.getId());
+                List<UserCommentVo> list = journalMapper.selectCommentById((long) journalDto.getId());
                 return Result.success(list);
             } catch (SQLException e) {
                 log.error("查找好友失败");
@@ -76,7 +78,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Result selectJournalPictureById(JournalDto journalDto) {
-        if (journalDto.getId()!=null) {
+        if (journalDto.getId() != null) {
             try {
                 List<JournalPicture> list = journalMapper.selectJournalPictureById((long) journalDto.getId());
                 return Result.success(list);
@@ -89,14 +91,49 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Result selectJournalDetailById(Long id) {
-        if (id!=null){
+        if (id != null) {
             try {
                 JournalVo journalVo = journalMapper.selectJournalById(id);
-                return  Result.success(journalVo);
+                return Result.success(journalVo);
             } catch (SQLException e) {
                 log.error("查询文章详情失败");
             }
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+    @Override
+    public Result clickLikes(LikeDto likeDto) {
+
+
+        try {
+            if (journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId()) == null) {
+                commonMapper.returnId("t_like");
+                journalMapper.insertLike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
+                journalMapper.updateLikes((long) likeDto.getJournalId());
+                LikeDto likeDto1  = journalMapper.countLike(likeDto.getJournalId());
+                return Result.success(likeDto1);
+
+            }
+        } catch (SQLException e) {
+            log.error("插入点赞失败");
+        }
+
+        return  Result.failure(ResultCode.DATA_ALREADY_EXISTED);
+    }
+
+    @Override
+    public Result cancelLike(LikeDto likeDto) {
+        try {
+            if (journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId()) != null) {
+                journalMapper.delectlike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
+               journalMapper.updateLikes((long) likeDto.getJournalId());
+               LikeDto likeDto1  = journalMapper.countLike((long)likeDto.getJournalId());
+                return Result.success(likeDto1);
+            }
+        } catch (SQLException e) {
+            log.error("取消点赞失败");
+        }
+        return  Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 }

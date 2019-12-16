@@ -3,7 +3,9 @@ package com.scs.web.uni_space.service;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.JournalDto;
+import com.scs.web.uni_space.domain.dto.LikeDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
+import com.scs.web.uni_space.domain.entity.Like;
 
 
 /**
@@ -51,4 +53,18 @@ public interface JournalService {
    * @return
    */
   Result selectJournalDetailById(Long id);
+
+  /**
+   * 点赞功能
+   * @param likeDto
+   */
+  Result clickLikes(LikeDto likeDto);
+
+  /**
+   * 取消点赞
+   * @param likeDto
+   * @return
+   */
+
+  Result cancelLike(LikeDto likeDto);
 }

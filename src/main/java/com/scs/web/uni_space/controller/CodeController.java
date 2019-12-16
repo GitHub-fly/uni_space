@@ -6,6 +6,8 @@ import com.scs.web.uni_space.domain.dto.CodeDto;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.util.ImageUtil;
 import com.scs.web.uni_space.util.SMSUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +22,7 @@ import javax.annotation.Resource;
  **/
 @RestController
 @RequestMapping(value = "/api")
+@Api(value = "CodeController" , tags = "验证码接口")
 public class CodeController {
     @Resource
     private RedisService redisService;
@@ -28,6 +31,7 @@ public class CodeController {
      * @description  获取图形验证码
      * @return
      */
+    @ApiOperation(value = "获取图形验证码" , notes = "返回值为四位随机字符")
     @GetMapping(value = "/code")
     Result getCodeImage() {
         // 返回base64
@@ -51,6 +55,7 @@ public class CodeController {
      * @param mobile
      * @return
      */
+    @ApiOperation(value = "获取短信验证码" , notes = "输入值为手机号 返回值为6位数字验证码")
     @PostMapping(value = "/sms")
     Result getCodeSMS(@RequestParam("mobile") String mobile) {
         //发送短信给手机
