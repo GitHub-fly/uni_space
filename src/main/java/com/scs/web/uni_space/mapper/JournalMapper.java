@@ -1,13 +1,12 @@
 package com.scs.web.uni_space.mapper;
 
 
-import com.scs.web.uni_space.domain.dto.JournalDto;
 import com.scs.web.uni_space.domain.dto.LikeDto;
-import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.JournalPicture;
 import com.scs.web.uni_space.domain.entity.Like;
 import com.scs.web.uni_space.domain.vo.JournalVo;
+import com.scs.web.uni_space.domain.vo.RecommendVo;
 import com.scs.web.uni_space.domain.vo.UserCommentVo;
 import org.apache.ibatis.annotations.*;
 
@@ -40,14 +39,32 @@ public interface JournalMapper {
      * @throws SQLException
      */
 
-    @Select("SELECT a.to_id AS user_id, b.nickname, b.avatar,c.id,c.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
+    @Select("SELECT DISTINCT a.to_id AS user_id, b.nickname, b.avatar,c.id,c.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
             "FROM t_friend a LEFT JOIN t_user b " +
             "ON a.to_id = b.id " +
             "LEFT JOIN t_journal c " +
             "ON b.id=c.user_id " +
-            "WHERE a.from_id = #{formId} AND a.friend_flag = 1 " +
+            "WHERE a.from_id = #{formId} AND a.friend_flag = 1 AND  c.content IS NOT NULL " +
             "ORDER BY c.create_time DESC ")
     List<JournalVo> findFriendJournal(Long formId) throws SQLException;
+
+    /**
+     * 推荐日志所需要的mapper
+     *
+     * @param fromId
+     * @return
+     * @throws SQLException
+     */
+    @Select("SELECT DISTINCT a.to_id AS user_id,  c.id, c.title, c.content,  c.thumbnail,  c.likes, c.create_time \n" +
+            "            FROM t_friend a LEFT JOIN t_user b \n" +
+            "            ON a.to_id = b.id \n" +
+            "            LEFT JOIN t_journal c \n" +
+            "            ON b.id=c.user_id \n" +
+            "            WHERE a.from_id = #{formId} AND a.friend_flag = 1 \n" +
+            "            ORDER BY c.likes DESC")
+
+    List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
+
 
 
     /**
@@ -81,15 +98,7 @@ public interface JournalMapper {
             "ON a.user_id =b.id\n" +
             "WHERE a.journal_id=#{id}\n" +
             "ORDER BY a.create_time DESC      ")
-    @Results(value = {
-            @Result(property = "journalId", column = "journal_id"),
-            @Result(property = "content", column = "content"),
-            @Result(property = "createTime", column = "create_time"),
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "nickname", column = "nickname"),
-            @Result(property = "avatar", column = "avatar"),
 
-    })
     List<UserCommentVo> selectCommentById(Long id) throws SQLException;
 
 
@@ -109,52 +118,60 @@ public interface JournalMapper {
 
     /**
      * 对于文章点赞数查询 查询是否有一条记录
-     * @param id
+     *
+     * @param userId
      * @param journalId
      * @return
+     * @throws SQLException
      */
 
 
-@Select("SELECT *\n" +
-        "FROM t_like \n" +
-        "WHERE user_id=#{userId} AND journal_id =#{journalId}")
-    Like concernJournalLike(long userId, long journalId)throws SQLException;
-
+    @Select("SELECT *\n" +
+            "FROM t_like \n" +
+            "WHERE user_id=#{userId} AND journal_id =#{journalId}")
+    Like concernJournalLike(long userId, long journalId) throws SQLException;
 
 
     /**
      * 对于未点赞就插入数据一条数据
+     *
      * @param
      * @param
      * @throws SQLException
      */
 
-@Insert("INSERT INTO t_like (user_id,journal_id) VALUES(#{userId},#{journalId})\t")
-void insertLike(long userId, long journalId)throws SQLException;
+    @Insert("INSERT INTO t_like (user_id,journal_id) VALUES(#{userId},#{journalId})\t")
+    void insertLike(long userId, long journalId) throws SQLException;
 
     /**
      * 更新日志点赞数
-     * @param likeDto
+     *
+     * @param journalId
      * @throws SQLException
      */
     @Update("UPDATE t_journal SET likes=(SELECT COUNT(journal_id)  FROM t_like \n" +
             "            WHERE journal_id =#{journalId}) WHERE id =#{journalId}\n")
-    void  updateLikes( long journalId)throws SQLException;
+    void updateLikes(long journalId) throws SQLException;
 
     /**
      * 统计点赞总数
-     * @param userId
+     *
      * @param journalId
+     * @return
      * @throws SQLException
      */
     @Select("SELECT journal_id,COUNT(journal_id) AS likes  FROM t_like\n" +
             "                WHERE journal_id =#{journalId}")
-    LikeDto countLike(Long journalId)throws SQLException;
+    LikeDto countLike(Long journalId) throws SQLException;
+
     /**
      * 删除点赞
-     * @param likeDto
+     *
+     * @param userId
+     * @param journalId
+     * @throws SQLException
      */
 
-@Delete("DELETE FROM t_like WHERE user_id =#{userId} AND journal_id =#{journalId}\n")
-    void delectlike(long userId, long journalId)throws SQLException;
+    @Delete("DELETE FROM t_like WHERE user_id =#{userId} AND journal_id =#{journalId}\n")
+    void delectlike(long userId, long journalId) throws SQLException;
 }

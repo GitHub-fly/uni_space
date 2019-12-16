@@ -8,7 +8,9 @@ import com.scs.web.uni_space.domain.dto.LikeDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.JournalPicture;
+import com.scs.web.uni_space.domain.entity.Like;
 import com.scs.web.uni_space.domain.vo.JournalVo;
+import com.scs.web.uni_space.domain.vo.RecommendVo;
 import com.scs.web.uni_space.domain.vo.UserCommentVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.JournalMapper;
@@ -39,7 +41,7 @@ private CommonMapper commonMapper;
         if (userDto.getId() != null) {
             try {
 
-                List<com.scs.web.uni_space.domain.vo.JournalVo> list = journalMapper.findFriendJournal(userDto.getId());
+                List<JournalVo> list = journalMapper.findFriendJournal(userDto.getId());
                 return Result.success(list);
             } catch (SQLException e) {
                 log.error("查询失败");
@@ -47,6 +49,21 @@ private CommonMapper commonMapper;
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
+
+    @Override
+    public Result recommendFriendJournal(UserDto userDto) {
+        if (userDto.getId() != null) {
+            try {
+
+                List<RecommendVo> list = journalMapper.recommendJournal(userDto.getId());
+                return Result.success(list);
+            } catch (SQLException e) {
+                log.error("查询失败");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
 
     @Override
     public Result selectById(UserDto userDto) {
@@ -103,6 +120,22 @@ private CommonMapper commonMapper;
     }
 
     @Override
+    public Result concernJournalLikes(LikeDto likeDto) {
+
+            try {
+                Like like = journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
+                if (like!=null){
+                    return Result.success();
+                }
+
+            } catch (SQLException e) {
+                log.error("查询失败");
+            }
+
+        return  Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+    @Override
     public Result clickLikes(LikeDto likeDto) {
 
 
@@ -111,10 +144,10 @@ private CommonMapper commonMapper;
                 commonMapper.returnId("t_like");
                 journalMapper.insertLike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
                 journalMapper.updateLikes((long) likeDto.getJournalId());
-                LikeDto likeDto1  = journalMapper.countLike(likeDto.getJournalId());
+                LikeDto likeDto1 = journalMapper.countLike(likeDto.getJournalId());
                 return Result.success(likeDto1);
-
             }
+
         } catch (SQLException e) {
             log.error("插入点赞失败");
         }
@@ -127,8 +160,8 @@ private CommonMapper commonMapper;
         try {
             if (journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId()) != null) {
                 journalMapper.delectlike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
-               journalMapper.updateLikes((long) likeDto.getJournalId());
-               LikeDto likeDto1  = journalMapper.countLike((long)likeDto.getJournalId());
+                journalMapper.updateLikes((long) likeDto.getJournalId());
+                LikeDto likeDto1 = journalMapper.countLike((long) likeDto.getJournalId());
                 return Result.success(likeDto1);
             }
         } catch (SQLException e) {

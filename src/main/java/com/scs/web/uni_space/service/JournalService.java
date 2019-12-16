@@ -5,7 +5,6 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.JournalDto;
 import com.scs.web.uni_space.domain.dto.LikeDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
-import com.scs.web.uni_space.domain.entity.Like;
 
 
 /**
@@ -24,6 +23,13 @@ public interface JournalService {
    */
   Result findIndexData(UserDto userDto);
 
+  /**
+   * 推荐日志
+   * @param userDto
+   * @return
+   */
+
+  Result recommendFriendJournal(UserDto userDto);
   /**
    * 通过指定用户id查找改用户的所有日志信息
    *
@@ -49,14 +55,22 @@ public interface JournalService {
 
   /**
    * 通过日志id查找日志详情
-   * @param journalDto
+   * @param id
    * @return
    */
   Result selectJournalDetailById(Long id);
 
   /**
+   * 判断是否点赞
+   * @param likeDto
+   * @return
+   */
+  Result concernJournalLikes(LikeDto likeDto);
+
+  /**
    * 点赞功能
    * @param likeDto
+   * @return
    */
   Result clickLikes(LikeDto likeDto);
 
@@ -67,4 +81,6 @@ public interface JournalService {
    */
 
   Result cancelLike(LikeDto likeDto);
+
+
 }
