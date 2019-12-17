@@ -4,8 +4,8 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
-import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
+import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoAlbumMapper;
 import com.scs.web.uni_space.service.PhotoAlbumService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +32,11 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
     @Resource
     private PhotoAlbumMapper photoAlbumMapper;
 
-
+    @Resource
+    private CommonMapper commonMapper;
     /**
      * 查找所有相册
+     *
      * @param queryDto
      * @return Result
      */
@@ -63,6 +65,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
 
     /**
      * 添加相册
+     *
      * @param photoAlbumDto
      * @return Result
      */
@@ -74,6 +77,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         if (photoAlbumDto.getUserId() != null && photoAlbumDto.getName() != null ){
             try {
                 //调用插入方法
+                commonMapper.returnId("t_photo_album");
                 photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto.getUserId(),photoAlbumDto.getName(),timestamp);
                 //成功返回result
                 return Result.success(ResultCode.SUCCESS);
@@ -89,6 +93,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
 
     /**
      * 修改相册
+     *
      * @param photoAlbumDto
      * @return Result
      */
@@ -108,6 +113,12 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
+
+    /**
+     * 删除相册
+     * @param photoAlbumDto
+     * @return Result
+     */
     @Override
     public Result deletePhotoAlbum(PhotoAlbumDto photoAlbumDto) {
         //非空判断
