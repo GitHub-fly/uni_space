@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 /**
  * @author suyuxi
  * @className SecurityController
- * @Description 密保接口
+ * @Description 密保控制层
  * @Date 2019/12/5
  * @Version 1.0
  **/
@@ -54,7 +54,7 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @ApiOperation(value = "根据userId查找相册密保", notes = "data为账号密保信息")
+    @ApiOperation(value = "根据userId查找账号密保", notes = "data为账号密保信息")
     @PostMapping(value = "accountsecurity")
     Result findAccountSecurity(@RequestBody Security security) {
         return securityService.findAccountSecurity(security);

@@ -100,7 +100,8 @@ public interface UserMapper {
      */
     @Select({"SELECT d.*, a.journalSum,b.photoAlbumSum,c.photoSum " +
             "FROM( " +
-            "(SELECT COUNT(f.user_id) AS journalSum FROM t_journal f " +
+            "(SELECT COUNT(f.user_id) AS journalSum " +
+            ";FROM t_journal f " +
             "WHERE f.user_id = #{id} " +
             ")a, " +
             "(SELECT COUNT(d.user_id) AS photoAlbumSum " +

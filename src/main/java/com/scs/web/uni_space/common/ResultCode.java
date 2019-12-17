@@ -44,7 +44,7 @@ public enum ResultCode {
 
     /*用户好友模块错误：20101-20199*/
     USER_NOT_INSERT_OWN(20101,"不能添加自己为好友"),
-    USER_HAS_FRIEND(20102,"好友已存在"),
+    USER_HAS_FRIEND(20102,"已经是好友"),
     USER_INSERT_FRIEND_ERROR(20103,"请求添加错误"),
     USER_HAS_APPLICANT(20104,"已发过请求,请等待对方回复"),
     USER_FIND_ALL_APPLICANT(20105,"查找所有请求错误"),
@@ -71,6 +71,14 @@ public enum ResultCode {
     USER_DELETE_PHOTO_ALBUM_SECURITY_ERROR(20209,"删除相册密保错误"),
     USER_HAS_PHOTO_ALBUM_SECURITY(20210,"相册密保已设定"),
     USER_SECURITY_DATA_ERROR(20211,"密保操作返回数据错误"),
+
+    /*相册模块错误：20301-20399*/
+    USER_NOT_PHOTO_ALBUM(20301,"未查找到相册"),
+    USER_ADD_PHOTO_ALBUM_ERROR(20302,"添加相册错误"),
+    USER_UPDATE_PHOTO_ALBUM_ERROR(20303,"更改相册信息错误"),
+    USER_DELETE_PHOTO_ALBUM_ERROR(20304,"删除相册错误"),
+    USER_FIND_PHOTO_ALBUM_ERROR(20305,"查找相册错误"),
+
 
 
 

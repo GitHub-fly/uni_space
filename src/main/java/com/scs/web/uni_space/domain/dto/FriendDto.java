@@ -12,6 +12,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class FriendDto {
     /**
      * 动作发起者id

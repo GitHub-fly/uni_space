@@ -65,10 +65,10 @@ public interface UserService {
 
     /**
      * 显示个人信息和统计好友，日志，相册，相片总数
-     * @param userDto
+     * @param queryDto
      * @return Result
      */
-    Result selectAllSum(UserDto userDto);
+    Result selectAllSum(QueryDto queryDto);
 
     /**
      * 判断用户是否处于登录状态

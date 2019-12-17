@@ -26,7 +26,7 @@ public interface FriendMapper {
      * @return list
      * @throws SQLException
      */
-    @Select({"SELECT c.*,COUNT(b.user_id) AS num\n" +
+    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum\n" +
             "FROM t_friend a\n" +
             "LEFT JOIN t_user c\n" +
             "ON a.to_id=c.id\n" +
@@ -59,14 +59,14 @@ public interface FriendMapper {
     List<Journal> searchJournalByUserId(Long userId) throws SQLException;
 
     /**
-     * 通过关键字进行搜索好友信息
+     * 通过关键字进行搜索用户信息
      *
      * @param fromId
      * @param key
      * @return List
      * @throws SQLException
      */
-    @Select({"SELECT a.* ,COUNT(b.user_id) AS counts " +
+    @Select({"SELECT COUNT(b.user_id) AS journalSum, a.* " +
             "FROM t_user a " +
             "LEFT JOIN t_journal b " +
             "ON a.id = b.user_id " +
@@ -91,7 +91,7 @@ public interface FriendMapper {
 
 
     /**
-     * 查看对方是否为好友
+     * 查看双方是否有关联数据
      *
      * @param fromId
      * @param toId
@@ -102,7 +102,7 @@ public interface FriendMapper {
     Friend selectFriendFlag(Long fromId, Long toId) throws SQLException;
 
     /**
-     * 添加好友，状态为01
+     * 添加好友，状态为0
      *
      * @param fromId
      * @param toId

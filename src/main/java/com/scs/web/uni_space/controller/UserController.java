@@ -101,11 +101,11 @@ public class UserController {
     /**
      * 统计用户的好友，日志，相册，照片
      *
-     * @param userDto
+     * @param queryDto
      * @return Result
      */
     @PostMapping(value = "/sum")
-    Result selectSum(@RequestBody UserDto userDto) {
-        return userService.selectAllSum(userDto);
+    Result selectSum(@RequestBody QueryDto queryDto) {
+        return userService.selectAllSum(queryDto);
     }
 }

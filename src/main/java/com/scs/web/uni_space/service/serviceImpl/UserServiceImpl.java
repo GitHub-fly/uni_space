@@ -243,10 +243,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result selectAllSum(UserDto userDto) {
-        if (userDto.getId() != null) {
+    public Result selectAllSum(QueryDto queryDto) {
+        if (queryDto.getId() != null) {
             try {
-                UserVo userVo = userMapper.selectSum(userDto.getId());
+                UserVo userVo = userMapper.selectSum(queryDto.getId());
                 return Result.success(userVo);
             } catch (SQLException e) {
                 log.error("数据统计异常");
