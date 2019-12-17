@@ -12,6 +12,7 @@ import java.time.LocalDate;
  * @Date 2019/12/10
  * @Version 1.0
  **/
+
 @Data
 public class UserVo {
     private Long id;

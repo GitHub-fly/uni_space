@@ -15,7 +15,6 @@ import java.sql.Timestamp;
  * @Version 1.0
  */
 @Data
-@Null
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCommentVo {

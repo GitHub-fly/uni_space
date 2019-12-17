@@ -79,7 +79,10 @@ public enum ResultCode {
     USER_DELETE_PHOTO_ALBUM_ERROR(20304,"删除相册错误"),
     USER_FIND_PHOTO_ALBUM_ERROR(20305,"查找相册错误"),
 
-
+    /*相册模块错误：20401-20499*/
+    PHOTO_BATCH_DELETE_ERROR(20401,"批量删除照片错误"),
+    PHOTO_FIND_ALL_ERROR(20402,"查找所有相册错误"),
+    PHOTO_BATCH_ADD_ERROR(20403,"批量插入错误"),
 
 
     /* 业务错误：30001-39999 */

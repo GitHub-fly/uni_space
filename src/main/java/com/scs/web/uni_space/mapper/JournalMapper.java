@@ -23,6 +23,12 @@ import java.util.List;
 public interface JournalMapper {
 
     /**
+     * 删除指定id日志中的所有照片
+     * @param journalId
+     */
+    void batchDeletePhotos(Long journalId);
+
+    /**
      * 查询用户所有的日志列表；
      *
      * @param id

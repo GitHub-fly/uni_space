@@ -132,35 +132,39 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Result addFriend(FriendDto friendDto) {
-        if(friendDto.getFromId() != null && friendDto.getToId() != null){
-            try {
-                //查看对方是否发过请求
-                Friend searchFriend = friendMapper.selectFriendFlag(friendDto.getToId(),friendDto.getFromId());
-                if (searchFriend == null){
-                    //查看自己是否发过请求
-                    Friend friend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
-                    if (friend == null){
-                        commonMapper.returnId("t_friend");
-                        friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
-                        return Result.success(ResultCode.SUCCESS);
-                    }else if (friend.getFriendFlag() == 0){
-                        return Result.failure(ResultCode.USER_HAS_APPLICANT);
-                    }else if (friend.getFriendFlag() == 1){
-                        return Result.failure(ResultCode.USER_HAS_FRIEND);
+        if (friendDto.getFromId().equals(friendDto.getToId())){
+            return Result.failure(ResultCode.USER_NOT_INSERT_OWN);
+        }else {
+            if(friendDto.getFromId() != null && friendDto.getToId() != null){
+                try {
+                    //查看对方是否发过请求
+                    Friend searchFriend = friendMapper.selectFriendFlag(friendDto.getToId(),friendDto.getFromId());
+                    if (searchFriend == null){
+                        //查看自己是否发过请求
+                        Friend friend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
+                        if (friend == null){
+                            commonMapper.returnId("t_friend");
+                            friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
+                            return Result.success(ResultCode.SUCCESS);
+                        }else if (friend.getFriendFlag() == 0){
+                            return Result.failure(ResultCode.USER_HAS_APPLICANT);
+                        }else if (friend.getFriendFlag() == 1){
+                            return Result.failure(ResultCode.USER_HAS_FRIEND);
+                        }
+                    }else {
+                        if (searchFriend.getFriendFlag() == 0){
+                            friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
+                            commonMapper.returnId("t_friend");
+                            friendMapper.insertEachOther(friendDto.getFromId(),friendDto.getToId());
+                            return Result.success(ResultCode.SUCCESS);
+                        }else if (searchFriend.getFriendFlag() == 1){
+                            return Result.failure(ResultCode.USER_HAS_FRIEND);
+                        }
                     }
-                }else {
-                    if (searchFriend.getFriendFlag() == 0){
-                        friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
-                        commonMapper.returnId("t_friend");
-                        friendMapper.insertEachOther(friendDto.getFromId(),friendDto.getToId());
-                        return Result.success(ResultCode.SUCCESS);
-                    }else if (searchFriend.getFriendFlag() == 1){
-                        return Result.failure(ResultCode.USER_HAS_FRIEND);
-                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    log.error("添加好友异常");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                log.error("添加好友异常");
             }
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);

@@ -13,9 +13,8 @@ import java.sql.Timestamp;
  * @Date 2019/12/11
  * @Version 1.0
  */
-@Builder
+
 @Data
-@NonNull
 public class JournalVo {
     private Long userId;
     private String nickname;

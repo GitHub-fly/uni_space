@@ -26,19 +26,19 @@ public interface FriendMapper {
      * @return list
      * @throws SQLException
      */
-    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum\n" +
-            "FROM t_friend a\n" +
-            "LEFT JOIN t_user c\n" +
-            "ON a.to_id=c.id\n" +
-            "LEFT JOIN t_journal b\n" +
-            "ON c.id=b.user_id \n" +
-            "WHERE (a.from_id = #{fromId}\n" +
-            "AND a.friend_flag = 1)\n" +
-            "AND (c.mobile LIKE CONCAT('%', #{key}, '%') \n" +
-            "OR c.account LIKE CONCAT('%', #{key}, '%') \n" +
-            "OR c.email LIKE CONCAT('%', #{key}, '%')\n" +
-            "OR c.nickname LIKE CONCAT('%', #{key}, '%')\n" +
-            "OR c.introduction LIKE CONCAT('%', #{key}, '%'))\n" +
+    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
+            "FROM t_friend a " +
+            "LEFT JOIN t_user c " +
+            "ON a.to_id=c.id " +
+            "LEFT JOIN t_journal b " +
+            "ON c.id=b.user_id  " +
+            "WHERE (a.from_id = #{fromId} " +
+            "AND a.friend_flag = 1) " +
+            "AND (c.mobile LIKE CONCAT('%', #{key}, '%') " +
+            "OR c.account LIKE CONCAT('%', #{key}, '%') " +
+            "OR c.email LIKE CONCAT('%', #{key}, '%') " +
+            "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
+            "OR c.introduction LIKE CONCAT('%', #{key}, '%')) " +
             "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
     List<UserVo> selectAll(Long fromId, String key) throws SQLException;
 
@@ -66,7 +66,7 @@ public interface FriendMapper {
      * @return List
      * @throws SQLException
      */
-    @Select({"SELECT COUNT(b.user_id) AS journalSum, a.* " +
+    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.* " +
             "FROM t_user a " +
             "LEFT JOIN t_journal b " +
             "ON a.id = b.user_id " +

@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.domain.vo;
 
 import com.scs.web.uni_space.domain.entity.JournalPicture;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  **/
 
+@Data
 public class IndexVo {
     private String FriendAvatar;
     private String UserAvatar;

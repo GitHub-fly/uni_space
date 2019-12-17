@@ -98,27 +98,27 @@ public interface UserMapper {
      * @return UserVo
      * @throws SQLException
      */
-    @Select({"SELECT d.*, a.journalSum,b.photoAlbumSum,c.photoSum " +
+    @Select({"SELECT d.*, a.journal_sum,b.photo_album_sum,c.photo_sum " +
             "FROM( " +
-            "(SELECT COUNT(f.user_id) AS journalSum " +
-            ";FROM t_journal f " +
-            "WHERE f.user_id = #{id} " +
+            "(SELECT COUNT(f.user_id)AS journal_sum " +
+            "FROM t_journal f " +
+            "WHERE f.user_id = 4 " +
             ")a, " +
-            "(SELECT COUNT(d.user_id) AS photoAlbumSum " +
+            "(SELECT COUNT(d.user_id) AS photo_album_sum " +
             "FROM t_photo_album d " +
-            "WHERE d.user_id = #{id} " +
+            "WHERE d.user_id = 4 " +
             ")b, " +
-            "(SELECT  COUNT(e.id) AS photoSum " +
+            "(SELECT  COUNT(e.id)AS photo_sum " +
             "FROM t_photo_album d " +
             "LEFT JOIN t_photo e " +
             "ON d.id=e.album_id " +
-            "WHERE d.user_id = #{id} " +
+            "WHERE d.user_id = 4 " +
             ")c, " +
-            "(SELECT e.*, COUNT(d.from_id) AS friendSum " +
+            "(SELECT e.*, COUNT(d.from_id) AS friend_sum " +
             "FROM t_friend d " +
             "LEFT JOIN t_user e " +
-            "ON d.from_id=e.id AND d.friend_flag = 1 " +
-            "WHERE e.id = #{id} " +
+            "ON d.from_id=e.id AND d.friend_flag=1 " +
+            "WHERE e.id = 4 " +
             ")d " +
             ") "})
     UserVo selectSum(Long id) throws SQLException;
