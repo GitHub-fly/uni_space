@@ -67,9 +67,32 @@ public interface UserMapper {
      * @return
      * @throws SQLException
      */
-    @Update({"UPDATE t_user SET nickname=#{userDto.nickname},address=#{userDto.address},gender=#{userDto.gender}," +
-            "introduction=#{userDto.introduction},constellation=#{userDto.constellation},birthday=#{userDto.birthday} " +
-            "WHERE id = #{userDto.id}"})
+    @Update({
+            "<script>",
+            "UPDATE t_user",
+            "<set>",
+            "<if test = 'userDto.nickname != null'>",
+            "nickname = #{userDto.nickname}, ",
+            "</if>",
+            "<if test = 'userDto.address != null'>",
+            "address = #{userDto.address}, ",
+            "</if>",
+            "<if test = 'userDto.gender != null'>",
+            "gender = #{userDto.gender}, ",
+            "</if>",
+            "<if test = 'userDto.introduction != null'>",
+            "introduction = #{userDto.introduction}, ",
+            "</if>",
+            "<if test = 'userDto.constellation != null'>",
+            "constellation = #{userDto.constellation}, ",
+            "</if>",
+            "<if test = 'userDto.birthday != null'>",
+            "birthday = #{userDto.birthday}, ",
+            "</if>",
+            "</set>",
+            "where id = #{userDto.id}",
+            "</script>"
+            })
     void updateUserData(@Param("userDto") UserDto userDto) throws SQLException;
 
     /**

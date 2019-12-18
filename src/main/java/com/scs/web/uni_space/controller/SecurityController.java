@@ -24,89 +24,45 @@ public class SecurityController {
     @Resource
     private SecurityService securityService;
 
-    /**
-     * 用户添加帐号密保接口
-     *
-     * @param security
-     * @return Result
-     */
-    @ApiOperation(value = "根据userId，question和answer添加账号密保", notes = "msg为成功，则添加成功")
-    @PostMapping(value = "/account")
-    Result addAccountSecurity(@RequestBody Security security) {
-        return securityService.addAccountSecurity(security);
-    }
 
     /**
-     * 用户添加相册密保接口
+     * 用户添加密保接口
      *
      * @param security
      * @return Result
      */
-    @ApiOperation(value = "根据userId，PhotoAlbumId，question和answer添加相册密保", notes = "msg为成功，则添加成功")
-    @PostMapping(value = "/photoalbum")
+    @ApiOperation(value = "根据userId，PhotoAlbumId，question和answer添加密保", notes = "msg为成功，则添加成功")
+    @PostMapping(value = "/add")
     Result addPhotoAlbumSecurity(@RequestBody Security security) {
-        return securityService.addPhotoAlbumSecurity(security);
+        return securityService.addSecurity(security);
     }
 
+
     /**
-     * 用户查找账号密保接口
+     * 用户查找密保接口
      *
      * @param security
      * @return Result
      */
-    @ApiOperation(value = "根据userId查找账号密保", notes = "data为账号密保信息")
-    @PostMapping(value = "accountsecurity")
-    Result findAccountSecurity(@RequestBody Security security) {
-        return securityService.findAccountSecurity(security);
-    }
-
-    /**
-     * 用户查找相册密保接口
-     *
-     * @param security
-     * @return Result
-     */
-    @ApiOperation(value = "根据userId和PhotoAlbumId查看相册密保", notes = "data为相册密保信息")
-    @PostMapping(value = "/photoalbumsecurity")
+    @ApiOperation(value = "根据userId和PhotoAlbumId查看密保", notes = "data为密保信息")
+    @PostMapping(value = "/search")
     Result findPhotoAlbumSecurity(@RequestBody Security security) {
-        return securityService.findPhotoAlbumSecurity(security);
+        return securityService.findSecurity(security);
     }
 
+
     /**
-     * 用户更改账号密保信息接口
+     * 用户更改密保信息接口
      *
      * @param security
      * @return Result
      */
-    @ApiOperation(value = "根据userId，question和answer更改账号密保", notes = "msg为成功，则更改成功")
-    @PutMapping(value = "/accountsecurity")
-    Result updateAccountSecurity(@RequestBody Security security) {
-        return securityService.updateAccountSecurity(security);
-    }
-
-    /**
-     * 用户更改相册密保信息接口
-     *
-     * @param security
-     * @return Result
-     */
-    @ApiOperation(value = "根据userId，PhotoAlbumId，question和answer更改相册密保", notes = "msg为成功，则更改成功")
-    @PutMapping(value = "/photoalbumsecurity")
+    @ApiOperation(value = "根据userId，PhotoAlbumId，question和answer更改密保", notes = "msg为成功，则更改成功")
+    @PutMapping(value = "/revamp")
     Result updatePhotoAlbumSecurity(@RequestBody Security security) {
-        return securityService.updatePhotoAlbumSecurity(security);
+        return securityService.updateSecurity(security);
     }
 
-    /**
-     * 用户删除账号密保信息
-     *
-     * @param security
-     * @return Result
-     */
-    @ApiOperation(value = "根据userId删除账号密保", notes = "msg为成功，则删除成功")
-    @DeleteMapping(value = "/account")
-    Result deleteAccountSecurity(@RequestBody Security security) {
-        return securityService.deleteAccountSecurity(security);
-    }
 
     /**
      * 用户删除相册密保信息
@@ -114,9 +70,9 @@ public class SecurityController {
      * @param security
      * @return Result
      */
-    @ApiOperation(value = "根据userId和PhotoAlbumId删除相册密保", notes = "msg为成功，则删除成功")
-    @DeleteMapping(value = "/photoalbum")
+    @ApiOperation(value = "根据userId和PhotoAlbumId删除密保", notes = "msg为成功，则删除成功")
+    @DeleteMapping(value = "/del")
     Result deletePhotoAlbumSecurity(@RequestBody Security security) {
-        return securityService.deletePhotoAlbumSecurity(security);
+        return securityService.deleteSecurity(security);
     }
 }

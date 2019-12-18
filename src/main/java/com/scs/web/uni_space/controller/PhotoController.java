@@ -38,6 +38,7 @@ public class PhotoController {
         return photoService.batchAddPhoto(photoDto);
     }
 
+
     @ApiOperation(value = "通过list<Long> (照片id集合)删除照片", notes = "msg成功,则删除成功")
     @DeleteMapping(value = "/del")
     Result batchDelete(@RequestBody PhotoDto photoDto){

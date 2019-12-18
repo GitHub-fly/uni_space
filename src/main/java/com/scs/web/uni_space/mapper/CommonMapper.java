@@ -13,9 +13,12 @@ import java.sql.SQLException;
  * @Version 1.0
  */
 public interface CommonMapper {
+
+
     /**
      * 重置指定数据表的主键自增，使之连续
      *
+     * @param tableName
      * @throws SQLException
      */
     @Update("ALTER TABLE ${tableName} AUTO_INCREMENT = 1 ")

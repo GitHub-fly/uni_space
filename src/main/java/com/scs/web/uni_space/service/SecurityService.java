@@ -9,40 +9,23 @@ import com.scs.web.uni_space.common.Result;
  */
 public interface SecurityService {
 
-    /**
-     * 添加账号密保信息
-     * @param security
-     * @return Result
-     */
-    Result addAccountSecurity(Security security);
+
 
     /**
      * 添加用户相册密保信息
      * @param security
      * @return Result
      */
-    Result addPhotoAlbumSecurity(Security security);
+    Result addSecurity(Security security);
 
-    /**
-     * 查找帐号密保信息
-     * @param security
-     * @return Result
-     */
-    Result findAccountSecurity(Security security);
 
     /**
      * 查找相册密保信息
      * @param security
      * @return Result
      */
-    Result findPhotoAlbumSecurity(Security security);
+    Result findSecurity(Security security);
 
-    /**
-     * 更改帐号密保信息
-     * @param security
-     * @return Result
-     */
-    Result updateAccountSecurity(Security security);
 
 
     /**
@@ -50,14 +33,7 @@ public interface SecurityService {
      * @param security
      * @return Result
      */
-    Result updatePhotoAlbumSecurity(Security security);
-
-    /**
-     * 删除帐号密保信息
-     * @param security
-     * @return Result
-     */
-    Result deleteAccountSecurity(Security security);
+    Result updateSecurity(Security security);
 
 
     /**
@@ -65,5 +41,5 @@ public interface SecurityService {
      * @param security
      * @return Result
      */
-    Result deletePhotoAlbumSecurity(Security security);
+    Result deleteSecurity(Security security);
 }

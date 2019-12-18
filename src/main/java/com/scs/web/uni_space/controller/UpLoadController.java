@@ -2,6 +2,7 @@ package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.util.AliOssUtil;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
+@Api(value = "UpLoadController", tags = "文件上传接口")
 public class UpLoadController {
 
     @RequestMapping(value = "/img", method = RequestMethod.POST)
