@@ -30,12 +30,12 @@ public interface PhotoAlbumMapper {
     /**
      * 添加相册
      * @param photoAlbumDto
-     * @param timestamp
      * @throws SQLException
      */
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert({"INSERT INTO t_photo_album (user_id,cover,name,type,create_time,introduction) " +
-            "VALUE (#{photoAlbumDto.userId}, #{photoAlbumDto.cover}, #{photoAlbumDto.name}, #{photoAlbumDto.type}, #{timestamp}, #{photoAlbumDto.introduction}) "})
-    void addAllPhotoAlbum(@Param("photoAlbumDto") PhotoAlbumDto photoAlbumDto , Timestamp timestamp) throws SQLException;
+            "VALUE (#{photoAlbumDto.userId}, #{photoAlbumDto.cover}, #{photoAlbumDto.name}, #{photoAlbumDto.type}, #{photoAlbumDto.createTime}, #{photoAlbumDto.introduction}) "})
+    void addAllPhotoAlbum(@Param("photoAlbumDto") PhotoAlbumDto photoAlbumDto) throws SQLException;
 
 
     /**

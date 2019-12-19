@@ -66,16 +66,18 @@ public interface FriendMapper {
      * @return List
      * @throws SQLException
      */
-    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.* " +
+    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.*,c.friend_flag " +
             "FROM t_user a " +
             "LEFT JOIN t_journal b " +
             "ON a.id = b.user_id " +
-            "WHERE a.mobile LIKE CONCAT('%',#{key},'%') " +
-            "OR a.account LIKE CONCAT('%',#{key},'%') " +
-            "OR a.email LIKE CONCAT('%',#{key},'%') " +
-            "OR a.nickname LIKE CONCAT('%',#{key},'%') " +
-            "OR a.introduction LIKE CONCAT('%',#{key},'%') " +
-            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
+            "LEFT JOIN t_friend c " +
+            "ON a.id = c.to_id AND c.from_id = #{fromId} " +
+            "WHERE  a.mobile LIKE CONCAT('%', #{key}, '%') " +
+            "OR a.account LIKE  CONCAT('%', #{key}, '%') " +
+            "OR a.email LIKE CONCAT('%', #{key}, '%') " +
+            "OR a.nickname LIKE CONCAT('%', #{key}, '%') " +
+            "OR a.introduction LIKE  CONCAT('%', #{key}, '%') " +
+            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC  "})
     List<UserVo> searchUserByKey(Long fromId, String key) throws SQLException;
 
 

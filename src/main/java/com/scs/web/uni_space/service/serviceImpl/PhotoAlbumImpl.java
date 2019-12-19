@@ -8,6 +8,7 @@ import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoAlbumMapper;
 import com.scs.web.uni_space.service.PhotoAlbumService;
+import com.sun.xml.bind.v2.model.core.ID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -76,11 +77,17 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         //前端返回数据非空判断
         if (photoAlbumDto.getUserId() != null && photoAlbumDto.getName() != null ){
             try {
+
                 //调用插入方法
+                photoAlbumDto.setCreateTime(timestamp);
+
                 commonMapper.returnId("t_photo_album");
-                photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto,timestamp);
+                photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto);
+                System.out.println("hgdgaskj"+photoAlbumDto.getId());
+                long id =photoAlbumDto.getId();
+                photoAlbumDto.setId(id);
                 //成功返回result
-                return Result.success(ResultCode.SUCCESS);
+                return Result.success(photoAlbumDto);
             } catch (SQLException e) {
                 log.error("添加相册异常");
                 return Result.failure(ResultCode.USER_ADD_PHOTO_ALBUM_ERROR);
@@ -122,7 +129,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
     @Override
     public Result deletePhotoAlbum(PhotoAlbumDto photoAlbumDto) {
         //非空判断
-        if (photoAlbumDto.getUserId() != null && photoAlbumDto.getId() != null){
+        if (photoAlbumDto.getId() != null){
             try {
                 //调用删除方法
                 photoAlbumMapper.deleteAllPhotoAlbum(photoAlbumDto.getUserId(),photoAlbumDto.getId());

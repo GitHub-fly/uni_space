@@ -24,4 +24,5 @@ public class PhotoAlbumDto {
     private String name;
     private String type;
     private String introduction;
+    private Timestamp createTime;
 }
