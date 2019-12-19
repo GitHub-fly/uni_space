@@ -15,4 +15,6 @@ public class Like {
     private Long id;
     private Long userId;
     private Long journalId;
+    private  boolean likestatus;
+
 }

@@ -46,6 +46,12 @@ public class JournalController {
         return journalService.findIndexData(userDto);
     }
 
+    /**
+     * 推荐日志
+     *
+     * @param userDto
+     * @return
+     */
     @ApiOperation(value = "通过id推荐好友所有日志")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "这个参数是自己的id", dataType = "Integer"),
             @ApiImplicitParam(name = "birthday", value = "把birthday删了，不许给我传这个参数再问就是死")})
@@ -110,6 +116,11 @@ public class JournalController {
         return journalService.selectJournalDetailById((long) id);
     }
 
+    /**
+     * 点赞接口判断
+     * @param likeDto
+     * @return
+     */
 
     @ApiOperation(value = "通过参数 判断是否点赞")
     @ApiImplicitParam(name = "id", value = "传参数日志id,user_id", dataType = "Integer")
@@ -117,6 +128,7 @@ public class JournalController {
     Result concernLike(@RequestBody LikeDto likeDto) {
         return journalService.concernJournalLikes(likeDto);
     }
+
     /**
      * 点赞功能
      *
@@ -129,6 +141,7 @@ public class JournalController {
     Result addJournalLike(@RequestBody LikeDto likeDto) {
         return journalService.clickLikes(likeDto);
     }
+
 
     /**
      * 取消点赞功能
@@ -143,5 +156,38 @@ public class JournalController {
     @DeleteMapping(value = "/user/journal/cancellike")
     Result cancelJournalLike(@RequestBody LikeDto likeDto) {
         return journalService.cancelLike(likeDto);
+    }
+
+    /**
+     * pc新增日志
+     * @param journalDto
+     * @return
+     */
+
+    @ApiOperation(value = "通过日志内容提取日志图片 和 user_id 新增日志")
+    @ApiImplicitParams({@ApiImplicitParam(name = "user_id", value = "传参用户user_id",dataType = "Integer") ,@ApiImplicitParam
+            (name = "content", value = "传参数日志内容,",dataType = "string")
+    })
+    @PutMapping(value = "/user/journal/pcjournal")
+
+    Result addJournal(@RequestBody JournalDto journalDto){return  journalService.addJournal(journalDto);}
+
+
+    @ApiOperation(value = "通过日志内容 （图片数组） 和 user_id 新增日志")
+    @ApiImplicitParams({@ApiImplicitParam(name = "user_id", value = "传参用户user_id",dataType = "Integer") ,@ApiImplicitParam
+            (name = "content", value = "传参数日志内容,",dataType = "string"),
+         @ApiImplicitParam   (name = "urls;", value = "传参数图片数组,",dataType = "string")
+    })
+    @PutMapping(value = "/user/journal/mobilejournal")
+
+    Result addMObileJounal(@RequestBody JournalDto journalDto){return  journalService.addJournal(journalDto);}
+
+
+
+    @ApiOperation(value = "批量删除日志")
+   @ApiImplicitParam(name = "传日志id数组", value = "传参用户日志数组",dataType = "Integer")
+    @DeleteMapping(value = "/user/journal")
+    Result deleteJournal(@RequestBody JournalDto journalDto){
+        return journalService.deleteJournal(journalDto);
     }
 }

@@ -1,8 +1,6 @@
 package com.scs.web.uni_space.domain.vo;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.sql.Timestamp;
 
@@ -15,6 +13,7 @@ import java.sql.Timestamp;
  */
 
 @Data
+
 public class JournalVo {
     private Long userId;
     private String nickname;
@@ -27,4 +26,6 @@ public class JournalVo {
     private Integer comments;
     private Timestamp createTime;
     private String journalPictureNum;
+    private String  LikeStatus;
+
 }

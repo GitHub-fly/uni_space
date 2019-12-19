@@ -21,7 +21,6 @@ import java.util.List;
  * @Version 1.0
  */
 public interface JournalMapper {
-
     /**
      * 删除指定id日志中的所有照片
      * @param journalId
@@ -33,6 +32,7 @@ public interface JournalMapper {
      *
      * @param id
      * @return
+     * @throws SQLException
      */
     @Select("SELECT * FROM t_journal  WHERE user_id =#{id}")
     List<Journal> findAllJournal(Long id) throws SQLException;
@@ -45,13 +45,18 @@ public interface JournalMapper {
      * @throws SQLException
      */
 
-    @Select("SELECT DISTINCT a.to_id AS user_id, b.nickname, b.avatar,c.id,c.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,c.journal_picture_num " +
-            "FROM t_friend a LEFT JOIN t_user b " +
-            "ON a.to_id = b.id " +
-            "LEFT JOIN t_journal c " +
-            "ON b.id=c.user_id " +
-            "WHERE a.from_id = #{formId} AND a.friend_flag = 1 AND  c.content IS NOT NULL " +
-            "ORDER BY c.create_time DESC ")
+    @Select("SELECT DISTINCTROW a.to_id AS user_id, b.nickname, b.avatar,c.id,c.title, c.content, c.thumbnail,  c.likes, c.comments, c.create_time,\n" +
+            "c.journal_picture_num ,d.create_time AS LikeStatus\n" +
+            "            FROM t_friend a\n" +
+            "\t\t\t\t\t\tLEFT JOIN t_user b \n" +
+            "            ON a.to_id = b.id \n" +
+            "            LEFT JOIN t_journal c \n" +
+            "            ON b.id=c.user_id \n" +
+            "\t\t\t\t\t\tLEFT JOIN t_like d\n" +
+            "\t\t\t\t\t  ON\tc.id =d.journal_id AND a.from_id = d.user_id\n" +
+            "            WHERE a.from_id = 1 AND a.friend_flag = 1 AND  c.content IS NOT NULL\n" +
+            "\t\t\t\t\t   GROUP BY title\t\n" +
+            "            ORDER BY c.create_time DESC")
     List<JournalVo> findFriendJournal(Long formId) throws SQLException;
 
     /**
@@ -68,7 +73,6 @@ public interface JournalMapper {
             "            ON b.id=c.user_id \n" +
             "            WHERE a.from_id = #{formId} AND a.friend_flag = 1 \n" +
             "            ORDER BY c.likes DESC")
-
     List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
 
 
@@ -88,15 +92,21 @@ public interface JournalMapper {
 
     /**
      * 通过日志id查询用户日志里面的相册
+     * @param id
+     * @return
+     * @throws SQLException
      */
     @Select("SELECT id ,journal_id,url " +
             "FROM t_journal_picture " +
             " WHERE journal_id = #{id}")
     List<JournalPicture> selectJournalPictureById(Long id) throws SQLException;
 
-    /*
+    /**
      * 通过日志id找到评论内容
-     * */
+     * @param id
+     * @return
+     * @throws SQLException
+     */
 
     @Select("SELECT a.journal_id,a.content,a.create_time ,a.user_id,b.nickname,b.avatar\n" +
             "FROM t_comment a\n" +
@@ -122,6 +132,7 @@ public interface JournalMapper {
             "WHERE a.id=#{id}")
     JournalVo selectJournalById(Long id) throws SQLException;
 
+
     /**
      * 对于文章点赞数查询 查询是否有一条记录
      *
@@ -135,19 +146,18 @@ public interface JournalMapper {
     @Select("SELECT *\n" +
             "FROM t_like \n" +
             "WHERE user_id=#{userId} AND journal_id =#{journalId}")
-    Like concernJournalLike(long userId, long journalId) throws SQLException;
-
+    Like concernJournalLike(Long userId, Long journalId) throws SQLException;
 
     /**
      * 对于未点赞就插入数据一条数据
      *
-     * @param
-     * @param
+     * @param userId
+     * @param journalId
      * @throws SQLException
      */
 
     @Insert("INSERT INTO t_like (user_id,journal_id) VALUES(#{userId},#{journalId})\t")
-    void insertLike(long userId, long journalId) throws SQLException;
+    void insertLike(Long userId, Long journalId) throws SQLException;
 
     /**
      * 更新日志点赞数
@@ -157,7 +167,7 @@ public interface JournalMapper {
      */
     @Update("UPDATE t_journal SET likes=(SELECT COUNT(journal_id)  FROM t_like \n" +
             "            WHERE journal_id =#{journalId}) WHERE id =#{journalId}\n")
-    void updateLikes(long journalId) throws SQLException;
+    void updateLikes(Long journalId) throws SQLException;
 
     /**
      * 统计点赞总数
@@ -178,7 +188,70 @@ public interface JournalMapper {
      * @throws SQLException
      */
     @Delete("DELETE FROM t_like WHERE user_id =#{userId} AND journal_id =#{journalId}\n")
-    void delectlike(long userId, long journalId) throws SQLException;
+    void deleteLike(Long userId, Long journalId) throws SQLException;
 
+    /**
+     * 新增日志
+     *
+     * @param journal
+     * @throws SQLException
+     */
+
+    @Insert("INSERT  INTO t_journal (user_id ,content,thumbnail,title , " +
+            "create_time,journal_picture_num )VALUES(#{journal.userId},#{journal.content}, " +
+            "#{journal.thumbnail},#{journal.title},#{journal.createTime},#{journal.JournalPictureNum}) ")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    void insertJournal(@Param("journal") Journal journal) throws SQLException;
+
+
+    /**
+     * 新增日志中将日志中的照片提取出来插进去
+     *
+     * @param journalPictures
+     * @throws SQLException
+     */
+    @Insert({
+            "<script> ",
+            "INSERT into  (journal_id,create_time,url) VALUES ",
+            "<foreach collection = 'list' item = 'item' index = 'index' separator = ','> ",
+            "(#{item.journalId},#{item.createTime},#{item.url}) ",
+            "</foreach> ",
+            "</script> "
+    })
+    void batchInsertJournal(@Param(value = "list") List<JournalPicture> journalPictures) throws SQLException;
+
+    /**
+     * t_journal_photo
+     * 批量删除日志
+     *
+     * @param longList
+     * @throws SQLException
+     */
+
+    @Delete({
+            "<script> ",
+            "DELETE FROM t_journal WHERE id IN( ",
+            "<foreach collection = 'list' item = 'item' index ='index' separator =','> ",
+            "#{item} ",
+            "</foreach>) ",
+            "</script>"
+    })
+    void batchDeleteJournal(@Param(value = "list") List<Long> longList) throws SQLException;
+
+    /**
+     * 批量删除照片
+     *
+     * @param longList
+     * @throws SQLException
+     */
+    @Delete({
+            "<script> ",
+            "DELETE FROM t_journal_photo WHERE journal_id IN( ",
+            "<foreach collection = 'list' item = 'item' index ='index' separator =','> ",
+            "#{item} ",
+            "</foreach>) ",
+            "</script>"
+    })
+    void batchDeleteJournalPicture(@Param(value = "list") List<Long> longList) throws SQLException;
 
 }

@@ -1,11 +1,12 @@
 package com.scs.web.uni_space.domain.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Null;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author wl
@@ -14,11 +15,20 @@ import javax.validation.constraints.Null;
  * @Date 2019/12/14
  * @Version 1.0
  */
-@Null
+@NotNull
 @Data
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class JournalDto {
        private  Long id;
+       private Long userId;
+       private  String title;
+       private String thumbnail;
+       private String content;
+       private String[] urls;
+       private Timestamp createTime;
+       private Long JournalPictureNum;
+       private List<Long> longList;
+
 }

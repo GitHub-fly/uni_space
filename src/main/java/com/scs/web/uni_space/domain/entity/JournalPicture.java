@@ -1,6 +1,10 @@
 package com.scs.web.uni_space.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
 
 import java.sql.Timestamp;
 
@@ -13,6 +17,9 @@ import java.sql.Timestamp;
  **/
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class JournalPicture {
     private Long id;
     private Long journalId;

@@ -1,7 +1,6 @@
 package com.scs.web.uni_space.domain.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

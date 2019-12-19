@@ -60,13 +60,13 @@ public interface JournalService {
    */
   Result selectJournalDetailById(Long id);
 
+
   /**
    * 判断是否点赞
    * @param likeDto
    * @return
    */
   Result concernJournalLikes(LikeDto likeDto);
-
   /**
    * 点赞功能
    * @param likeDto
@@ -76,11 +76,33 @@ public interface JournalService {
 
   /**
    * 取消点赞
+   *
    * @param likeDto
    * @return
    */
 
   Result cancelLike(LikeDto likeDto);
 
+  /**
+   * pc  新增日志
+   *
+   * @param journalDto
+   * @return
+   */
+  Result addJournal(JournalDto journalDto);
 
+  /**
+   * 手机新增日志
+   *
+   * @param journalDto
+   * @return
+   */
+
+  Result addMobileJournal(JournalDto journalDto);
+
+  /**
+   * 批量删除日志
+   * @param journalDto
+   */
+  Result  deleteJournal(JournalDto journalDto);
 }
