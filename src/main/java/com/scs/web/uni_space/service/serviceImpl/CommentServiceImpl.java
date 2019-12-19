@@ -49,6 +49,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             commonMapper.returnId("t_friend");
             commentMapper.insertComment(commentDto);
+            commentMapper.addComment(commentDto.getJournalId());
         } catch (SQLException e) {
             log.error("插入失败");
             return Result.failure(ResultCode.SYSTEM_INNER_ERROR);
@@ -60,6 +61,7 @@ public class CommentServiceImpl implements CommentService {
     public Result deleteComment(CommentDto commentDto) {
         try {
             commentMapper.deleteComment(commentDto.getUserId());
+            commentMapper.decreaseComments(commentDto.getJournalId());
         } catch (SQLException e) {
             log.error("删除失败");
             return Result.failure(ResultCode.SYSTEM_INNER_ERROR);

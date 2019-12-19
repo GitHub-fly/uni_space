@@ -11,7 +11,6 @@ import java.sql.Timestamp;
  * @Date 2019/12/11
  * @Version 1.0
  */
-
 @Data
 
 public class JournalVo {

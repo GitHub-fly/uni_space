@@ -41,6 +41,7 @@ public class FriendServiceImpl implements FriendService {
 
     /**
      * 推荐好友接口
+     *
      * @param friendDto
      * @return Result
      */
@@ -132,32 +133,32 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public Result addFriend(FriendDto friendDto) {
-        if (friendDto.getFromId().equals(friendDto.getToId())){
+        if (friendDto.getFromId().equals(friendDto.getToId())) {
             return Result.failure(ResultCode.USER_NOT_INSERT_OWN);
-        }else {
-            if(friendDto.getFromId() != null && friendDto.getToId() != null){
+        } else {
+            if (friendDto.getFromId() != null && friendDto.getToId() != null) {
                 try {
                     //查看对方是否发过请求
-                    Friend searchFriend = friendMapper.selectFriendFlag(friendDto.getToId(),friendDto.getFromId());
-                    if (searchFriend == null){
+                    Friend searchFriend = friendMapper.selectFriendFlag(friendDto.getToId(), friendDto.getFromId());
+                    if (searchFriend == null) {
                         //查看自己是否发过请求
                         Friend friend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
-                        if (friend == null){
+                        if (friend == null) {
                             commonMapper.returnId("t_friend");
                             friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
-                        }else if (friend.getFriendFlag() == 0){
+                        } else if (friend.getFriendFlag() == 0) {
                             return Result.failure(ResultCode.USER_HAS_APPLICANT);
-                        }else if (friend.getFriendFlag() == 1){
+                        } else if (friend.getFriendFlag() == 1) {
                             return Result.failure(ResultCode.USER_HAS_FRIEND);
                         }
-                    }else {
-                        if (searchFriend.getFriendFlag() == 0){
+                    } else {
+                        if (searchFriend.getFriendFlag() == 0) {
                             friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
                             commonMapper.returnId("t_friend");
-                            friendMapper.insertEachOther(friendDto.getFromId(),friendDto.getToId());
+                            friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
-                        }else if (searchFriend.getFriendFlag() == 1){
+                        } else if (searchFriend.getFriendFlag() == 1) {
                             return Result.failure(ResultCode.USER_HAS_FRIEND);
                         }
                     }
@@ -239,7 +240,7 @@ public class FriendServiceImpl implements FriendService {
                 return Result.failure(ResultCode.USER_DELETE_FRIEND_ERROR);
             }
         }
-         return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
+        return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
     }
 
 }

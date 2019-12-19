@@ -21,8 +21,27 @@ import java.util.List;
  * @Version 1.0
  */
 public interface JournalMapper {
+
+
+    /**
+     * 批量插入日志中照片数据
+     *
+     * @param list
+     * @throws SQLException
+     */
+    @Insert({"<script>" +
+            "INSERT INTO t_photo_journal(journal_id, create_time, url) VALUES" +
+            "<foreach collection='list' item='item' index='index' separator=','> " +
+            "(#{item.journalId}, #{item.createTime}, #{item.url}) " +
+            "</foreach> ",
+            "</script> "
+    })
+    void batchInsertJournalOfPhoto(List<JournalPicture> list) throws SQLException;
+
+
     /**
      * 删除指定id日志中的所有照片
+     *
      * @param journalId
      */
     void batchDeletePhotos(Long journalId);
@@ -59,6 +78,7 @@ public interface JournalMapper {
             "            ORDER BY c.create_time DESC")
     List<JournalVo> findFriendJournal(Long formId) throws SQLException;
 
+
     /**
      * 推荐日志所需要的mapper
      *
@@ -75,8 +95,6 @@ public interface JournalMapper {
             "            ORDER BY c.likes DESC")
     List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
 
-
-
     /**
      * 查找指定id用户的所有日志信息
      * 包括日志id/标题/正文/缩略图/喜欢度/评论数/表发时间
@@ -92,6 +110,7 @@ public interface JournalMapper {
 
     /**
      * 通过日志id查询用户日志里面的相册
+     *
      * @param id
      * @return
      * @throws SQLException
@@ -103,6 +122,7 @@ public interface JournalMapper {
 
     /**
      * 通过日志id找到评论内容
+     *
      * @param id
      * @return
      * @throws SQLException
@@ -114,12 +134,12 @@ public interface JournalMapper {
             "ON a.user_id =b.id\n" +
             "WHERE a.journal_id=#{id}\n" +
             "ORDER BY a.create_time DESC      ")
-
     List<UserCommentVo> selectCommentById(Long id) throws SQLException;
 
 
     /**
-     *通过日志id查看文章详情
+     * 通过日志id查看文章详情
+     *
      * @param id
      * @return
      * @throws SQLException
@@ -179,6 +199,7 @@ public interface JournalMapper {
     @Select("SELECT journal_id,COUNT(journal_id) AS likes  FROM t_like\n" +
             "                WHERE journal_id =#{journalId}")
     LikeDto countLike(Long journalId) throws SQLException;
+
 
     /**
      * 删除点赞

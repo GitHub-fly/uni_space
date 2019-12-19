@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
-import java.sql.Timestamp;
-
 /**
  * @author suyuxi
  * @className JournalPicture
@@ -19,10 +17,9 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class JournalPicture {
     private Long id;
     private Long journalId;
-    private String url;
     private Timestamp createTime;
+    private String url;
 }

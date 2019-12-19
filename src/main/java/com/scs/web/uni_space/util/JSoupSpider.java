@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +137,7 @@ public class JSoupSpider {
             }
             Elements titles = document.getElementsByClass("title");
             titles.forEach(title -> {
-                Music music = new Music();
+//                Music music = new Music();
                 Element a = title.child(0);
                 String name = a.text();
                 String url = a.attr("href");
@@ -153,7 +152,7 @@ public class JSoupSpider {
                 Element audio = jqueryDiv.child(1);
 
 
-                musicList.add(music);
+//                musicList.add(music);
             });
         }
 

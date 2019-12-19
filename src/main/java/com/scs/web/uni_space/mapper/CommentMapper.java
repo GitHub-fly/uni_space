@@ -36,6 +36,15 @@ public interface CommentMapper {
     void insertComment(@Param("commentDto") CommentDto commentDto) throws SQLException;
 
     /**
+     * 日志表中评论总数加一
+     *
+     * @param journalId
+     * @throws SQLException
+     */
+    @Select("UPDATE t_journal SET comments = comments + 1  WHERE id = #{journalID} ")
+    void addComment(Long journalId) throws SQLException;
+
+    /**
      * 删除一条评论
      *
      * @param id
@@ -43,4 +52,13 @@ public interface CommentMapper {
      */
     @Select("DELETE FROM t_comment WHERE id = #{id} ")
     void deleteComment(Long id) throws SQLException;
+
+    /**
+     * 日志表中评论总数减一
+     *
+     * @param journalId
+     * @throws SQLException
+     */
+    @Select("UPDATE t_journal SET comments = comments - 1  WHERE id = #{journalID} ")
+    void decreaseComments(Long journalId) throws SQLException;
 }

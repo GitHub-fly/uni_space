@@ -1,10 +1,10 @@
 package com.scs.web.uni_space.service.serviceImpl;
 
+import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.mapper.SecurityMapper;
 import com.scs.web.uni_space.service.SecurityService;
-import com.scs.web.uni_space.common.Result;
-import com.scs.web.uni_space.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +70,6 @@ public class SecurityServiceImpl implements SecurityService {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
     }
-
 
 
     @Override

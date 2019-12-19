@@ -1,5 +1,6 @@
 package com.scs.web.uni_space.domain.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -13,8 +14,10 @@ import java.sql.Timestamp;
  **/
 
 @Data
+@Builder
 public class Music {
     private Long id;
+    private Long userId;
     private String name;
     private String content;
     private String singer;

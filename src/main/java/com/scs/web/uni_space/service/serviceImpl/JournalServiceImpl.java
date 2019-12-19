@@ -130,8 +130,9 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Result concernJournalLikes(LikeDto likeDto) {
-        try {
             //通过user_id 和 日志id
+
+        try {
             Like like = journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
             if (like != null) {
                 return Result.success();
@@ -139,6 +140,7 @@ public class JournalServiceImpl implements JournalService {
         } catch (SQLException e) {
             log.error("查询失败");
         }
+
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
@@ -157,6 +159,7 @@ public class JournalServiceImpl implements JournalService {
         } catch (SQLException e) {
             log.error("插入点赞失败");
         }
+
         return Result.failure(ResultCode.DATA_ALREADY_EXISTED);
     }
 
@@ -175,6 +178,7 @@ public class JournalServiceImpl implements JournalService {
             log.error("取消点赞失败");
         }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+
     }
 
     @Override
@@ -280,5 +284,6 @@ public class JournalServiceImpl implements JournalService {
             }
         }
         return Result.failure(ResultCode.DATA_IS_WRONG);
+
     }
 }

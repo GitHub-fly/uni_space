@@ -2,6 +2,8 @@ package com.scs.web.uni_space.domain.entity;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 /**
  * @author suyuxi
  * @className Like
@@ -12,9 +14,9 @@ import lombok.Data;
 
 @Data
 public class Like {
+    private Timestamp createTime;
     private Long id;
     private Long userId;
     private Long journalId;
     private  boolean likestatus;
-
 }

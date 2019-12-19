@@ -1,6 +1,5 @@
 package com.scs.web.uni_space.controller;
 
-import com.mysql.fabric.xmlrpc.base.Value;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.FriendDto;
@@ -22,7 +21,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/api/friend")
-@Api(value = "NoteController", tags = {"好友模块接口"})
+@Api(value = "FriendController", tags = {"好友模块接口"})
 public class FriendController {
 
     @Resource
