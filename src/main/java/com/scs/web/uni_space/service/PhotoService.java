@@ -2,6 +2,8 @@ package com.scs.web.uni_space.service;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.PhotoDto;
+import com.scs.web.uni_space.domain.entity.Photo;
+
 
 /**
  * @author 22968
@@ -20,10 +22,10 @@ public interface PhotoService {
 
     /**
      * 批量添加
-     * @param photoDto
+     * @param photos
      * @return Result
      */
-    Result batchAddPhoto(PhotoDto photoDto);
+    Result batchAddPhoto(Photo[] photos);
 
 
 

@@ -108,4 +108,10 @@ public class UserController {
     Result selectSum(@RequestBody QueryDto queryDto) {
         return userService.selectAllSum(queryDto);
     }
+
+
+    @PutMapping(value = "/security")
+    Result updatePassword(@RequestBody UserDto userDto){
+        return userService.updatePassword(userDto);
+    }
 }

@@ -24,7 +24,7 @@ public interface PhotoMapper {
      * @return List
      * @throws SQLException
      */
-    @Select({"SELECT * FROM t_photo WHERE album_id = 1"})
+    @Select({"SELECT * FROM t_photo WHERE album_id = #{albumId}"})
     List<Photo> findAll(Long albumId) throws SQLException;
 
 

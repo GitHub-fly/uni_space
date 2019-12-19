@@ -2,6 +2,8 @@ package com.scs.web.uni_space.domain.entity;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 /**
  * @author suyuxi
  * @className JournalPicture
@@ -15,4 +17,5 @@ public class JournalPicture {
     private Long id;
     private Long journalId;
     private String url;
+    private Timestamp createTime;
 }

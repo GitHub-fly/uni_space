@@ -1,11 +1,8 @@
 package com.scs.web.uni_space.mapper;
 
-import com.scs.web.uni_space.domain.entity.PhotoAlbum;
+import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -32,29 +29,24 @@ public interface PhotoAlbumMapper {
 
     /**
      * 添加相册
-     * @param userId
-     * @param name
-     * @param createTime
+     * @param photoAlbumDto
+     * @param timestamp
      * @throws SQLException
      */
     @Insert({"INSERT INTO t_photo_album (user_id,cover,name,type,create_time,introduction) " +
-            "VALUE (#{userId}, #{cover}, #{name}, #{type}, #{createTime}, #{introduction}) "})
-    void addAllPhotoAlbum(Long userId,  String name, Timestamp createTime) throws SQLException;
+            "VALUE (#{photoAlbumDto.userId}, #{photoAlbumDto.cover}, #{photoAlbumDto.name}, #{photoAlbumDto.type}, #{timestamp}, #{photoAlbumDto.introduction}) "})
+    void addAllPhotoAlbum(@Param("photoAlbumDto") PhotoAlbumDto photoAlbumDto , Timestamp timestamp) throws SQLException;
 
 
     /**
      * 更改相册信息
-     * @param id
-     * @param userId
-     * @param cover
-     * @param name
-     * @param type
-     * @param introduction
+     * @param photoAlbumDto
      * @throws SQLException
      */
-    @Update({"UPDATE t_photo_album SET cover = #{cover}, name = #{name}, type = #{type}, introduction = #{introduction} " +
-            "WHERE user_id = #{userId} AND id = #{id}"})
-    void updateAllPhotoAlbum(Long id, Long userId, String cover, String name, String type, String introduction) throws SQLException;
+    @Update({"UPDATE t_photo_album SET cover = #{photoAlbumDto.cover}, name = #{photoAlbumDto.name}, type = #{photoAlbumDto.type}, " +
+            "introduction = #{photoAlbumDto.introduction} " +
+            "WHERE user_id = #{photoAlbumDto.userId} AND id = #{photoAlbumDto.id}"})
+    void updateAllPhotoAlbum(@Param("photoAlbumDto") PhotoAlbumDto photoAlbumDto) throws SQLException;
 
 
     /**

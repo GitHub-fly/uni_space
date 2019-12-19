@@ -64,4 +64,7 @@ public interface SecurityMapper {
      */
     @Delete({"DELETE FROM t_security WHERE photo_album_id = #{photoAlbumId} AND user_id = #{userId} "})
     void deleteSecurity(Long userId, Long photoAlbumId) throws SQLException;
+
+
+
 }

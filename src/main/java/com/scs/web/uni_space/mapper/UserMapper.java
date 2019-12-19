@@ -102,7 +102,7 @@ public interface UserMapper {
      * @return
      * @throws SQLException
      */
-    @Update({"UPDATE t_user SET password = #{userDto.password} WHERE mobile=#{userDto.mobile}"})
+    @Update({"UPDATE t_user SET password = #{userDto.password} WHERE mobile=#{userDto.mobile} OR id = #{userDto.id}"})
     void updateUserPassword(@Param("userDto") UserDto userDto) throws SQLException;
 
     /**

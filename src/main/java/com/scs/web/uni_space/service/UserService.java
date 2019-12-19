@@ -5,6 +5,7 @@ import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 
 
+
 /**
  * @author wl
  * @ClassNameUserService
@@ -76,4 +77,13 @@ public interface UserService {
      * @return
      */
     Result isLogin(UserDto userDto);
+
+
+    /**
+     * 根据用户id修改密码
+     *
+     * @param userDto
+     * @return Result
+     */
+    Result updatePassword(UserDto userDto);
 }

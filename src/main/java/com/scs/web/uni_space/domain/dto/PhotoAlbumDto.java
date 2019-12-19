@@ -16,8 +16,6 @@ import java.sql.Timestamp;
  **/
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class PhotoAlbumDto {
     private Long id;

@@ -177,7 +177,8 @@ public interface JournalMapper {
      * @param journalId
      * @throws SQLException
      */
-
     @Delete("DELETE FROM t_like WHERE user_id =#{userId} AND journal_id =#{journalId}\n")
     void delectlike(long userId, long journalId) throws SQLException;
+
+
 }

@@ -243,6 +243,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Result updatePassword(UserDto userDto) {
+        if (userDto.getId() != null && userDto.getPassword() != null){
+            userDto.setPassword(DigestUtils.md5Hex(userDto.getPassword()));
+            try {
+                userMapper.updateUserPassword(userDto);
+                return Result.success(ResultCode.SUCCESS);
+            } catch (SQLException e) {
+                log.error("根据id更改密码异常");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+    @Override
     public Result selectAllSum(QueryDto queryDto) {
         if (queryDto.getId() != null) {
             try {

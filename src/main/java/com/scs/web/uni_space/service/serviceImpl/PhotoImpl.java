@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,20 +57,23 @@ public class PhotoImpl implements PhotoService {
     /**
      * 批量插入照片
      *
-     * @param photoDto
+     * @param photos
      * @return Result
      */
     @Override
-    public Result batchAddPhoto(PhotoDto photoDto) {
-        if (photoDto.getLongList().size() != 0){
-            try {
-                photoMapper.batchInsertPhoto(photoDto.getPhotoList());
-                return Result.success(ResultCode.SUCCESS);
-            } catch (SQLException e) {
-                log.error("批量插入异常");
-                return Result.failure(ResultCode.PHOTO_BATCH_ADD_ERROR);
-            }
+    public Result batchAddPhoto(Photo[] photos){
+        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+        if (photos.length != 0){
+            for (int i = 0; i<photos.length; i++){
+                photos[i].setCreateTime(timestamp);            }
         }
+        try {
+            photoMapper.batchInsertPhoto(Arrays.asList(photos));
+            return Result.success(ResultCode.SUCCESS);
+        } catch (SQLException e) {
+            log.error("批量出入出现异常");
+        }
+
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 

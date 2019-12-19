@@ -3,9 +3,7 @@ package com.scs.web.uni_space.controller;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
-import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 import com.scs.web.uni_space.service.PhotoAlbumService;
-import com.scs.web.uni_space.service.serviceImpl.PhotoAlbumImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +43,7 @@ public class PhotoAlbumController {
      * @param photoAlbumDto
      * @return Result
      */
-    @ApiOperation(value = "通过用户id，name创建相册", notes = "msg成功，则添加成功")
+    @ApiOperation(value = "通过用户photoAlbumDto创建相册", notes = "msg成功，则添加成功")
     @PostMapping(value = "/apa")
     Result addPhotoAlbum(@RequestBody PhotoAlbumDto photoAlbumDto){
         return photoAlbumService.addPhotoAlbum(photoAlbumDto);

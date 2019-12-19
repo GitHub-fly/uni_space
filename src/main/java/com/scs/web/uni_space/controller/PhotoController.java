@@ -2,6 +2,7 @@ package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.PhotoDto;
+import com.scs.web.uni_space.domain.entity.Photo;
 import com.scs.web.uni_space.service.PhotoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,10 +33,10 @@ public class PhotoController {
     }
 
 
-    @ApiOperation(value = "通过list<Photo>批量插入照片,相册id，时间和URL不能为空", notes = "msg成功,则删除成功")
+    @ApiOperation(value = "通过Photo[] photos批量插入照片,相册id，URL不能为空", notes = "msg成功,则删除成功")
     @PostMapping(value = "/batch")
-    Result batchAddPhoto(@RequestBody PhotoDto photoDto){
-        return photoService.batchAddPhoto(photoDto);
+    Result batchAddPhoto(@RequestBody Photo[] photos){
+        return photoService.batchAddPhoto(photos);
     }
 
 

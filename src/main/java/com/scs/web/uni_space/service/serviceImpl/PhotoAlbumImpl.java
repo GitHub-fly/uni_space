@@ -78,7 +78,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
             try {
                 //调用插入方法
                 commonMapper.returnId("t_photo_album");
-                photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto.getUserId(),photoAlbumDto.getName(),timestamp);
+                photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto,timestamp);
                 //成功返回result
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -103,7 +103,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         if (photoAlbumDto.getId() != null && photoAlbumDto.getUserId() != null && photoAlbumDto.getCover() != null && photoAlbumDto.getName() != null && photoAlbumDto.getType() != null && photoAlbumDto.getIntroduction() != null){
             try {
                 //调用更改信息方法
-                photoAlbumMapper.updateAllPhotoAlbum(photoAlbumDto.getId(),photoAlbumDto.getUserId(),photoAlbumDto.getCover(),photoAlbumDto.getName(),photoAlbumDto.getType(),photoAlbumDto.getIntroduction());
+                photoAlbumMapper.updateAllPhotoAlbum(photoAlbumDto);
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
                 log.error("修改相册信息异常");
