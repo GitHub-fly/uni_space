@@ -91,7 +91,7 @@ public interface JournalMapper {
             "            ON a.to_id = b.id \n" +
             "            LEFT JOIN t_journal c \n" +
             "            ON b.id=c.user_id \n" +
-            "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1 \n" +
+            "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1  AND  c.content IS NOT NULL \n" +
             "            ORDER BY c.likes DESC")
     List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
 
