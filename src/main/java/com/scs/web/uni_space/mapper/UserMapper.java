@@ -125,23 +125,23 @@ public interface UserMapper {
             "FROM( " +
             "(SELECT COUNT(f.user_id)AS journal_sum " +
             "FROM t_journal f " +
-            "WHERE f.user_id = 4 " +
+            "WHERE f.user_id = #{id} " +
             ")a, " +
             "(SELECT COUNT(d.user_id) AS photo_album_sum " +
             "FROM t_photo_album d " +
-            "WHERE d.user_id = 4 " +
+            "WHERE d.user_id = #{id} " +
             ")b, " +
             "(SELECT  COUNT(e.id)AS photo_sum " +
             "FROM t_photo_album d " +
             "LEFT JOIN t_photo e " +
             "ON d.id=e.album_id " +
-            "WHERE d.user_id = 4 " +
+            "WHERE d.user_id = #{id} " +
             ")c, " +
             "(SELECT e.*, COUNT(d.from_id) AS friend_sum " +
             "FROM t_friend d " +
             "LEFT JOIN t_user e " +
             "ON d.from_id=e.id AND d.friend_flag=1 " +
-            "WHERE e.id = 4 " +
+            "WHERE e.id = #{id} " +
             ")d " +
             ") "})
     UserVo selectSum(Long id) throws SQLException;
