@@ -170,7 +170,7 @@ public class JournalController {
     })
     @PutMapping(value = "/user/journal/pcjournal")
 
-    Result addJournal(@RequestBody JournalDto journalDto){return  journalService.addMobileJournal(journalDto);}
+    Result addJournal(@RequestBody JournalDto journalDto){return  journalService.addJournal(journalDto);}
 
 
     @ApiOperation(value = "通过日志内容 （图片数组） 和 user_id 新增日志")
@@ -180,7 +180,7 @@ public class JournalController {
     })
     @PutMapping(value = "/user/journal/mobilejournal")
 
-    Result addMObileJounal(@RequestBody JournalDto journalDto){return  journalService.addJournal(journalDto);}
+    Result addMObileJounal(@RequestBody JournalDto journalDto){return  journalService.addMobileJournal(journalDto);}
 
 
 

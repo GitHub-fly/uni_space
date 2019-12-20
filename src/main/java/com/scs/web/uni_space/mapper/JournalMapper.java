@@ -91,11 +91,8 @@ public interface JournalMapper {
             "            ON a.to_id = b.id \n" +
             "            LEFT JOIN t_journal c \n" +
             "            ON b.id=c.user_id \n" +
-<<<<<<< HEAD
-            "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1  AND  c.content IS NOT NULL \n" +
-=======
+
             "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1 AND  c.content IS NOT NULL \n" +
->>>>>>> 0fdbd6e775d931751a6a90fa19b8995e5f2eedcd
             "            ORDER BY c.likes DESC")
     List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
 
@@ -237,7 +234,7 @@ public interface JournalMapper {
      */
     @Insert({
             "<script> ",
-            "INSERT into  (journal_id,create_time,url) VALUES ",
+            "INSERT into t_journal_photo (journal_id,create_time,url) VALUES ",
             "<foreach collection = 'list' item = 'item' index = 'index' separator = ','> ",
             "(#{item.journalId},#{item.createTime},#{item.url}) ",
             "</foreach> ",

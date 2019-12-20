@@ -214,7 +214,7 @@ public class JournalServiceImpl implements JournalService {
                         pictureList.add(journalPicture);
                     }
                     if (journalDto.getContent() != null || journalDto.getUserId() != null) {
-                        commonMapper.returnId("t_photo_journal");
+                        commonMapper.returnId("t_journal_photo");
                         //批量插入照片
                         journalMapper.batchInsertJournal(pictureList);
                     }
@@ -258,7 +258,7 @@ public class JournalServiceImpl implements JournalService {
                         journalPicture.setUrl(urlList.get(i));
                         journalPictureList.add(journalPicture);
                     }
-                    commonMapper.returnId("t_photo_journal");
+                    commonMapper.returnId("t_journal_photo");
                     //批量插入照片
                     journalMapper.batchInsertJournal(journalPictureList);
                 }
