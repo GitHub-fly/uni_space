@@ -59,7 +59,7 @@ public interface JournalMapper {
     /**
      * 查找首页日志所需要数据 不包括评论数
      *
-     * @param formId
+     * @param fromId
      * @return
      * @throws SQLException
      */
@@ -73,10 +73,10 @@ public interface JournalMapper {
             "            ON b.id=c.user_id \n" +
             "\t\t\t\t\t\tLEFT JOIN t_like d\n" +
             "\t\t\t\t\t  ON\tc.id =d.journal_id AND a.from_id = d.user_id\n" +
-            "            WHERE a.from_id = 1 AND a.friend_flag = 1 AND  c.content IS NOT NULL\n" +
+            "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1 AND  c.content IS NOT NULL\n" +
             "\t\t\t\t\t   GROUP BY title\t\n" +
             "            ORDER BY c.create_time DESC")
-    List<JournalVo> findFriendJournal(Long formId) throws SQLException;
+    List<JournalVo> findFriendJournal(Long fromId) throws SQLException;
 
 
     /**
@@ -91,7 +91,7 @@ public interface JournalMapper {
             "            ON a.to_id = b.id \n" +
             "            LEFT JOIN t_journal c \n" +
             "            ON b.id=c.user_id \n" +
-            "            WHERE a.from_id = #{formId} AND a.friend_flag = 1 \n" +
+            "            WHERE a.from_id = #{fromId} AND a.friend_flag = 1 \n" +
             "            ORDER BY c.likes DESC")
     List<RecommendVo> recommendJournal(Long fromId) throws SQLException;
 
