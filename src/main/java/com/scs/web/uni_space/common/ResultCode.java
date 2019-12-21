@@ -80,6 +80,8 @@ public enum ResultCode {
     PHOTO_FIND_ALL_ERROR(20402,"查找所有相册错误"),
     PHOTO_BATCH_ADD_ERROR(20403,"批量插入错误"),
 
+    /*消息模块错误：20501-20599*/
+
 
     /* 业务错误：30001-39999 */
     SPECIFIED_QUESTIONED_USER_NOT_EXIST(30001, "某业务出现问题"),
