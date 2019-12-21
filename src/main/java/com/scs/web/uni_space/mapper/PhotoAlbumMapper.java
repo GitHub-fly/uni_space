@@ -1,6 +1,8 @@
 package com.scs.web.uni_space.mapper;
 
 import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
+import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
 import org.apache.ibatis.annotations.*;
 
@@ -25,6 +27,17 @@ public interface PhotoAlbumMapper {
             "ON a.id = b.photo_album_id " +
             "WHERE a.user_id = #{userId} "})
     List<PhotoAlbumVo> findAllPhotoAlbum(Long userId) throws SQLException;
+
+
+    /**
+     * 通过相册id查找相册信息
+     *
+     * @param queryDto
+     * @return
+     * @throws SQLException
+     */
+    @Select({"SELECT cover, NAME, TYPE, create_time,introduction FROM t_photo_album WHERE id = #{queryDto.id}"})
+    PhotoAlbum findPhotoAlbumById(@Param("queryDto") QueryDto queryDto) throws SQLException;
 
 
     /**

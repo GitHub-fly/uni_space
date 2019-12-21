@@ -33,6 +33,14 @@ public class PhotoController {
     }
 
 
+
+    @ApiOperation(value = "移动端通过相册id和url数组批量插入图片", notes = "msg成功,则删除成功")
+    @PostMapping(value = "/add")
+    Result addPhoto(@RequestBody PhotoDto photoDto){
+        return photoService.addPhoto(photoDto);
+    }
+
+
     @ApiOperation(value = "通过Photo[] photos批量插入照片,相册id，URL不能为空", notes = "msg成功,则删除成功")
     @PostMapping(value = "/batch")
     Result batchAddPhoto(@RequestBody Photo[] photos){

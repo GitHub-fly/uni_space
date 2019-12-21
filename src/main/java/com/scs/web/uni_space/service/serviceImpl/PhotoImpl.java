@@ -4,6 +4,7 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.PhotoDto;
 import com.scs.web.uni_space.domain.entity.Photo;
+import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoMapper;
 import com.scs.web.uni_space.service.PhotoService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class PhotoImpl implements PhotoService {
     @Resource PhotoMapper photoMapper;
 
 
+    @Resource CommonMapper commonMapper;
     /**
      * 查找某个相册所以照片
      *
@@ -55,7 +58,7 @@ public class PhotoImpl implements PhotoService {
 
 
     /**
-     * 批量插入照片
+     * pc批量插入照片
      *
      * @param photos
      * @return Result
@@ -68,12 +71,43 @@ public class PhotoImpl implements PhotoService {
                 photos[i].setCreateTime(timestamp);            }
         }
         try {
-            photoMapper.batchInsertPhoto(Arrays.asList(photos));
+            commonMapper.returnId("t_photo");
+            photoMapper.batchPcInsertPhoto(Arrays.asList(photos));
             return Result.success(ResultCode.SUCCESS);
         } catch (SQLException e) {
             log.error("批量出入出现异常");
         }
 
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+
+    /**
+     * 移动端批量插入
+     *
+     * @param photoDto
+     * @return
+     */
+    @Override
+    public Result addPhoto(PhotoDto photoDto) {
+        if (photoDto.getAlbumId() != null && photoDto.getUrlStrings().length != 0){
+            Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+            List<Photo> photoList = new ArrayList<>();
+            for (int i = 0; i<photoDto.getUrlStrings().length; i++){
+                Photo photo = new Photo();
+                photo.setUrl(photoDto.getUrlStrings()[i]);
+                photo.setCreateTime(timestamp);
+                photoList.add(photo);
+            }
+            try {
+                commonMapper.returnId("t_photo");
+                photoMapper.batchInsertPhoto(photoList,photoDto.getAlbumId());
+                return Result.success(ResultCode.SUCCESS);
+            } catch (SQLException e) {
+                log.error("移动端批量插入照片异常");
+                return Result.failure(ResultCode.PHOTO_BATCH_ADD_ERROR);
+            }
+        }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 

@@ -29,7 +29,7 @@ public interface PhotoMapper {
 
 
     /**
-     * 批量插入
+     *  pc端批量插入
      *
      * @param photoList
      * @return int
@@ -43,7 +43,25 @@ public interface PhotoMapper {
             "</foreach> " ,
             "</script> "
     })
-    void batchInsertPhoto(@Param(value = "list") List<Photo> photoList) throws SQLException;
+    void batchPcInsertPhoto(@Param(value = "list") List<Photo> photoList) throws SQLException;
+
+
+    /**
+     * 移动端批量插入
+     *
+     * @param photoList
+     * @param albumId
+     * @throws SQLException
+     */
+    @Insert({
+            "<script> ",
+            "INSERT into t_photo (album_id, url, create_time) VALUES " ,
+            "<foreach collection = 'list' item = 'item' index = 'index' separator = ','> " ,
+            "(#{albumId}, #{item.url}, #{item.createTime}) " ,
+            "</foreach> " ,
+            "</script> "
+    })
+    void batchInsertPhoto(@Param(value = "list") List<Photo> photoList, Long albumId) throws SQLException;
 
 
     /**
