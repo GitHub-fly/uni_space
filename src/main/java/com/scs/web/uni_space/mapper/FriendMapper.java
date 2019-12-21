@@ -30,7 +30,7 @@ public interface FriendMapper {
             "FROM t_friend a " +
             "LEFT JOIN t_user c " +
             "ON a.to_id=c.id  " +
-            "WHERE (a.from_id = 1 " +
+            "WHERE (a.from_id = #{fromId} " +
             "AND a.friend_flag = 1) " +
             "AND (c.mobile LIKE CONCAT('%', #{key}, '%')" +
             "OR c.account LIKE CONCAT('%', #{key}, '%') " +
