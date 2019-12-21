@@ -47,7 +47,7 @@ public interface PhotoAlbumMapper {
      * @return
      * @throws SQLException
      */
-    @Select({"SELECT cover, NAME, TYPE, create_time,introduction FROM t_photo_album WHERE id = #{queryDto.id}"})
+    @Select({"SELECT * FROM t_photo_album WHERE id = #{queryDto.id}"})
     PhotoAlbum findPhotoAlbumById(@Param("queryDto") QueryDto queryDto) throws SQLException;
 
 
