@@ -7,7 +7,6 @@ import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
