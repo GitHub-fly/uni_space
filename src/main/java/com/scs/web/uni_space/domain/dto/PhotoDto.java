@@ -18,4 +18,5 @@ import java.util.List;
 public class PhotoDto {
     private Long albumId;
     private List<Long> longList;
+    private String[] urlStrings;
 }

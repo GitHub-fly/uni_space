@@ -19,6 +19,7 @@ public interface PhotoAlbumService {
 
     /**
      * 查找所有相册
+     *
      * @param queryDto
      * @return Result
      */
@@ -26,7 +27,17 @@ public interface PhotoAlbumService {
 
 
     /**
+     * 通过相册id查找相册信息
+     *
+     * @param queryDto
+     * @return
+     */
+    Result findPhotoAlbumById(QueryDto queryDto);
+
+
+    /**
      * 添加相册
+     *
      * @param photoAlbumDto
      * @return Result
      */

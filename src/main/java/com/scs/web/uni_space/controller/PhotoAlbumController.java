@@ -39,6 +39,20 @@ public class PhotoAlbumController {
 
 
     /**
+     * 根据相册id查找相册信息
+     *
+     * @param queryDto
+     * @return Result
+     */
+    @ApiOperation(value = "根据相册id查找相信息", notes = "data为相册信息列表")
+    @PostMapping(value = "/album")
+    Result findPhotoAlbum(@RequestBody QueryDto queryDto){
+        return photoAlbumService.findPhotoAlbumById(queryDto);
+    }
+
+
+
+    /**
      * 通过用户id，name创建相册
      * @param photoAlbumDto
      * @return Result

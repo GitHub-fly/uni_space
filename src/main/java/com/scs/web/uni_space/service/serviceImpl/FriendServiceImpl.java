@@ -80,8 +80,8 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result searchJournal(FriendDto friendDto) {
         try {
-            if (friendDto.getFromId() != null) {
-                List<Journal> list = friendMapper.searchJournalByUserId(friendDto.getFromId());
+            if (friendDto.getToId() != null) {
+                List<Journal> list = friendMapper.searchJournalByUserId(friendDto.getToId());
                 if (list.size() != 0) {
                     return Result.success(list);
                 } else {

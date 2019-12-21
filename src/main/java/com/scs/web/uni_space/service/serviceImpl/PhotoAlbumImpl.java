@@ -4,12 +4,14 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoAlbumMapper;
 import com.scs.web.uni_space.service.PhotoAlbumService;
 import com.sun.xml.bind.v2.model.core.ID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.EventLogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,6 +62,20 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
             }
         }
         //数据为空返回错误
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
+    @Override
+    public Result findPhotoAlbumById(QueryDto queryDto) {
+        if (queryDto.getId() != null){
+            try {
+                PhotoAlbum photoAlbum = photoAlbumMapper.findPhotoAlbumById(queryDto);
+                return Result.success(photoAlbum);
+            } catch (SQLException e) {
+                log.error("通过相册id查找相册信息异常");
+                return Result.failure(ResultCode.USER_FIND_PHOTO_ALBUM_ERROR);
+            }
+        }
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 

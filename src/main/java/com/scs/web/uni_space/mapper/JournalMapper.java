@@ -21,31 +21,6 @@ import java.util.List;
  * @Version 1.0
  */
 public interface JournalMapper {
-
-
-    /**
-     * 批量插入日志中照片数据
-     *
-     * @param list
-     * @throws SQLException
-     */
-    @Insert({"<script>" +
-            "INSERT INTO t_photo_journal(journal_id, create_time, url) VALUES" +
-            "<foreach collection='list' item='item' index='index' separator=','> " +
-            "(#{item.journalId}, #{item.createTime}, #{item.url}) " +
-            "</foreach> ",
-            "</script> "
-    })
-    void batchInsertJournalOfPhoto(List<JournalPicture> list) throws SQLException;
-
-
-    /**
-     * 删除指定id日志中的所有照片
-     *
-     * @param journalId
-     */
-    void batchDeletePhotos(Long journalId);
-
     /**
      * 查询用户所有的日志列表；
      *
@@ -116,7 +91,7 @@ public interface JournalMapper {
      * @throws SQLException
      */
     @Select("SELECT id ,journal_id,url " +
-            "FROM t_journal_picture " +
+            "FROM t_journal_photo " +
             " WHERE journal_id = #{id}")
     List<JournalPicture> selectJournalPictureById(Long id) throws SQLException;
 
@@ -233,7 +208,7 @@ public interface JournalMapper {
      */
     @Insert({
             "<script> ",
-            "INSERT into  (journal_id,create_time,url) VALUES ",
+            "INSERT into t_journal_photo (journal_id,create_time,url) VALUES ",
             "<foreach collection = 'list' item = 'item' index = 'index' separator = ','> ",
             "(#{item.journalId},#{item.createTime},#{item.url}) ",
             "</foreach> ",
@@ -274,5 +249,6 @@ public interface JournalMapper {
             "</script>"
     })
     void batchDeleteJournalPicture(@Param(value = "list") List<Long> longList) throws SQLException;
+
 
 }

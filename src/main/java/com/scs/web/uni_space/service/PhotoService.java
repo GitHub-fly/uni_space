@@ -21,12 +21,20 @@ public interface PhotoService {
 
 
     /**
-     * 批量添加
+     * pc批量添加
      * @param photos
      * @return Result
      */
     Result batchAddPhoto(Photo[] photos);
 
+
+    /**
+     * 移动端批量添加
+     *
+     * @param photoDto
+     * @return
+     */
+    Result addPhoto(PhotoDto photoDto);
 
 
     /**
