@@ -23,7 +23,7 @@ public interface CommentMapper {
      * @return
      * @throws SQLException
      */
-    @Select("SELECT id , user_id , journal_id , content , create_time FROM t_comment WHERE journal_id = #{journalId} ")
+    @Select("SELECT id , user_id , journal_id , content , create_time FROM t_comment WHERE journal_id = #{journalId} ORDER BY create_time DESC")
     List<Comment> selectCommentById(Long journalId) throws SQLException;
 
     /**
