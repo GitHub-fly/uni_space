@@ -76,12 +76,12 @@ public class JournalController {
     }
 
     /**
-     * 查找某片日志全部图片
+     * 查找某篇日志全部图片
      *
      * @param journalDto
      * @return
      */
-    @ApiOperation(value = "通过id查找好友的所有日志的照片")
+    @ApiOperation(value = "通过id查找好友的某篇日志的照片")
     @ApiImplicitParam(name = "id", value = "参数是文章id", dataType = "Integer")
 
     @PostMapping(value = "/user/journalpicture")
