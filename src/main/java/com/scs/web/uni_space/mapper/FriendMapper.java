@@ -26,21 +26,33 @@ public interface FriendMapper {
      * @return list
      * @throws SQLException
      */
-    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
+    @Select({"SELECT c.id,c.avatar,c.nickname,c.address,c.introduction " +
             "FROM t_friend a " +
             "LEFT JOIN t_user c " +
-            "ON a.to_id=c.id " +
-            "LEFT JOIN t_journal b " +
-            "ON c.id=b.user_id  " +
-            "WHERE (a.from_id = #{fromId} " +
+            "ON a.to_id=c.id  " +
+            "WHERE (a.from_id = 1 " +
             "AND a.friend_flag = 1) " +
-            "AND (c.mobile LIKE CONCAT('%', #{key}, '%') " +
+            "AND (c.mobile LIKE CONCAT('%', #{key}, '%')" +
             "OR c.account LIKE CONCAT('%', #{key}, '%') " +
             "OR c.email LIKE CONCAT('%', #{key}, '%') " +
             "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
-            "OR c.introduction LIKE CONCAT('%', #{key}, '%')) " +
-            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
+            "OR c.introduction LIKE CONCAT('%', #{key}, '%')) "})
     List<UserVo> selectAll(Long fromId, String key) throws SQLException;
+//    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
+//            "FROM t_friend a " +
+//            "LEFT JOIN t_user c " +
+//            "ON a.to_id=c.id " +
+//            "LEFT JOIN t_journal b " +
+//            "ON c.id=b.user_id  " +
+//            "WHERE (a.from_id = #{fromId} " +
+//            "AND a.friend_flag = 1) " +
+//            "AND (c.mobile LIKE CONCAT('%', #{key}, '%') " +
+//            "OR c.account LIKE CONCAT('%', #{key}, '%') " +
+//            "OR c.email LIKE CONCAT('%', #{key}, '%') " +
+//            "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
+//            "OR c.introduction LIKE CONCAT('%', #{key}, '%')) " +
+//            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC "})
+//    List<UserVo> selectAll(Long fromId, String key) throws SQLException;
 
     /**
      * 通过指定用户id查找日志信息
@@ -66,19 +78,29 @@ public interface FriendMapper {
      * @return List
      * @throws SQLException
      */
-    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.*,c.friend_flag " +
+    @Select({"SELECT a.id,a.avatar,a.address,a.nickname,a.introduction,b.friend_flag " +
             "FROM t_user a " +
-            "LEFT JOIN t_journal b " +
-            "ON a.id = b.user_id " +
-            "LEFT JOIN t_friend c " +
-            "ON a.id = c.to_id AND c.from_id = #{fromId} " +
+            "LEFT JOIN t_friend b " +
+            "ON a.id = b.to_id AND b.from_id = #{fromId} " +
             "WHERE  a.mobile LIKE CONCAT('%', #{key}, '%') " +
             "OR a.account LIKE  CONCAT('%', #{key}, '%') " +
             "OR a.email LIKE CONCAT('%', #{key}, '%') " +
             "OR a.nickname LIKE CONCAT('%', #{key}, '%') " +
-            "OR a.introduction LIKE  CONCAT('%', #{key}, '%') " +
-            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC  "})
+            "OR a.introduction LIKE  CONCAT('%', #{key}, '%')  "})
     List<UserVo> searchUserByKey(Long fromId, String key) throws SQLException;
+//    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.*,c.friend_flag " +
+//            "FROM t_user a " +
+//            "LEFT JOIN t_journal b " +
+//            "ON a.id = b.user_id " +
+//            "LEFT JOIN t_friend c " +
+//            "ON a.id = c.to_id AND c.from_id = #{fromId} " +
+//            "WHERE  a.mobile LIKE CONCAT('%', #{key}, '%') " +
+//            "OR a.account LIKE  CONCAT('%', #{key}, '%') " +
+//            "OR a.email LIKE CONCAT('%', #{key}, '%') " +
+//            "OR a.nickname LIKE CONCAT('%', #{key}, '%') " +
+//            "OR a.introduction LIKE  CONCAT('%', #{key}, '%') " +
+//            "GROUP BY b.user_id HAVING COUNT(b.user_id) >= 1 ORDER BY COUNT(b.user_id) DESC  "})
+//    List<UserVo> searchUserByKey(Long fromId, String key) throws SQLException;
 
 
     /**
