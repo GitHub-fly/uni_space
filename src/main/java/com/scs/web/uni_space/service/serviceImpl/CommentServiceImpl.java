@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class CommentServiceImpl implements CommentService {
     public Result insertComment(CommentDto commentDto) {
         try {
             commonMapper.returnId("t_friend");
+            commentDto.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
             commentMapper.insertComment(commentDto);
             commentMapper.addComment(commentDto.getJournalId());
         } catch (SQLException e) {
