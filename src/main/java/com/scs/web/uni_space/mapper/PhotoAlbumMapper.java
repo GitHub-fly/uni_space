@@ -21,12 +21,23 @@ public interface PhotoAlbumMapper {
      * @return List<PhotoAlbum>
      * @throws SQLException
      */
-    @Select({"SELECT a.* ,b.id AS security_id " +
+    @Select({"SELECT a.*  ,c.url ,b.id AS security_id " +
             "FROM t_photo_album a " +
             "LEFT JOIN t_security b " +
             "ON a.id = b.photo_album_id " +
-            "WHERE a.user_id = #{userId} "})
+            "LEFT JOIN t_photo c " +
+            "ON a.id = c.album_id " +
+            "WHERE a.user_id = #{userId} " +
+            "GROUP BY a.id HAVING COUNT(a.id) >= 1 ORDER BY (c.create_time) DESC"})
     List<PhotoAlbumVo> findAllPhotoAlbum(Long userId) throws SQLException;
+//    @Select({"SELECT a.* ,b.id AS security_id " +
+//            "FROM t_photo_album a " +
+//            "LEFT JOIN t_security b " +
+//            "ON a.id = b.photo_album_id " +
+//            "WHERE a.user_id = #{userId} "})
+//    List<PhotoAlbumVo> findAllPhotoAlbum(Long userId) throws SQLException;
+
+
 
 
     /**

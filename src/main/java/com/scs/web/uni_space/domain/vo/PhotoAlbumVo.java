@@ -22,4 +22,5 @@ public class PhotoAlbumVo {
     private Timestamp createTime;
     private String introduction;
     private Integer securityId;
+    private String url;
 }
