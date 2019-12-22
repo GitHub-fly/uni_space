@@ -22,7 +22,7 @@ public interface MessageMapper {
      * @return List<LikeVo>
      * @throws SQLException
      */
-    @Select({"SELECT c.id AS user_id ,c.nickname ,c.avatar, a.id AS journal_id ,a.title , b.create_time ,d.url,b.id " +
+    @Select({"SELECT c.id AS user_id ,c.nickname ,c.avatar, a.id AS journal_id ,a.title , b.create_time ,a.thumbnail,b.id " +
             "FROM t_journal a " +
             "LEFT JOIN t_like b " +
             "ON a.id = b.journal_id " +
