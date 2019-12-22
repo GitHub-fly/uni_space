@@ -62,7 +62,7 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @ApiOperation(value = "修改个人信息" , notes = "可以传nickname，address，gender，introduction，constellation，birthday")
+    @ApiOperation(value = "修改个人信息" , notes = "可以传nickname，address，gender，introduction，constellation，birthday,email,acount ")
     @PutMapping(value = "/data")
     Result updateUserData(@RequestBody UserDto userDto) {
         return userService.updateUserData(userDto);
