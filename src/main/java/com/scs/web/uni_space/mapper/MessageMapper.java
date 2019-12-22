@@ -4,7 +4,6 @@ import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.vo.LikeVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.jdbc.SQL;
 
 import java.sql.SQLException;
 import java.util.List;

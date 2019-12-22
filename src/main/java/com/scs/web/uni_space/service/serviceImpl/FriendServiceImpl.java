@@ -6,6 +6,7 @@ import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.FriendVo;
 import com.scs.web.uni_space.domain.vo.UserVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.FriendMapper;
@@ -99,7 +100,7 @@ public class FriendServiceImpl implements FriendService {
     public Result findAllByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null) {
-                List<UserVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
+                List<FriendVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
                 if (friendVoList.size() != 0) {
                     return Result.success(friendVoList);
                 } else {
@@ -117,7 +118,7 @@ public class FriendServiceImpl implements FriendService {
     public Result searchFriendByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null && !friendDto.getKeyWords().equals("")) {
-                List<UserVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
+                List<FriendVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
                 if (list.size() != 0) {
                     return Result.success(list);
                 } else {

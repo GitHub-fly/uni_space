@@ -4,6 +4,7 @@ package com.scs.web.uni_space.mapper;
 import com.scs.web.uni_space.domain.entity.Friend;
 import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
+import com.scs.web.uni_space.domain.vo.FriendVo;
 import com.scs.web.uni_space.domain.vo.UserVo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -25,19 +26,20 @@ public interface FriendMapper {
      * @return list
      * @throws SQLException
      */
-    @Select({"SELECT c.id,c.avatar,c.nickname,c.address,c.introduction,a.collection_flag " +
+    @Select({"SELECT c.id,c.avatar,c.nickname,c.address,c.introduction,a.collection_flag,b.collection_flag AS collection " +
             "FROM t_friend a " +
             "LEFT JOIN t_user c " +
-            "ON a.to_id=c.id  " +
+            "ON a.to_id=c.id " +
+            "LEFT JOIN t_friend b " +
+            "ON b.from_id = c.id AND b.to_id = a.from_id AND b.friend_flag = 1 " +
             "WHERE (a.from_id = #{fromId} " +
             "AND a.friend_flag = 1) " +
-            "AND (c.mobile LIKE CONCAT('%', #{key}, '%')" +
+            "AND (c.mobile LIKE CONCAT('%', #{key}, '%') " +
             "OR c.account LIKE CONCAT('%', #{key}, '%') " +
             "OR c.email LIKE CONCAT('%', #{key}, '%') " +
             "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
-            "OR c.introduction LIKE CONCAT('%', #{key}, '%')) "})
-    List<UserVo> selectAll(Long fromId, String key) throws SQLException;
-
+            "OR c.introduction LIKE  CONCAT('%', #{key}, '%') ) "})
+    List<FriendVo> selectAll(Long fromId, String key) throws SQLException;
 //    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
 //            "FROM t_friend a " +
 //            "LEFT JOIN t_user c " +
@@ -87,7 +89,7 @@ public interface FriendMapper {
             "OR a.email LIKE CONCAT('%', #{key}, '%') " +
             "OR a.nickname LIKE CONCAT('%', #{key}, '%') " +
             "OR a.introduction LIKE  CONCAT('%', #{key}, '%')  "})
-    List<UserVo> searchUserByKey(Long fromId, String key) throws SQLException;
+    List<FriendVo> searchUserByKey(Long fromId, String key) throws SQLException;
 
 //    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.*,c.friend_flag " +
 //            "FROM t_user a " +
