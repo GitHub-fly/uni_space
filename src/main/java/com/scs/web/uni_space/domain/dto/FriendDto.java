@@ -17,12 +17,10 @@ public class FriendDto {
     /**
      * 动作发起者id
      */
-    @NonNull
     private Long fromId;
     /**
      * 被作用对象id
      */
-
     private Long toId;
     /**
      * 动作触发的条件
@@ -33,6 +31,4 @@ public class FriendDto {
      * 好友访问权限
      */
     private Integer collectionFlag;
-
-
 }

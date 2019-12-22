@@ -13,8 +13,6 @@ import java.sql.SQLException;
  * @Version 1.0
  */
 public interface CommonMapper {
-
-
     /**
      * 重置指定数据表的主键自增，使之连续
      *

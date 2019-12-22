@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Result deleteComment(CommentDto commentDto) {
         try {
-            commentMapper.deleteComment(commentDto.getUserId());
+            commentMapper.deleteComment(commentDto.getId());
             commentMapper.decreaseComments(commentDto.getJournalId());
         } catch (SQLException e) {
             log.error("删除失败");

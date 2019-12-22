@@ -17,7 +17,6 @@ import java.util.List;
  * @author suyuxi
  */
 public interface FriendMapper {
-
     /**
      * 查找好友表所有数据
      * 或者通过关键字模糊查询好友信息
@@ -38,6 +37,7 @@ public interface FriendMapper {
             "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
             "OR c.introduction LIKE CONCAT('%', #{key}, '%')) "})
     List<UserVo> selectAll(Long fromId, String key) throws SQLException;
+
 //    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
 //            "FROM t_friend a " +
 //            "LEFT JOIN t_user c " +
@@ -88,6 +88,7 @@ public interface FriendMapper {
             "OR a.nickname LIKE CONCAT('%', #{key}, '%') " +
             "OR a.introduction LIKE  CONCAT('%', #{key}, '%')  "})
     List<UserVo> searchUserByKey(Long fromId, String key) throws SQLException;
+
 //    @Select({"SELECT COUNT(b.user_id) AS journal_sum, a.*,c.friend_flag " +
 //            "FROM t_user a " +
 //            "LEFT JOIN t_journal b " +

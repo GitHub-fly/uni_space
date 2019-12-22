@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author wl
  * @ClassNamel
- * @Description TODO
+ * @Description 点赞传输类
  * @Date 2019/12/15
  * @Version 1.0
  */

@@ -20,8 +20,33 @@ import java.util.UUID;
 @Slf4j
 public class AliOssUtil {
 
+    /**
+     * 将单个文件上传到阿里对象存储
+     *
+     * @param file
+     * @return
+     */
+    public static String upload(File file) {
+        String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
+        String accessKeyId = "LTAI4FqFoaZ1cHStok8RfGK5";
+        String accessKeySecret = "xz1hFNQiY0RAf9oOfMo9neajw0j6aD";
+        String bucketName = "niit-soft";
+        String filePath = "soft1821/";
+        String fileName = file.getName();
+        String newFileName = UUID.randomUUID().toString() + fileName.substring(fileName.indexOf("."));
+        // 创建OSSClient实例
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+//        ossClient.set
+        // 上传文件到指定位置，并使用UUID更名
+        ossClient.putObject(bucketName, filePath + newFileName, file);
+        // 拼接URL
+        String url = "https://niit-soft.oss-cn-hangzhou.aliyuncs.com/" + filePath + newFileName;
+        ossClient.shutdown();
+        return url;
+    }
+
     public static List<String> upload(MultipartFile[] sourceFiles) {
-        List<String> tempFiles = tempFiles = new ArrayList<>(10);
+        List<String> tempFiles = new ArrayList<>(10);
         for (MultipartFile sourceFile : sourceFiles) {
             System.out.println(sourceFile);
             // 获取文件名
@@ -35,6 +60,7 @@ public class AliOssUtil {
             File tempFile;
             try {
                 tempFile = File.createTempFile(prefix, suffix);
+                System.out.println(tempFile);
                 // 将MultipartFile转换成File
                 sourceFile.transferTo(tempFile);
                 tempFiles.add(upload(tempFile));
@@ -43,24 +69,5 @@ public class AliOssUtil {
             }
         }
         return tempFiles;
-    }
-
-
-    public static String upload(File file) {
-        String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
-        String accessKeyId = "LTAI4FqFoaZ1cHStok8RfGK5";
-        String accessKeySecret = "xz1hFNQiY0RAf9oOfMo9neajw0j6aD";
-        String bucketName = "niit-soft";
-        String filePath = "soft1821/";
-        String fileName = file.getName();
-        String newFileName = UUID.randomUUID().toString() + fileName.substring(fileName.indexOf("."));
-        // 创建OSSClient实例
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        // 上传文件到指定位置，并使用UUID更名
-        ossClient.putObject(bucketName, filePath + newFileName, file);
-        // 拼接URL
-        String url = "https://niit-soft.oss-cn-hangzhou.aliyuncs.com/" + filePath + newFileName;
-        ossClient.shutdown();
-        return url;
     }
 }

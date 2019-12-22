@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author wl
  * @ClassNameasdsa
- * @Description TODO
+ * @Description 日志传输类
  * @Date 2019/12/14
  * @Version 1.0
  */
@@ -26,9 +26,11 @@ public class JournalDto {
        private  String title;
        private String thumbnail;
        private String content;
+       /**
+        * 日志中图片的地址集合
+        */
        private String[] urls;
        private Timestamp createTime;
        private Long JournalPictureNum;
        private List<Long> longList;
-
 }

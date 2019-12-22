@@ -1,6 +1,5 @@
 package com.scs.web.uni_space.domain.dto;
 
-import com.scs.web.uni_space.domain.entity.Photo;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,6 +16,9 @@ import java.util.List;
 @Builder
 public class PhotoDto {
     private Long albumId;
+    /**
+     * 图片集合
+     */
     private List<Long> longList;
     private String[] urlStrings;
 }

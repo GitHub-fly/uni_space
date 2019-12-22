@@ -29,6 +29,7 @@ public interface PhotoAlbumMapper {
             "WHERE a.user_id = #{userId} " +
             "GROUP BY a.id HAVING COUNT(a.id) >= 1 ORDER BY (c.create_time) DESC"})
     List<PhotoAlbumVo> findAllPhotoAlbum(Long userId) throws SQLException;
+
 //    @Select({"SELECT a.* ,b.id AS security_id " +
 //            "FROM t_photo_album a " +
 //            "LEFT JOIN t_security b " +

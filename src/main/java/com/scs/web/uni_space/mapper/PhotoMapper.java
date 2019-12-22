@@ -80,6 +80,4 @@ public interface PhotoMapper {
     })
     void batchDeletePhoto(@Param(value = "list") List<Long> longList) throws SQLException;
 
-
-
 }
