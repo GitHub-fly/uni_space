@@ -2,6 +2,7 @@ package com.scs.web.uni_space.service;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.dto.SkinDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 
 
@@ -39,6 +40,13 @@ public interface UserService {
      */
     Result selectUserById(UserDto userDto);
 
+    /**
+     * 更换皮肤
+     * @param skinDto
+     * @return
+     */
+
+    Result updateUserSkinID(SkinDto skinDto);
     /**
      * 更新用户资料
      *

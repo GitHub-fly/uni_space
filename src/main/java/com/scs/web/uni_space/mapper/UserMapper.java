@@ -89,12 +89,25 @@ public interface UserMapper {
             "<if test = 'userDto.birthday != null'>",
             "birthday = #{userDto.birthday}, ",
             "</if>",
+            "<if test = 'userDto.email != null'>",
+            "birthday = #{userDto.email}, ",
+            "</if>",
+            "<if test = 'userDto.account != null'>",
+            "birthday = #{userDto.email}, ",
+            "</if>",
             "</set>",
             "where id = #{userDto.id}",
             "</script>"
             })
     void updateUserData(@Param("userDto") UserDto userDto) throws SQLException;
 
+    /**
+     * 更换皮肤
+     * @param id
+     * @param skinId
+     */
+    @Update("UPDATE t_user SET skin_id = #{skinId} WHERE id= #{id}")
+    void updateUserSkinId(Long id,Long skinId);
     /**
      * 通过手机号短信验证修改密码
      *

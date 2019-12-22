@@ -2,6 +2,7 @@ package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.dto.SkinDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.service.UserService;
 import io.swagger.annotations.Api;
@@ -47,6 +48,13 @@ public class UserController {
     Result sing_up(@RequestBody QueryDto queryDto) {
         return userService.signUp(queryDto);
     }
+
+    @ApiOperation(value = "修改皮肤" , notes = "id为用户id ，skin_id 为皮肤id")
+    @PostMapping(value = "/skin")
+    Result sing_up(@RequestBody SkinDto skinDto) {
+        return userService.updateUserSkinID(skinDto);
+    }
+
 
     /**
      * 修改个人信息

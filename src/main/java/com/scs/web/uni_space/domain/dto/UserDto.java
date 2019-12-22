@@ -32,4 +32,6 @@ public class UserDto {
     //更改密码发送的短信
     private String verifyCode;
 
+    private  String email ;
+    private  String account ;
 }

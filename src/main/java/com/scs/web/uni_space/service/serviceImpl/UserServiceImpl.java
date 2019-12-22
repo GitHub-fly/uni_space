@@ -3,6 +3,7 @@ package com.scs.web.uni_space.service.serviceImpl;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.QueryDto;
+import com.scs.web.uni_space.domain.dto.SkinDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.UserVo;
@@ -63,7 +64,6 @@ public class UserServiceImpl implements UserService {
                         return Result.failure(ResultCode.USER_PASSWORD_ERROR);
                     }
                 }
-
                 //判断是否已发送验证码
                 if (verifyCode == null) {
                     return Result.failure(ResultCode.USER_VERIFY_CODE_NULL);
@@ -224,6 +224,15 @@ public class UserServiceImpl implements UserService {
             log.info("查找失败");
         }
         return Result.success(userVo);
+    }
+
+    @Override
+    public Result updateUserSkinID(SkinDto skinDto) {
+        if (skinDto.getSkinId() != null && skinDto.getId() != null) {
+            userMapper.updateUserSkinId((long) skinDto.getId(), (long) skinDto.getSkinId());
+            return Result.success();
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
     @Override

@@ -183,6 +183,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Result addJournal(JournalDto journalDto) {
+
         //传参数不为空
         if (journalDto.getContent() != null || journalDto.getUserId() != null) {
             List<String> list = StringUtil.getImgSrc(journalDto.getContent());
@@ -191,7 +192,8 @@ public class JournalServiceImpl implements JournalService {
             System.out.println(journal.getCreateTime());
             journal.setUserId(journalDto.getUserId());
             journal.setTitle(journalDto.getTitle());
-            journal.setContent(journalDto.getContent());
+
+            journal.setContent(journalDto.getContent().substring(2,journalDto.getContent().length()-2));
             journal.setJournalPictureNum((long) list.size());
             if (list.size() == 0) {
                 journal.setThumbnail("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/6cae1b8e-9843-43ce-a5d6-37c9887f412a.jpeg");
