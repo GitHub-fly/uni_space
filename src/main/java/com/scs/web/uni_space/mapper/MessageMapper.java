@@ -22,13 +22,15 @@ public interface MessageMapper {
      * @return List<LikeVo>
      * @throws SQLException
      */
-    @Select({"SELECT c.id AS user_id ,c.nickname ,c.avatar, a.id AS journal_id ,a.title , b.create_time " +
+    @Select({"SELECT c.id AS user_id ,c.nickname ,c.avatar, a.id AS journal_id ,a.title , b.create_time ,d.url,b.id " +
             "FROM t_journal a " +
             "LEFT JOIN t_like b " +
             "ON a.id = b.journal_id " +
             "LEFT JOIN t_user c " +
             "ON b.user_id = c.id " +
+            "LEFT JOIN t_journal_photo d " +
+            "ON a.id = d.journal_id " +
             "WHERE a.user_id = #{queryDto.id} AND b.create_time IS NOT NULL " +
-            "ORDER BY b.create_time DESC "})
+            "GROUP BY b.id HAVING COUNT(b.id) ORDER BY b.create_time AND d.create_time DESC "})
     List<LikeVo> findAllLike(@Param(value = "queryDto") QueryDto queryDto) throws SQLException;
 }

@@ -20,5 +20,7 @@ public class LikeVo {
     private Long journalId;
     private String title;
     private Timestamp createTime;
+    private String url;
+    private Long id;
 
 }
