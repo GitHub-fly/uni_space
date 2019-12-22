@@ -243,4 +243,17 @@ public class FriendServiceImpl implements FriendService {
         return Result.failure(ResultCode.USER_RETURN_DATA_ERROR);
     }
 
+    @Override
+    public Result updateFriendCollectionFlag(FriendDto friendDto) {
+        if(friendDto.getFromId() != null && friendDto.getToId() != null && friendDto.getCollectionFlag() != null){
+            try {
+                friendMapper.updateCollectionFlag(friendDto.getFromId(),friendDto.getToId(),friendDto.getCollectionFlag());
+                return Result.success(ResultCode.SUCCESS);
+            } catch (SQLException e) {
+                log.error("修改好友权限异常");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
+    }
+
 }

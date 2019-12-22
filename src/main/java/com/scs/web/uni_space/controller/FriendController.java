@@ -147,4 +147,11 @@ public class FriendController {
         return friendService.deleteFriend(friendDto);
     }
 
+
+    @ApiOperation(value = "根据fromId,toId和collectionFlag修改好友权限", notes = "msg为成功，则修改成功")
+    @PutMapping(value = "/collection")
+    Result updateFriendCollection(@RequestBody FriendDto friendDto) {
+        return friendService.updateFriendCollectionFlag(friendDto);
+    }
+
 }

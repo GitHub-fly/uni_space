@@ -26,7 +26,7 @@ public interface FriendMapper {
      * @return list
      * @throws SQLException
      */
-    @Select({"SELECT c.id,c.avatar,c.nickname,c.address,c.introduction " +
+    @Select({"SELECT c.id,c.avatar,c.nickname,c.address,c.introduction,a.collection_flag " +
             "FROM t_friend a " +
             "LEFT JOIN t_user c " +
             "ON a.to_id=c.id  " +
@@ -180,17 +180,17 @@ public interface FriendMapper {
     @Delete({"DELETE FROM t_friend WHERE from_id = #{fromId} AND to_id = #{toId} OR from_id = #{toId} AND to_id = #{fromId} "})
     void deleteFriend(Long fromId, Long toId) throws SQLException;
 
+
     /**
      * 更改好友访问权限
-     * 更改好友权限
      *
      * @param fromId
      * @param toId
-     * @return int
+     * @param collectionFlag
      * @throws SQLException
      */
-    @Update({"UPDATE t_friend SET collection_flag = 0 WHERE from_id = #{fromId} AND to_id = #{toId} "})
-    void updateCollectionFlag(Long fromId, Long toId) throws SQLException;
+    @Update({"UPDATE t_friend SET collection_flag = #{collectionFlag} WHERE from_id = #{fromId} AND to_id = #{toId} "})
+    void updateCollectionFlag(Long fromId, Long toId, Integer collectionFlag) throws SQLException;
 
     /**
      * 查找出所有用户的id

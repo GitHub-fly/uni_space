@@ -29,5 +29,10 @@ public class FriendDto {
      */
     private String keyWords;
 
+    /**
+     * 好友访问权限
+     */
+    private Integer collectionFlag;
+
 
 }

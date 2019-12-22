@@ -35,4 +35,5 @@ public class UserVo {
     private Integer photoSum;
     private String code;
     private String friendFlag;
+    private String collectionFlag;
 }

@@ -82,4 +82,12 @@ public interface FriendService  {
      */
     Result deleteFriend(FriendDto friendDto);
 
+
+    /**
+     * 修改好友权限
+     *
+     * @param friendDto
+     * @return Result
+     */
+    Result updateFriendCollectionFlag(FriendDto friendDto);
 }
