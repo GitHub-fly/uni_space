@@ -2,6 +2,7 @@ package com.scs.web.uni_space.service.serviceImpl;
 
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
+import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.mapper.SecurityMapper;
 import com.scs.web.uni_space.service.SecurityService;
@@ -69,6 +70,26 @@ public class SecurityServiceImpl implements SecurityService {
         } else {
             return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
         }
+    }
+
+
+    /**
+     * 通过id查找密保
+     *
+     * @param queryDto
+     * @return
+     */
+    @Override
+    public Result findById(QueryDto queryDto) {
+        if(queryDto.getId() != null){
+            try {
+                Security security = securityMapper.findById(queryDto.getId());
+                return Result.success(security);
+            } catch (SQLException e) {
+                log.error("通过id查找密保");
+            }
+        }
+        return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
 

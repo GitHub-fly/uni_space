@@ -3,6 +3,9 @@ package com.scs.web.uni_space.service;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.MusicDto;
 
+/**
+ * @author 22968
+ */
 public interface MusicService {
     /**
      * 查询所有音乐

@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/api/photoalbum")
-@Api(value = "NoteController", tags = {"相册模块接口"})
+@Api(value = "photoAlbumController", tags = {"相册模块接口"})
 public class PhotoAlbumController {
 
     @Resource PhotoAlbumService photoAlbumService;
@@ -58,7 +58,7 @@ public class PhotoAlbumController {
      * @return Result
      */
     @ApiOperation(value = "通过用户photoAlbumDto创建相册", notes = "msg成功，则添加成功")
-    @PostMapping(value = "/apa")
+    @PostMapping(value = "/add")
     Result addPhotoAlbum(@RequestBody PhotoAlbumDto photoAlbumDto){
         return photoAlbumService.addPhotoAlbum(photoAlbumDto);
     }
@@ -70,7 +70,7 @@ public class PhotoAlbumController {
      * @return Result
      */
     @ApiOperation(value = "通过photoAlbumDto更改相册信息", notes = "msg成功，则修改成功")
-    @PutMapping(value = "upa")
+    @PutMapping(value = "update")
     Result updatePhotoAlbum(@RequestBody PhotoAlbumDto photoAlbumDto){
         return photoAlbumService.updatePhotoAlbum(photoAlbumDto);
     }
@@ -82,7 +82,7 @@ public class PhotoAlbumController {
      * @return Result
      */
     @ApiOperation(value = "通过用户id和相册id删除相册", notes = "msg成功，则删除成功")
-    @DeleteMapping(value = "dpa")
+    @DeleteMapping(value = "delete")
     Result deletePhotoAlbum(@RequestBody PhotoAlbumDto photoAlbumDto){
         return photoAlbumService.deletePhotoAlbum(photoAlbumDto);
     }

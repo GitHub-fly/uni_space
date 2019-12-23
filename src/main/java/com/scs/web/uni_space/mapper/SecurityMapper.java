@@ -27,6 +27,17 @@ public interface SecurityMapper {
 
 
     /**
+     * 通过密保id查找密保信息
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    @Select({"SELECT * FROM t_security WHERE id = #{id}"})
+    Security findById (Long id) throws  SQLException;
+
+
+    /**
      * 根据userId和photoAlbumId添加密保
      *
      * @param userId

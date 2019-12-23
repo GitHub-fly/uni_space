@@ -2,9 +2,6 @@ package com.scs.web.uni_space.domain.vo;
 
 import lombok.Data;
 
-import java.security.Timestamp;
-import java.time.LocalDate;
-
 /**
  * @author suyuxi
  * @className friendVo

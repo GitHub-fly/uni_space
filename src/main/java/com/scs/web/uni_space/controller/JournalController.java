@@ -23,7 +23,7 @@ import javax.validation.Valid;
  * @Version 1.0
  */
 @RestController
-@Api(value = "journalController", tags = {"日志接口"})
+@Api(value = "JournalController", tags = {"日志接口"})
 @RequestMapping(value = "/api/journal")
 
 public class JournalController {

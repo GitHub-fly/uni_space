@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.common.Result;
+import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.service.SecurityService;
 import io.swagger.annotations.Api;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping(value = "/api/security")
-@Api(value = "NoteController", tags = {"密保模块接口"})
+@Api(value = "SecurityController", tags = {"密保模块接口"})
 public class SecurityController {
     @Resource
     private SecurityService securityService;
@@ -46,10 +47,16 @@ public class SecurityController {
      */
     @ApiOperation(value = "根据userId和PhotoAlbumId查看密保", notes = "data为密保信息")
     @PostMapping(value = "/search")
-    Result findPhotoAlbumSecurity(@RequestBody Security security) {
+    Result findSecurity(@RequestBody Security security) {
         return securityService.findSecurity(security);
     }
 
+
+    @ApiOperation(value = "根据密保id查看密保", notes = "data为密保信息")
+    @PostMapping(value = "/find")
+    Result findSecurityById(@RequestBody QueryDto queryDto) {
+        return securityService.findById(queryDto);
+    }
 
     /**
      * 用户更改密保信息接口

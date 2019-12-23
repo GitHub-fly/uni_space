@@ -1,6 +1,7 @@
 package com.scs.web.uni_space.service;
 
 
+import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.Security;
 import com.scs.web.uni_space.common.Result;
 
@@ -27,6 +28,13 @@ public interface SecurityService {
     Result findSecurity(Security security);
 
 
+    /**
+     * 通过id查找密保
+     *
+     * @param queryDto
+     * @return Result
+     */
+    Result findById(QueryDto queryDto);
 
     /**
      * 更改相册密保信息

@@ -1,7 +1,6 @@
 package com.scs.web.uni_space.controller;
 
 import com.scs.web.uni_space.common.Result;
-import com.scs.web.uni_space.domain.dto.FriendDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.service.MessageService;
 import io.swagger.annotations.Api;

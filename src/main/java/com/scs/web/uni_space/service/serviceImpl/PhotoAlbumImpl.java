@@ -9,9 +9,7 @@ import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
 import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoAlbumMapper;
 import com.scs.web.uni_space.service.PhotoAlbumService;
-import com.sun.xml.bind.v2.model.core.ID;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.EventLogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -96,10 +94,8 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
 
                 //调用插入方法
                 photoAlbumDto.setCreateTime(timestamp);
-
                 commonMapper.returnId("t_photo_album");
                 photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto);
-                System.out.println("hgdgaskj"+photoAlbumDto.getId());
                 long id =photoAlbumDto.getId();
                 photoAlbumDto.setId(id);
                 //成功返回result

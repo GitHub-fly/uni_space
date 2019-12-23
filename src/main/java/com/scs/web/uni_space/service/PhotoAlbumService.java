@@ -4,7 +4,6 @@ package com.scs.web.uni_space.service;
 import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
-import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 
 /**
  * @author suyuxi
