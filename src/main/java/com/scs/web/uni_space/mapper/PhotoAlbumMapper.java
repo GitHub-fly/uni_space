@@ -76,11 +76,13 @@ public interface PhotoAlbumMapper {
      * @param id
      * @throws SQLException
      */
-    @Delete({"DELETE a, b " +
+    @Delete({"DELETE a, b ,c " +
             "FROM t_photo_album a " +
             "LEFT JOIN t_photo b " +
             "ON a.id = b.album_id " +
-            "WHERE a.user_id = #{userId} AND a.id = #{id} "})
+            "LEFT JOIN t_security c " +
+            "ON a.id = c.photo_album_id " +
+            "WHERE a.id = #{id} "})
     void deleteAllPhotoAlbum(Long userId,Long id) throws SQLException;
 
 }
