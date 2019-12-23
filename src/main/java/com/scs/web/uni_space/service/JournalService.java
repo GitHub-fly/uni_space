@@ -10,7 +10,7 @@ import com.scs.web.uni_space.domain.dto.UserDto;
 /**
  * @author wl
  * @ClassNameJournalService
- * @Description TODO
+ * @Description 日志服务类
  * @Date 2019/12/9
  * @Version 1.0
  */

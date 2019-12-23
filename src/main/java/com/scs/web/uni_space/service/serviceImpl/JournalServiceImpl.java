@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author wl
  * @ClassNameJournalServiceImpl
- * @Description TODO
+ * @Description 日志服务类
  * @Date 2019/12/9
  * @Version 1.0
  */

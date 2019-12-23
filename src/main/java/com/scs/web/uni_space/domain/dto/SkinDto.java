@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author wl
  * @ClassNameSkinDto
- * @Description TODO
+ * @Description 皮肤传输对象
  * @Date 2019/12/22
  * @Version 1.0
  */

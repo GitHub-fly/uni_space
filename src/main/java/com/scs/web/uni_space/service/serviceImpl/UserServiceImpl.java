@@ -58,9 +58,9 @@ public class UserServiceImpl implements UserService {
                 if (queryDto.getPassword() != null) {
                     if (userVo.getPassword().equals(DigestUtils.md5Hex(queryDto.getPassword()))) {
                         String token = DigestUtils.sha3_256Hex(UUID.randomUUID() + userVo.getCode());
-                        System.out.println(token);
                         //token存入redis，时效24小时，客户端拿到token，会变为登录状态
                         redisService.set(userVo.getCode(), token, 60 * 24L);
+                        userVo.setToken(token);
                         return Result.success(userVo);
                     } else {
                         return Result.failure(ResultCode.USER_PASSWORD_ERROR);

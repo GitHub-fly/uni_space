@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author suyuxi
  * @className friendVo
- * @Description TODO
+ * @Description 好友视图
  * @Date 2019/12/22
  * @Version 1.0
  **/

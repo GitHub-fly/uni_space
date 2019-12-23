@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author xunmi
  * @ClassName DataUtil
- * @Description TODO
+ * @Description 数据工具
  * @Date 2019/12/3
  * @Version 1.0
  **/

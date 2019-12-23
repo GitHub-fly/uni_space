@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 /**
  * @author wl
  * @ClassNameRecommendVo
- * @Description TODO
+ * @Description 推荐好友视图
  * @Date 2019/12/16
  * @Version 1.0
  */
