@@ -41,7 +41,7 @@ public class FriendServiceImpl implements FriendService {
     private CommonMapper commonMapper;
 
     /**
-     * 推荐好友接口
+     * 推荐好友
      *
      * @param friendDto
      * @return Result
@@ -58,8 +58,10 @@ public class FriendServiceImpl implements FriendService {
                 int size = idList.size();
                 for (int i = 0; i < size; i++) {
                     Long id = idList.get(i);
+                    //排除自己id
                     if (!fromId.equals(id)) {
                         try {
+                            //排除已是好友的id
                             if (friendMapper.selectFriendFlag(friendDto.getFromId(), id) == null) {
                                 list.add(userMapper.selectUserById(id));
                             }
@@ -81,9 +83,12 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result searchJournal(FriendDto friendDto) {
         try {
+            //非空判断
             if (friendDto.getToId() != null) {
+                //调用通过id查找日志方法
                 List<Journal> list = friendMapper.searchJournalByUserId(friendDto.getToId());
                 if (list.size() != 0) {
+                    //返回数据
                     return Result.success(list);
                 } else {
                     return Result.failure(ResultCode.USER_NOT_JOURNAL);
@@ -100,6 +105,7 @@ public class FriendServiceImpl implements FriendService {
     public Result findAllByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null) {
+                //当getKeyWords=null时，查找的是全部好友信息
                 List<FriendVo> friendVoList = friendMapper.selectAll(friendDto.getFromId(), friendDto.getKeyWords());
                 if (friendVoList.size() != 0) {
                     return Result.success(friendVoList);
@@ -118,6 +124,7 @@ public class FriendServiceImpl implements FriendService {
     public Result searchFriendByKey(FriendDto friendDto) {
         try {
             if (friendDto.getFromId() != null && !friendDto.getKeyWords().equals("")) {
+                //通过关键字搜索用户信息
                 List<FriendVo> list = friendMapper.searchUserByKey(friendDto.getFromId(), friendDto.getKeyWords());
                 if (list.size() != 0) {
                     return Result.success(list);
@@ -146,6 +153,7 @@ public class FriendServiceImpl implements FriendService {
                         Friend friend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
                         if (friend == null) {
                             commonMapper.returnId("t_friend");
+                            //如未发起请求，调用添加好友方法
                             friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
                         } else if (friend.getFriendFlag() == 0) {
@@ -155,8 +163,10 @@ public class FriendServiceImpl implements FriendService {
                         }
                     } else {
                         if (searchFriend.getFriendFlag() == 0) {
+                            //如果对方已发起请求，调用更改好友状态放方法
                             friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
                             commonMapper.returnId("t_friend");
+                            //再插入一条好友数据
                             friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
                         } else if (searchFriend.getFriendFlag() == 1) {
@@ -177,9 +187,9 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result findAllApplicant(FriendDto friendDto) {
         if (friendDto.getFromId() != null) {
-            List<User> users = null;
             try {
-                users = friendMapper.selectByToId(friendDto.getFromId());
+                //查找所有添加请求信息
+                List<User> users = friendMapper.selectByToId(friendDto.getFromId());
                 if (users.size() != 0) {
                     return Result.success(users);
                 } else {
@@ -197,6 +207,7 @@ public class FriendServiceImpl implements FriendService {
     public Result confirmAdd(FriendDto friendDto) {
         if (friendDto.getFromId() != null && friendDto.getToId() != null) {
             try {
+                //同意添加，更改状态
                 friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
             } catch (SQLException e) {
                 log.error("更改请求状态异常");
@@ -204,6 +215,7 @@ public class FriendServiceImpl implements FriendService {
             }
             try {
                 commonMapper.returnId("t_friend");
+                //插入一条好友数据
                 friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -219,6 +231,7 @@ public class FriendServiceImpl implements FriendService {
     public Result rejectConfirm(FriendDto friendDto) {
         if (friendDto.getFromId() != null && friendDto.getToId() != null) {
             try {
+                //拒绝请求，调用删除请求方法
                 friendMapper.deleteReject(friendDto.getFromId(), friendDto.getToId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -234,6 +247,7 @@ public class FriendServiceImpl implements FriendService {
     public Result deleteFriend(FriendDto friendDto) {
         if (friendDto.getFromId() != null && friendDto.getToId() != null) {
             try {
+                //删除好友，两方都会删除
                 friendMapper.deleteFriend(friendDto.getFromId(), friendDto.getToId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -248,6 +262,7 @@ public class FriendServiceImpl implements FriendService {
     public Result updateFriendCollectionFlag(FriendDto friendDto) {
         if(friendDto.getFromId() != null && friendDto.getToId() != null && friendDto.getCollectionFlag() != null){
             try {
+                //修改对方访问权限
                 friendMapper.updateCollectionFlag(friendDto.getFromId(),friendDto.getToId(),friendDto.getCollectionFlag());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {

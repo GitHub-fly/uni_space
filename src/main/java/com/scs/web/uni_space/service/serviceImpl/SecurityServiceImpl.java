@@ -33,6 +33,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (security.getUserId() != null && security.getPhotoAlbumId() != null && security.getQuestion() != null && security.getAnswer() != null) {
             Security searchSecurity = null;
             try {
+                //判断是否已经设置密保
                 searchSecurity = securityMapper.findSecurity(security.getUserId(), security.getPhotoAlbumId());
             } catch (SQLException e) {
                 log.error("查找相册密保异常");
@@ -41,6 +42,7 @@ public class SecurityServiceImpl implements SecurityService {
                 return Result.failure(ResultCode.USER_HAS_SECURITY);
             } else {
                 try {
+                    //如未设置，添加密保
                     securityMapper.addSecurity(security.getUserId(), security.getPhotoAlbumId(), security.getQuestion(), security.getAnswer());
                     return Result.success(ResultCode.SUCCESS);
                 } catch (SQLException e) {
@@ -55,6 +57,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Result findSecurity(Security security) {
+        //
         if (security.getUserId() != null && security.getPhotoAlbumId() != null) {
             Security searchSecurity = null;
             try {
@@ -97,6 +100,7 @@ public class SecurityServiceImpl implements SecurityService {
     public Result updateSecurity(Security security) {
         if (security.getUserId() != null && security.getPhotoAlbumId() != null && security.getQuestion() != null && security.getAnswer() != null) {
             try {
+                //更改密保信息
                 securityMapper.updateSecurity(security.getUserId(), security.getPhotoAlbumId(), security.getQuestion(), security.getAnswer());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -112,6 +116,7 @@ public class SecurityServiceImpl implements SecurityService {
     public Result deleteSecurity(Security security) {
         if (security.getUserId() != null && security.getPhotoAlbumId() != null) {
             try {
+                //删除密保
                 securityMapper.deleteSecurity(security.getUserId(), security.getPhotoAlbumId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {

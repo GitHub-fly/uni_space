@@ -37,6 +37,7 @@ public class MessageImpl implements MessageService {
     public Result findAllLike(QueryDto queryDto) {
         if (queryDto.getId() != null){
             try {
+                //调用查找该用户所有点赞信息
                 List<LikeVo> likeVoList = messageMapper.findAllLike(queryDto);
                 return Result.success(likeVoList);
             } catch (SQLException e) {

@@ -65,13 +65,16 @@ public class PhotoServiceImpl implements PhotoService {
      */
     @Override
     public Result batchAddPhoto(Photo[] photos){
+        //获取当前时间
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
         if (photos.length != 0){
             for (int i = 0; i<photos.length; i++){
+                //给每张图片添加时间
                 photos[i].setCreateTime(timestamp);            }
         }
         try {
             commonMapper.returnId("t_photo");
+            //调用批量插入方法，把数组装换为集合
             photoMapper.batchPcInsertPhoto(Arrays.asList(photos));
             return Result.success(ResultCode.SUCCESS);
         } catch (SQLException e) {
@@ -91,16 +94,21 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Result addPhoto(PhotoDto photoDto) {
         if (photoDto.getAlbumId() != null && photoDto.getUrlStrings().length != 0){
+            //获取当前时间
             Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
+            //实例化一个photo类型的集合
             List<Photo> photoList = new ArrayList<>();
             for (int i = 0; i<photoDto.getUrlStrings().length; i++){
+                //实例化一个photo对象
                 Photo photo = new Photo();
+                //把前面获取的数据组成一个对象，放入集合
                 photo.setUrl(photoDto.getUrlStrings()[i]);
                 photo.setCreateTime(timestamp);
                 photoList.add(photo);
             }
             try {
                 commonMapper.returnId("t_photo");
+                //调用批量插入方法
                 photoMapper.batchInsertPhoto(photoList,photoDto.getAlbumId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
@@ -122,6 +130,7 @@ public class PhotoServiceImpl implements PhotoService {
     public Result batchDeletePhoto(PhotoDto photoDto) {
         if (photoDto.getLongList().size() != 0){
             try {
+                //获取相片id数组，调用批量删除方法
                 photoMapper.batchDeletePhoto(photoDto.getLongList());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {

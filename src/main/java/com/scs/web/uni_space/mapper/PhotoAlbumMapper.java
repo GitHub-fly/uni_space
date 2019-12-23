@@ -66,7 +66,7 @@ public interface PhotoAlbumMapper {
      */
     @Update({"UPDATE t_photo_album SET cover = #{photoAlbumDto.cover}, name = #{photoAlbumDto.name}, type = #{photoAlbumDto.type}, " +
             "introduction = #{photoAlbumDto.introduction} " +
-            "WHERE user_id = #{photoAlbumDto.userId} AND id = #{photoAlbumDto.id}"})
+            "WHERE id = #{photoAlbumDto.id}"})
     void updateAllPhotoAlbum(@Param("photoAlbumDto") PhotoAlbumDto photoAlbumDto) throws SQLException;
 
 
