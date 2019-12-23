@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * @author 小黑
@@ -56,7 +57,8 @@ public class UserServiceImpl implements UserService {
                 //判断用户使用密码登录
                 if (queryDto.getPassword() != null) {
                     if (userVo.getPassword().equals(DigestUtils.md5Hex(queryDto.getPassword()))) {
-                        String token = DigestUtils.sha3_256Hex(userVo.getCode());
+                        String token = DigestUtils.sha3_256Hex(UUID.randomUUID() + userVo.getCode());
+                        System.out.println(token);
                         //token存入redis，时效24小时，客户端拿到token，会变为登录状态
                         redisService.set(userVo.getCode(), token, 60 * 24L);
                         return Result.success(userVo);
@@ -240,20 +242,20 @@ public class UserServiceImpl implements UserService {
         try {
             UserVo userVo = userMapper.selectUserById(userDto.getId());
             String code = redisService.getValue(userVo.getCode(), String.class);
-            if (code.equals(DigestUtils.sha3_256Hex(userVo.getCode()))
-            ) {
-                return Result.success();
+            if (code == null) {
+                return Result.failure(ResultCode.USER_NOT_SIGN_IN);
+            } else {
+                return Result.success(code);
             }
         } catch (SQLException e) {
             log.error("查询用户错误");
             return Result.failure(ResultCode.USER_NOT_EXIST);
         }
-        return Result.failure(ResultCode.USER_LOGIN_FAILURE);
     }
 
     @Override
     public Result updatePassword(UserDto userDto) {
-        if (userDto.getId() != null && userDto.getPassword() != null){
+        if (userDto.getId() != null && userDto.getPassword() != null) {
             userDto.setPassword(DigestUtils.md5Hex(userDto.getPassword()));
             try {
                 userMapper.updateUserPassword(userDto);

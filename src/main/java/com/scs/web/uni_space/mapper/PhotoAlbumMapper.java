@@ -37,9 +37,6 @@ public interface PhotoAlbumMapper {
 //            "WHERE a.user_id = #{userId} "})
 //    List<PhotoAlbumVo> findAllPhotoAlbum(Long userId) throws SQLException;
 
-
-
-
     /**
      * 通过相册id查找相册信息
      *

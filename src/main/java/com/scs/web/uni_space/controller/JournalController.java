@@ -6,8 +6,6 @@ import com.scs.web.uni_space.domain.dto.LikeDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.service.JournalService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +35,7 @@ public class JournalController {
      * @param userDto
      * @return
      */
-    @ApiOperation(value = "通过id查找好友的所有日志")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "这个参数是自己的id", dataType = "Integer"),
-            @ApiImplicitParam(name = "birthday", value = "把birthday删了，不许给我传这个参数再问就是死", required = false)})
+    @ApiOperation(value = "通过id查找好友的所有日志", notes = "这个参数是自己的id,把birthday删了，不许给我传这个参数再问就是死")
     @PostMapping(value = "/index/data")
     Result findIndexData(@RequestBody UserDto userDto) {
 
@@ -52,9 +48,7 @@ public class JournalController {
      * @param userDto
      * @return
      */
-    @ApiOperation(value = "通过id推荐好友所有日志")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "这个参数是自己的id", dataType = "Integer"),
-            @ApiImplicitParam(name = "birthday", value = "把birthday删了，不许给我传这个参数再问就是死")})
+    @ApiOperation(value = "通过id推荐好友的所有日志", notes = "这个参数是自己的id,把birthday删了，不许给我传这个参数再问就是死")
     @PostMapping(value = "/recoomendJournal/data")
     Result recommendJournal(@RequestBody UserDto userDto) {
 
@@ -67,9 +61,7 @@ public class JournalController {
      * @param userDto
      * @return
      */
-    @ApiOperation(value = "通过id查找自己的所有日志")
-    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "参数是自己的id", dataType = "Integer"),
-            @ApiImplicitParam(name = "birthday", value = "把birthday删了，不许给我传这个参数再问就是死", required = false)})
+    @ApiOperation(value = "通过id自己好友的所有日志", notes = "这个参数是自己的id,把birthday删了，不许给我传这个参数再问就是死")
     @PostMapping(value = "/user/data")
     Result selectById(@RequestBody UserDto userDto) {
         return journalService.selectById(userDto);
@@ -81,9 +73,7 @@ public class JournalController {
      * @param journalDto
      * @return
      */
-    @ApiOperation(value = "通过id查找好友的某篇日志的照片")
-    @ApiImplicitParam(name = "id", value = "参数是文章id", dataType = "Integer")
-
+    @ApiOperation(value = "通过id查找好友的某篇日志的照片", notes = "这个参数是文章的id")
     @PostMapping(value = "/user/journalpicture")
     Result selectJournalPictureById(@RequestBody JournalDto journalDto) {
         return journalService.selectJournalPictureById(journalDto);
@@ -95,8 +85,7 @@ public class JournalController {
      * @param journalDto
      * @return
      */
-    @ApiOperation(value = "通过id查找文章评论")
-    @ApiImplicitParam(name = "id", value = "传参是文章id", dataType = "Integer")
+    @ApiOperation(value = "通过id查找文章评论", notes = "传参是文章id")
     @PostMapping(value = "/user/comment")
     Result selectCommentById(@RequestBody JournalDto journalDto) {
         return journalService.selectCommentById(journalDto);
@@ -109,8 +98,7 @@ public class JournalController {
      * @return
      */
 
-    @ApiOperation(value = "通过日志id查找日志详情")
-    @ApiImplicitParam(name = "id", value = "传参数文章id", dataType = "Integer")
+    @ApiOperation(value = "通过日志id查找日志详情", notes = "传参数文章id")
     @PostMapping(value = "/user/journaldetail/{id}")
     Result selectUserJournalDetailById(@PathVariable("id") @Valid int id) {
         return journalService.selectJournalDetailById((long) id);
@@ -118,12 +106,12 @@ public class JournalController {
 
     /**
      * 点赞接口判断
+     *
      * @param likeDto
      * @return
      */
 
-    @ApiOperation(value = "通过参数 判断是否点赞")
-    @ApiImplicitParam(name = "id", value = "传参数日志id,user_id", dataType = "Integer")
+    @ApiOperation(value = "通过参数 判断是否点赞", notes = "传参数日志id,user_id")
     @PostMapping(value = "/user/journal/concernLike")
     Result concernLike(@RequestBody LikeDto likeDto) {
         return journalService.concernJournalLikes(likeDto);
@@ -135,8 +123,7 @@ public class JournalController {
      * @param likeDto
      * @return
      */
-    @ApiOperation(value = "通过日志id与user_id 进行点赞")
-    @ApiImplicitParam(name = "id", value = "传参数日志id,user_id", dataType = "Integer")
+    @ApiOperation(value = "通过日志id与user_id 进行点赞", notes = "传参数日志id,user_id")
     @PutMapping(value = "/user/journal/addlike")
     Result addJournalLike(@RequestBody LikeDto likeDto) {
         return journalService.clickLikes(likeDto);
@@ -151,8 +138,7 @@ public class JournalController {
      */
 
 
-    @ApiOperation(value = "通过日志id与user_id 取消点赞")
-    @ApiImplicitParam(name = "id", value = "传参数日志id,user_id", dataType = "Integer")
+    @ApiOperation(value = "通过日志id与user_id 取消点赞", notes = "传参数日志id,user_id")
     @DeleteMapping(value = "/user/journal/cancellike")
     Result cancelJournalLike(@RequestBody LikeDto likeDto) {
         return journalService.cancelLike(likeDto);
@@ -160,34 +146,28 @@ public class JournalController {
 
     /**
      * pc新增日志
+     *
      * @param journalDto
      * @return
      */
 
-    @ApiOperation(value = "通过日志内容提取日志图片 和 user_id 新增日志")
-    @ApiImplicitParams({@ApiImplicitParam(name = "user_id", value = "传参用户user_id",dataType = "Integer") ,@ApiImplicitParam
-            (name = "content", value = "传参数日志内容,",dataType = "string")
-    })
+    @ApiOperation(value = "通过日志内容提取日志图片 和 user_id 新增日志", notes = "传参用户user_id,content")
     @PutMapping(value = "/user/journal/pcjournal")
+    Result addJournal(@RequestBody JournalDto journalDto) {
+        return journalService.addJournal(journalDto);
+    }
 
-    Result addJournal(@RequestBody JournalDto journalDto){return  journalService.addJournal(journalDto);}
 
-
-    @ApiOperation(value = "通过日志内容 （图片数组） 和 user_id 新增日志")
-    @ApiImplicitParams({@ApiImplicitParam(name = "user_id", value = "传参用户user_id",dataType = "Integer") ,@ApiImplicitParam
-            (name = "content", value = "传参数日志内容,",dataType = "string"),
-         @ApiImplicitParam   (name = "urls;", value = "传参数图片数组,",dataType = "string")
-    })
+    @ApiOperation(value = "通过日志内容 （图片数组） 和 user_id 新增日志", notes = "传参用户user_id,content,urls")
     @PutMapping(value = "/user/journal/mobilejournal")
+    Result addMObileJounal(@RequestBody JournalDto journalDto) {
+        return journalService.addMobileJournal(journalDto);
+    }
 
-    Result addMObileJounal(@RequestBody JournalDto journalDto){return  journalService.addMobileJournal(journalDto);}
 
-
-
-    @ApiOperation(value = "批量删除日志")
-   @ApiImplicitParam(name = "传日志id数组", value = "传参用户日志数组",dataType = "Integer")
+    @ApiOperation(value = "批量删除日志", notes = "传日志id数组")
     @DeleteMapping(value = "/user/journal")
-    Result deleteJournal(@RequestBody JournalDto journalDto){
+    Result deleteJournal(@RequestBody JournalDto journalDto) {
         return journalService.deleteJournal(journalDto);
     }
 }

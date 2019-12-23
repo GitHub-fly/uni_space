@@ -33,13 +33,13 @@ public class CommentController {
         return commentService.selectCommentById(commentDto);
     }
 
-    @ApiOperation(value = "添加一条评论", notes = "msg为成功，则添加成功")
+    @ApiOperation(value = "添加一条评论", notes = "传递参数为userId,journalId,content , msg为成功，则添加成功")
     @PostMapping(value = "/add")
     Result insertComment(@RequestBody CommentDto commentDto) {
         return commentService.insertComment(commentDto);
     }
 
-    @ApiOperation(value = "删除一条评论", notes = "msg为成功，则添加成功")
+    @ApiOperation(value = "删除一条评论", notes = "传递参数为id , journalId , msg为成功，则添加成功")
     @PostMapping(value = "/delete")
     Result deleteComment(@RequestBody CommentDto commentDto) {
         return commentService.deleteComment(commentDto);

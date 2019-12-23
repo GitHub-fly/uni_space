@@ -39,7 +39,7 @@ public class MusicController {
      *
      * @return
      */
-    @ApiOperation(value = "根据ID查询音乐")
+    @ApiOperation(value = "根据ID查询音乐", notes = "传递参数为userId")
     @PostMapping(value = "/detail")
     Result selectById(@RequestBody MusicDto musicDto) {
         return Result.success(musicService.selectById(musicDto));
@@ -51,7 +51,7 @@ public class MusicController {
      * @param musicDto
      * @return
      */
-    @ApiOperation(value = "添加个人喜欢音乐")
+    @ApiOperation(value = "添加个人喜欢音乐", notes = "传递参数为content，name，singer，userId")
     @PutMapping(value = "/add")
     Result addMusic(@RequestBody MusicDto musicDto) {
         return Result.success(musicService.addMusic(musicDto));
@@ -63,7 +63,7 @@ public class MusicController {
      * @param musicDto
      * @return
      */
-    @ApiOperation(value = "移除个人喜欢音乐")
+    @ApiOperation(value = "移除个人喜欢音乐" , notes = "传递参数为userId , id")
     @DeleteMapping(value = "/delete")
     Result deleteMusic(@RequestBody MusicDto musicDto) {
         return Result.success(musicService.deleteMusic(musicDto));

@@ -28,13 +28,12 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PhotoAlbumImpl implements PhotoAlbumService {
-
+public class PhotoAlbumServiceImpl implements PhotoAlbumService {
     @Resource
     private PhotoAlbumMapper photoAlbumMapper;
-
     @Resource
     private CommonMapper commonMapper;
+
     /**
      * 查找所有相册
      *
@@ -44,14 +43,14 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
     @Override
     public Result findAllPhotoAlbum(QueryDto queryDto) {
         //数据非空判断
-        if (queryDto.getId() != null){
+        if (queryDto.getId() != null) {
             try {
                 //调用查找方法，返回photoAlbumList集合
                 List<PhotoAlbumVo> photoAlbumVoList = photoAlbumMapper.findAllPhotoAlbum(queryDto.getId());
                 //判断集合是否有数据
-                if (photoAlbumVoList.size() != 0){
+                if (photoAlbumVoList.size() != 0) {
                     return Result.success(photoAlbumVoList);
-                }else {
+                } else {
                     return Result.failure(ResultCode.USER_NOT_PHOTO_ALBUM);
                 }
             } catch (SQLException e) {
@@ -65,7 +64,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
 
     @Override
     public Result findPhotoAlbumById(QueryDto queryDto) {
-        if (queryDto.getId() != null){
+        if (queryDto.getId() != null) {
             try {
                 PhotoAlbum photoAlbum = photoAlbumMapper.findPhotoAlbumById(queryDto);
                 return Result.success(photoAlbum);
@@ -89,14 +88,13 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         //生成当前时间
         Timestamp timestamp = Timestamp.valueOf(LocalDateTime.now());
         //前端返回数据非空判断
-        if (photoAlbumDto.getUserId() != null && photoAlbumDto.getName() != null ){
+        if (photoAlbumDto.getUserId() != null && photoAlbumDto.getName() != null) {
             try {
-
                 //调用插入方法
                 photoAlbumDto.setCreateTime(timestamp);
                 commonMapper.returnId("t_photo_album");
                 photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto);
-                long id =photoAlbumDto.getId();
+                long id = photoAlbumDto.getId();
                 photoAlbumDto.setId(id);
                 //成功返回result
                 return Result.success(photoAlbumDto);
@@ -109,7 +107,6 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
     }
 
-
     /**
      * 修改相册
      *
@@ -119,7 +116,7 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
     @Override
     public Result updatePhotoAlbum(PhotoAlbumDto photoAlbumDto) {
         //前端返回数据非空判断
-        if (photoAlbumDto.getId() != null && photoAlbumDto.getUserId() != null && photoAlbumDto.getCover() != null && photoAlbumDto.getName() != null && photoAlbumDto.getType() != null && photoAlbumDto.getIntroduction() != null){
+        if (photoAlbumDto.getId() != null && photoAlbumDto.getUserId() != null && photoAlbumDto.getCover() != null && photoAlbumDto.getName() != null && photoAlbumDto.getType() != null && photoAlbumDto.getIntroduction() != null) {
             try {
                 //调用更改信息方法
                 photoAlbumMapper.updateAllPhotoAlbum(photoAlbumDto);
@@ -135,16 +132,17 @@ public class PhotoAlbumImpl implements PhotoAlbumService {
 
     /**
      * 删除相册
+     *
      * @param photoAlbumDto
      * @return Result
      */
     @Override
     public Result deletePhotoAlbum(PhotoAlbumDto photoAlbumDto) {
         //非空判断
-        if (photoAlbumDto.getId() != null){
+        if (photoAlbumDto.getId() != null) {
             try {
                 //调用删除方法
-                photoAlbumMapper.deleteAllPhotoAlbum(photoAlbumDto.getUserId(),photoAlbumDto.getId());
+                photoAlbumMapper.deleteAllPhotoAlbum(photoAlbumDto.getUserId(), photoAlbumDto.getId());
                 return Result.success(ResultCode.SUCCESS);
             } catch (SQLException e) {
                 log.error("删除相册异常");

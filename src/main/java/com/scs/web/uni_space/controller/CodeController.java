@@ -22,16 +22,16 @@ import javax.annotation.Resource;
  **/
 @RestController
 @RequestMapping(value = "/api")
-@Api(value = "CodeController" , tags = "验证码接口")
+@Api(value = "CodeController", tags = "验证码接口")
 public class CodeController {
     @Resource
     private RedisService redisService;
 
     /**
-     * @description  获取图形验证码
      * @return
+     * @description 获取图形验证码
      */
-    @ApiOperation(value = "获取图形验证码" , notes = "返回值为四位随机字符")
+    @ApiOperation(value = "获取图形验证码", notes = "返回值为四位随机字符")
     @GetMapping(value = "/code")
     Result getCodeImage() {
         // 返回base64
@@ -51,19 +51,19 @@ public class CodeController {
     }
 
     /**
-     * @description 短信验证码
      * @param mobile
      * @return
+     * @description 短信验证码
      */
-    @ApiOperation(value = "获取短信验证码" , notes = "输入值为手机号 返回值为6位数字验证码")
+    @ApiOperation(value = "获取短信验证码", notes = "输入值为手机号 返回值为6位数字验证码")
     @PostMapping(value = "/sms")
     Result getCodeSMS(@RequestParam("mobile") String mobile) {
         //发送短信给手机
         String sms = SMSUtil.send(mobile);
         System.out.println(sms);
         boolean result;
-        //将验证码存入redis
-        result = redisService.set(mobile, sms);
+        //将验证码存入redis，时效为一分钟
+        result = redisService.set(mobile, sms, 1L);
         if (result = true) {
             return Result.success(sms);
         }

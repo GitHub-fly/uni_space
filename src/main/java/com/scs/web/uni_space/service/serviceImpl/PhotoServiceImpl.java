@@ -28,7 +28,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PhotoImpl implements PhotoService {
+public class PhotoServiceImpl implements PhotoService {
 
     @Resource PhotoMapper photoMapper;
 

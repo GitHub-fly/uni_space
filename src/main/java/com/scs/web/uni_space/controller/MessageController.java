@@ -26,7 +26,7 @@ public class MessageController {
 
     @Resource MessageService messageService;
 
-    @ApiOperation(value = "根据用户id查找所有点赞消息", notes = "data为点赞信息列表")
+    @ApiOperation(value = "根据用户id查找所有点赞消息", notes = "传递参数为id，data为点赞信息列表")
     @PostMapping(value = "/likes")
     Result findAllLike(@RequestBody QueryDto queryDto) {
         return messageService.findAllLike(queryDto);

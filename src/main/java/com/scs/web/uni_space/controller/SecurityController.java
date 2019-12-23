@@ -51,6 +51,12 @@ public class SecurityController {
         return securityService.findSecurity(security);
     }
 
+    /**
+     * 根据密保id查看密保
+     *
+     * @param queryDto
+     * @return
+     */
 
     @ApiOperation(value = "根据密保id查看密保", notes = "data为密保信息")
     @PostMapping(value = "/find")
