@@ -37,7 +37,8 @@ public interface FriendMapper {
             "OR c.account LIKE CONCAT('%', #{key}, '%') " +
             "OR c.email LIKE CONCAT('%', #{key}, '%') " +
             "OR c.nickname LIKE CONCAT('%', #{key}, '%') " +
-            "OR c.introduction LIKE  CONCAT('%', #{key}, '%') ) "})
+            "OR c.introduction LIKE  CONCAT('%', #{key}, '%') ) " +
+            "ORDER BY c.create_time DESC"})
     List<FriendVo> selectAll(Long fromId, String key) throws SQLException;
 //    @Select({"SELECT c.*,COUNT(b.user_id) AS journalSum " +
 //            "FROM t_friend a " +

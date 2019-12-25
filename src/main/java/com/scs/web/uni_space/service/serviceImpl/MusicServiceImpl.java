@@ -4,7 +4,6 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.MusicDto;
 import com.scs.web.uni_space.domain.vo.MusicVo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.MusicMapper;
 import com.scs.web.uni_space.service.MusicService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +25,13 @@ import java.util.List;
 public class MusicServiceImpl implements MusicService {
     @Resource
     private MusicMapper musicMapper;
-    @Resource
-    private CommonMapper commonMapper;
+//    @Resource
+//    private CommonMapper commonMapper;
 
     @Override
     public Result addMusic(MusicDto musicDto) {
         try {
-            commonMapper.returnId("t_music");
+//            commonMapper.returnId("t_music");
             musicMapper.addMusic(musicDto);
         } catch (SQLException e) {
             log.error("添加失败");

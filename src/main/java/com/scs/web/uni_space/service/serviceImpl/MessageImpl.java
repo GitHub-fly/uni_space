@@ -26,7 +26,6 @@ public class MessageImpl implements MessageService {
 
     @Resource MessageMapper messageMapper;
 
-
     /**
      * 查找点赞消息
      *

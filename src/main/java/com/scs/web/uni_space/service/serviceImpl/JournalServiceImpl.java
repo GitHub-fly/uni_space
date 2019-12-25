@@ -12,7 +12,6 @@ import com.scs.web.uni_space.domain.entity.Like;
 import com.scs.web.uni_space.domain.vo.JournalVo;
 import com.scs.web.uni_space.domain.vo.RecommendVo;
 import com.scs.web.uni_space.domain.vo.UserCommentVo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.JournalMapper;
 import com.scs.web.uni_space.service.JournalService;
 import com.scs.web.uni_space.util.StringUtil;
@@ -39,8 +38,8 @@ import java.util.List;
 public class JournalServiceImpl implements JournalService {
     @Resource
     private JournalMapper journalMapper;
-    @Resource
-    private CommonMapper commonMapper;
+//    @Resource
+//    private CommonMapper commonMapper;
 
     @Override
     public Result findIndexData(UserDto userDto) {
@@ -149,7 +148,7 @@ public class JournalServiceImpl implements JournalService {
         try {
             //通过用户id 日志id判断有无点赞
             if (journalMapper.concernJournalLike((long) likeDto.getUserId(), (long) likeDto.getJournalId()) == null) {
-                commonMapper.returnId("t_like");
+//                commonMapper.returnId("t_like");
                 //通过用户id 日志id点赞
                 journalMapper.insertLike((long) likeDto.getUserId(), (long) likeDto.getJournalId());
                 //更新journal表likes
@@ -196,12 +195,12 @@ public class JournalServiceImpl implements JournalService {
             journal.setContent(journalDto.getContent().substring(2,journalDto.getContent().length()-2));
             journal.setJournalPictureNum((long) list.size());
             if (list.size() == 0) {
-                journal.setThumbnail("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/6cae1b8e-9843-43ce-a5d6-37c9887f412a.jpeg");
+                journal.setThumbnail("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/c3cef33b-a373-4dc6-b529-7983a39f72df.jpeg");
             } else {
                 journal.setThumbnail(list.get(0));
             }
             try {
-                commonMapper.returnId("t_journal");
+//                commonMapper.returnId("t_journal");
                 //新增日志
                 journalMapper.insertJournal(journal);
 
@@ -216,7 +215,7 @@ public class JournalServiceImpl implements JournalService {
                         pictureList.add(journalPicture);
                     }
                     if (journalDto.getContent() != null || journalDto.getUserId() != null) {
-                        commonMapper.returnId("t_journal_photo");
+//                        commonMapper.returnId("t_journal_photo");
                         //批量插入照片
                         journalMapper.batchInsertJournal(pictureList);
                     }
@@ -242,12 +241,12 @@ public class JournalServiceImpl implements JournalService {
             journal.setTitle(journalDto.getTitle());
             journal.setUserId(journalDto.getUserId());
             if (urlList.size() == 0) {
-                journal.setThumbnail("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/6cae1b8e-9843-43ce-a5d6-37c9887f412a.jpeg");
+                journal.setThumbnail("https://niit-soft.oss-cn-hangzhou.aliyuncs.com/soft1821/c3cef33b-a373-4dc6-b529-7983a39f72df.jpeg");
             } else {
                 journal.setThumbnail(urlList.get(0));
             }
             try {
-                commonMapper.returnId("t_journal");
+//                commonMapper.returnId("t_journal");
                 //新增日志
                 journalMapper.insertJournal(journal);
                 if (urlList.size() != 0) {
@@ -260,7 +259,7 @@ public class JournalServiceImpl implements JournalService {
                         journalPicture.setUrl(urlList.get(i));
                         journalPictureList.add(journalPicture);
                     }
-                    commonMapper.returnId("t_journal_photo");
+//                    commonMapper.returnId("t_journal_photo");
                     //批量插入照片
                     journalMapper.batchInsertJournal(journalPictureList);
                 }

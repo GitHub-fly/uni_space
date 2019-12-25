@@ -6,7 +6,6 @@ import com.scs.web.uni_space.domain.dto.PhotoAlbumDto;
 import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.entity.PhotoAlbum;
 import com.scs.web.uni_space.domain.vo.PhotoAlbumVo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoAlbumMapper;
 import com.scs.web.uni_space.service.PhotoAlbumService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +30,8 @@ import java.util.List;
 public class PhotoAlbumServiceImpl implements PhotoAlbumService {
     @Resource
     private PhotoAlbumMapper photoAlbumMapper;
-    @Resource
-    private CommonMapper commonMapper;
+//    @Resource
+//    private CommonMapper commonMapper;
 
     /**
      * 查找所有相册
@@ -103,7 +102,7 @@ public class PhotoAlbumServiceImpl implements PhotoAlbumService {
             try {
                 //调用插入方法
                 photoAlbumDto.setCreateTime(timestamp);
-                commonMapper.returnId("t_photo_album");
+//                commonMapper.returnId("t_photo_album");
                 photoAlbumMapper.addAllPhotoAlbum(photoAlbumDto);
                 long id = photoAlbumDto.getId();
                 photoAlbumDto.setId(id);

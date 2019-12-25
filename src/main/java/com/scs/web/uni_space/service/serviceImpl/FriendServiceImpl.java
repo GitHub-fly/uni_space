@@ -8,7 +8,6 @@ import com.scs.web.uni_space.domain.entity.Journal;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.FriendVo;
 import com.scs.web.uni_space.domain.vo.UserVo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.FriendMapper;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.FriendService;
@@ -37,8 +36,8 @@ public class FriendServiceImpl implements FriendService {
     @Resource
     private UserMapper userMapper;
 
-    @Resource
-    private CommonMapper commonMapper;
+//    @Resource
+//    private CommonMapper commonMapper;
 
     /**
      * 推荐好友
@@ -152,7 +151,7 @@ public class FriendServiceImpl implements FriendService {
                         //查看自己是否发过请求
                         Friend friend = friendMapper.selectFriendFlag(friendDto.getFromId(), friendDto.getToId());
                         if (friend == null) {
-                            commonMapper.returnId("t_friend");
+//                            commonMapper.returnId("t_friend");
                             //如未发起请求，调用添加好友方法
                             friendMapper.insertOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
@@ -165,7 +164,7 @@ public class FriendServiceImpl implements FriendService {
                         if (searchFriend.getFriendFlag() == 0) {
                             //如果对方已发起请求，调用更改好友状态放方法
                             friendMapper.updateFriendFlag(friendDto.getFromId(), friendDto.getToId());
-                            commonMapper.returnId("t_friend");
+//                            commonMapper.returnId("t_friend");
                             //再插入一条好友数据
                             friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                             return Result.success(ResultCode.SUCCESS);
@@ -214,7 +213,7 @@ public class FriendServiceImpl implements FriendService {
                 return Result.failure(ResultCode.USER_CONFIRM_ERROR);
             }
             try {
-                commonMapper.returnId("t_friend");
+//                commonMapper.returnId("t_friend");
                 //插入一条好友数据
                 friendMapper.insertEachOther(friendDto.getFromId(), friendDto.getToId());
                 return Result.success(ResultCode.SUCCESS);

@@ -4,7 +4,6 @@ import com.scs.web.uni_space.common.Result;
 import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.PhotoDto;
 import com.scs.web.uni_space.domain.entity.Photo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.PhotoMapper;
 import com.scs.web.uni_space.service.PhotoService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ public class PhotoServiceImpl implements PhotoService {
     @Resource PhotoMapper photoMapper;
 
 
-    @Resource CommonMapper commonMapper;
+//    @Resource CommonMapper commonMapper;
     /**
      * 查找某个相册所以照片
      *
@@ -73,7 +72,7 @@ public class PhotoServiceImpl implements PhotoService {
                 photos[i].setCreateTime(timestamp);            }
         }
         try {
-            commonMapper.returnId("t_photo");
+//            commonMapper.returnId("t_photo");
             //调用批量插入方法，把数组装换为集合
             photoMapper.batchPcInsertPhoto(Arrays.asList(photos));
             return Result.success(ResultCode.SUCCESS);
@@ -107,7 +106,7 @@ public class PhotoServiceImpl implements PhotoService {
                 photoList.add(photo);
             }
             try {
-                commonMapper.returnId("t_photo");
+//                commonMapper.returnId("t_photo");
                 //调用批量插入方法
                 photoMapper.batchInsertPhoto(photoList,photoDto.getAlbumId());
                 return Result.success(ResultCode.SUCCESS);

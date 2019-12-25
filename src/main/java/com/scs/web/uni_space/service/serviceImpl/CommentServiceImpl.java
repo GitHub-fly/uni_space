@@ -5,7 +5,6 @@ import com.scs.web.uni_space.common.ResultCode;
 import com.scs.web.uni_space.domain.dto.CommentDto;
 import com.scs.web.uni_space.domain.entity.Comment;
 import com.scs.web.uni_space.mapper.CommentMapper;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,8 +26,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class CommentServiceImpl implements CommentService {
-    @Resource
-    CommonMapper commonMapper;
+//    @Resource
+//    CommonMapper commonMapper;
 
     @Resource
     CommentMapper commentMapper;
@@ -49,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Result insertComment(CommentDto commentDto) {
         try {
-            commonMapper.returnId("t_friend");
+//            commonMapper.returnId("t_friend");
             commentDto.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
             commentMapper.insertComment(commentDto);
             commentMapper.addComment(commentDto.getJournalId());
@@ -63,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Result deleteComment(CommentDto commentDto) {
         try {
-            commentMapper.deleteComment(commentDto.getId());
+//            commentMapper.deleteComment(commentDto.getId());
             commentMapper.decreaseComments(commentDto.getJournalId());
         } catch (SQLException e) {
             log.error("删除失败");

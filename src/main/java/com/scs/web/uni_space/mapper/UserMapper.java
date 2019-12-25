@@ -4,10 +4,7 @@ import com.scs.web.uni_space.domain.dto.QueryDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.*;
 import com.scs.web.uni_space.domain.vo.UserVo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -124,6 +121,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert({"INSERT INTO t_user (code,mobile,password,avatar,create_time,birthday) VALUES(#{user.code},#{user.mobile},#{user.password},#{user.avatar},#{user.createTime},#{user.birthday})"})
     void insertUser(@Param("user") User user) throws SQLException;
 

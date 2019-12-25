@@ -7,11 +7,9 @@ import com.scs.web.uni_space.domain.dto.SkinDto;
 import com.scs.web.uni_space.domain.dto.UserDto;
 import com.scs.web.uni_space.domain.entity.User;
 import com.scs.web.uni_space.domain.vo.UserVo;
-import com.scs.web.uni_space.mapper.CommonMapper;
 import com.scs.web.uni_space.mapper.UserMapper;
 import com.scs.web.uni_space.service.RedisService;
 import com.scs.web.uni_space.service.UserService;
-import com.scs.web.uni_space.util.OSSClientUtil;
 import com.scs.web.uni_space.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -37,12 +35,10 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
-    @Resource
-    private CommonMapper commonMapper;
+    //    @Resource
+//    private CommonMapper commonMapper;
     @Resource
     private RedisService redisService;
-    @Resource
-    private OSSClientUtil ossClient = new OSSClientUtil();
 
     @Override
     public Result signIn(QueryDto queryDto) {
@@ -93,7 +89,7 @@ public class UserServiceImpl implements UserService {
                                 .birthday(LocalDate.now()).build();
                         try {
                             //插入数据库中
-                            commonMapper.returnId("t_user");
+//                            commonMapper.returnId("t_user");
                             userMapper.insertUser(user);
                             return Result.success(user);
                         } catch (SQLException e) {
@@ -113,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result signUp(QueryDto queryDto) {
-        User user;
+        User user = new User();
         UserVo userVo;
         try {
             //查找数据库中是否有该用户
@@ -132,7 +128,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 //短信验证码已发送情况下，取出验证码比对用户输入
                 if (queryDto.getKeyWords().equals(verifyCode)) {
-                    user = User.builder()
+                    user = User.builder().id(user.getId())
                             .code(StringUtil.getRandomCode())
                             .mobile(queryDto.getEqualsString())
                             .password("96e79218965eb72c92a549dd5a330112")
@@ -141,9 +137,9 @@ public class UserServiceImpl implements UserService {
                             .birthday(LocalDate.now()).build();
                     try {
                         //比对成功后插入数据库中
-                        commonMapper.returnId("t_user");
+//                        commonMapper.returnId("t_user");
                         userMapper.insertUser(user);
-                        return Result.success();
+                        return Result.success(user);
                     } catch (SQLException e) {
                         log.error("插入数据库失败");
                         return Result.failure(ResultCode.RESULT_CODE_DATA_NONE);
@@ -168,7 +164,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result updateUserPassword(UserDto userDto) {
-        User user = null;
+        User user = new User();
+        user.setPassword(DigestUtils.md5Hex(userDto.getPassword()));
         UserVo userVo;
         QueryDto queryDto = QueryDto.builder().equalsString(userDto.getMobile()).build();
         //获得短信验证码
@@ -222,6 +219,8 @@ public class UserServiceImpl implements UserService {
         UserVo userVo = null;
         try {
             userVo = userMapper.selectUserById(userDto.getId());
+            String token = redisService.getValue(userVo.getCode(), String.class);
+            userVo.setToken(token);
         } catch (SQLException e) {
             log.info("查找失败");
         }
